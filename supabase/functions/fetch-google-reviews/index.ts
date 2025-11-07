@@ -1,0 +1,118 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const googleApiKey = Deno.env.get('GOOGLE_PLACES_API_KEY')!;
+    const placeId = Deno.env.get('GOOGLE_PLACE_ID')!;
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // Check cache freshness (24 hours = 86400000 ms)
+    const { data: cachedReviews, error: cacheError } = await supabase
+      .from('google_reviews')
+      .select('*')
+      .order('fetched_at', { ascending: false })
+      .limit(5);
+
+    if (cacheError) {
+      console.error('Error checking cache:', cacheError);
+    }
+
+    // If cache exists and is less than 24 hours old, return cached data
+    if (cachedReviews && cachedReviews.length > 0) {
+      const lastFetch = new Date(cachedReviews[0].fetched_at);
+      const hoursSinceLastFetch = (Date.now() - lastFetch.getTime()) / (1000 * 60 * 60);
+      
+      if (hoursSinceLastFetch < 24) {
+        console.log('Returning cached reviews');
+        return new Response(
+          JSON.stringify({ reviews: cachedReviews, cached: true }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
+    // Fetch fresh reviews from Google Places API
+    console.log('Fetching fresh reviews from Google Places API');
+    const googleUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,reviews&key=${googleApiKey}`;
+    
+    const googleResponse = await fetch(googleUrl);
+    const googleData = await googleResponse.json();
+
+    if (googleData.status !== 'OK') {
+      console.error('Google API error:', googleData);
+      // Return cached data if available, even if stale
+      if (cachedReviews && cachedReviews.length > 0) {
+        return new Response(
+          JSON.stringify({ reviews: cachedReviews, cached: true, stale: true }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      throw new Error(`Google Places API error: ${googleData.status}`);
+    }
+
+    const reviews = googleData.result?.reviews || [];
+    
+    if (reviews.length === 0) {
+      console.log('No reviews found');
+      return new Response(
+        JSON.stringify({ reviews: [], cached: false }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Delete old cached reviews
+    await supabase.from('google_reviews').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+
+    // Store fresh reviews in cache (up to 5 most recent)
+    const reviewsToCache = reviews.slice(0, 5).map((review: any) => ({
+      author_name: review.author_name,
+      rating: review.rating,
+      text: review.text,
+      time: new Date(review.time * 1000).toISOString(),
+      profile_photo_url: review.profile_photo_url || null,
+      relative_time_description: review.relative_time_description,
+      fetched_at: new Date().toISOString(),
+    }));
+
+    const { data: newReviews, error: insertError } = await supabase
+      .from('google_reviews')
+      .insert(reviewsToCache)
+      .select();
+
+    if (insertError) {
+      console.error('Error caching reviews:', insertError);
+      throw insertError;
+    }
+
+    console.log('Successfully cached fresh reviews');
+    return new Response(
+      JSON.stringify({ reviews: newReviews, cached: false }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+
+  } catch (error) {
+    console.error('Error in fetch-google-reviews:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    return new Response(
+      JSON.stringify({ error: errorMessage }),
+      { 
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      }
+    );
+  }
+});

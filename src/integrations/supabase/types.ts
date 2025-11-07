@@ -14,7 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      google_reviews: {
+        Row: {
+          author_name: string
+          fetched_at: string
+          id: string
+          profile_photo_url: string | null
+          rating: number
+          relative_time_description: string
+          text: string
+          time: string
+        }
+        Insert: {
+          author_name: string
+          fetched_at?: string
+          id?: string
+          profile_photo_url?: string | null
+          rating: number
+          relative_time_description: string
+          text: string
+          time: string
+        }
+        Update: {
+          author_name?: string
+          fetched_at?: string
+          id?: string
+          profile_photo_url?: string | null
+          rating?: number
+          relative_time_description?: string
+          text?: string
+          time?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
