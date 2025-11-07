@@ -96,7 +96,7 @@ export default function Users() {
                 <div className="flex items-center gap-3">
                   <Select
                     value={userRole.role}
-                    onValueChange={(value) => handleRoleChange(userRole.id, value)}
+                    onValueChange={(value) => handleRoleChange(userRole.id, value as 'admin' | 'moderator' | 'user')}
                   >
                     <SelectTrigger className="w-32">
                       <SelectValue />

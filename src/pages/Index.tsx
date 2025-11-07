@@ -9,10 +9,12 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { OfferBanner } from "@/components/OfferBanner";
 
 const Index = () => {
   return (
     <>
+      <OfferBanner />
       <Header />
       <main>
         <Hero />
