@@ -1,4 +1,5 @@
 import { Dumbbell, TrendingDown, Zap, Move, Ruler, Award } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export const ProgramsSection = () => {
   const programs = [
@@ -46,29 +47,61 @@ export const ProgramsSection = () => {
           </p>
         </div>
 
-        <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-          <div className="flex md:grid md:grid-cols-3 gap-5 min-w-max md:min-w-0">
-            {programs.map((program, index) => {
-              const Icon = program.icon;
-              return (
-                <article
-                  key={index}
-                  className="min-w-[280px] md:min-w-0 border border-border rounded-[18px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
-                  style={{ background: 'var(--gradient-card)' }}
-                >
-                  <div className="p-5 flex flex-col h-full">
-                    <div className="mb-4 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-accent" />
-                    </div>
-                    <h4 className="text-lg font-bold mb-1.5">{program.title}</h4>
-                    <p className="text-muted-foreground text-[0.95rem] leading-relaxed">
-                      {program.description}
-                    </p>
+        {/* Mobile: Vertical Carousel */}
+        <div className="md:hidden">
+          <Carousel className="w-full">
+            <CarouselContent>
+              {programs.map((program, index) => {
+                const Icon = program.icon;
+                return (
+                  <CarouselItem key={index}>
+                    <article
+                      className="border border-border rounded-[18px] overflow-hidden"
+                      style={{ background: 'var(--gradient-card)' }}
+                    >
+                      <div className="p-5 flex flex-col h-full">
+                        <div className="mb-4 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                          <Icon className="w-6 h-6 text-accent" />
+                        </div>
+                        <h4 className="text-lg font-bold mb-1.5">{program.title}</h4>
+                        <p className="text-muted-foreground text-[0.95rem] leading-relaxed">
+                          {program.description}
+                        </p>
+                      </div>
+                    </article>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <div className="flex justify-center gap-2 mt-4">
+              <CarouselPrevious className="static translate-x-0 translate-y-0" />
+              <CarouselNext className="static translate-x-0 translate-y-0" />
+            </div>
+          </Carousel>
+        </div>
+
+        {/* Desktop: Grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-5">
+          {programs.map((program, index) => {
+            const Icon = program.icon;
+            return (
+              <article
+                key={index}
+                className="border border-border rounded-[18px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
+                style={{ background: 'var(--gradient-card)' }}
+              >
+                <div className="p-5 flex flex-col h-full">
+                  <div className="mb-4 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-accent" />
                   </div>
-                </article>
-              );
-            })}
-          </div>
+                  <h4 className="text-lg font-bold mb-1.5">{program.title}</h4>
+                  <p className="text-muted-foreground text-[0.95rem] leading-relaxed">
+                    {program.description}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
