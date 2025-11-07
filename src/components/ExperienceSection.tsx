@@ -21,11 +21,11 @@ export const ExperienceSection = () => {
   return (
     <section id="experience" className="py-20 border-t border-border">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-end justify-between gap-5 mb-7">
-          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight">
+        <div className="mb-7">
+          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
             The Fisique Experience
           </h2>
-          <p className="text-muted-foreground max-w-[60ch] md:text-right">
+          <p className="text-muted-foreground max-w-[60ch]">
             Training designed for clarity, discipline, and results. Every session feels intentional and progress‑driven.
           </p>
         </div>

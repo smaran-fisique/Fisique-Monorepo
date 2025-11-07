@@ -22,11 +22,11 @@ export const WhySection = () => {
   return (
     <section className="py-20 border-t border-border">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-end justify-between gap-5 mb-7">
-          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight">
+        <div className="mb-7">
+          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
             Why Fisique
           </h2>
-          <p className="text-muted-foreground max-w-[60ch] text-right">
+          <p className="text-muted-foreground max-w-[60ch]">
             Not a regular gym. A high‑intent studio with expert coaches, realistic nutrition, and built‑in recovery.
           </p>
         </div>

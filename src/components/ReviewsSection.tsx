@@ -14,11 +14,11 @@ export const ReviewsSection = () => {
   return (
     <section className="py-20 border-t border-border">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-end justify-between gap-5 mb-7">
-          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight">
+        <div className="mb-7">
+          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
             What Clients Say
           </h2>
-          <p className="text-muted-foreground max-w-[60ch] md:text-right">
+          <p className="text-muted-foreground max-w-[60ch]">
             Minimal, honest reviews pulled from client feedback. Full list available on Google.
           </p>
         </div>
