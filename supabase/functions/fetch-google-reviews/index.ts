@@ -47,7 +47,14 @@ serve(async (req) => {
 
     // Fetch fresh reviews from Google Places API (New)
     console.log('Fetching fresh reviews from Google Places API');
-    const googleUrl = `https://places.googleapis.com/v1/places/${placeId}`;
+    
+    // Ensure Place ID has correct format (should NOT start with "places/")
+    const cleanPlaceId = placeId.startsWith('places/') ? placeId.substring(7) : placeId;
+    const googleUrl = `https://places.googleapis.com/v1/places/${cleanPlaceId}`;
+    
+    console.log('Request URL:', googleUrl);
+    console.log('API Key present:', !!googleApiKey);
+    console.log('Place ID:', cleanPlaceId);
     
     const googleResponse = await fetch(googleUrl, {
       method: 'GET',
@@ -59,17 +66,23 @@ serve(async (req) => {
     });
 
     const googleData = await googleResponse.json();
+    console.log('Google API Response Status:', googleResponse.status);
+    console.log('Google API Response:', JSON.stringify(googleData).substring(0, 200));
 
     if (googleResponse.status !== 200) {
-      console.error('Google API error:', googleData);
+      console.error('Google API error - Full response:', googleData);
+      console.error('Response status:', googleResponse.status);
+      console.error('Response headers:', Object.fromEntries(googleResponse.headers.entries()));
+      
       // Return cached data if available, even if stale
       if (cachedReviews && cachedReviews.length > 0) {
+        console.log('Returning stale cached reviews due to API error');
         return new Response(
           JSON.stringify({ reviews: cachedReviews, cached: true, stale: true }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
-      throw new Error(`Google Places API error: ${googleResponse.status}`);
+      throw new Error(`Google Places API error: ${googleResponse.status} - ${JSON.stringify(googleData)}`);
     }
 
     const reviews = googleData.reviews || [];
