@@ -18,12 +18,26 @@ export default function Content() {
   const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [currentSection, setCurrentSection] = useState('hero');
+  const [editedContent, setEditedContent] = useState<Record<string, string>>({});
   const { user } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
     fetchSections();
   }, []);
+
+  // Initialize content when sections are loaded
+  useEffect(() => {
+    if (sections.length > 0) {
+      const contentMap: Record<string, string> = {};
+      ['hero', 'why', 'programs', 'experience', 'transformations', 'pricing', 'reviews', 'cta'].forEach((key) => {
+        const section = sections.find(s => s.section_key === key);
+        contentMap[key] = JSON.stringify(section?.content || {}, null, 2);
+      });
+      setEditedContent(contentMap);
+    }
+  }, [sections]);
 
   const fetchSections = async () => {
     try {
@@ -118,19 +132,14 @@ export default function Content() {
                 <Textarea
                   placeholder={`Enter JSON content for ${key} section`}
                   className="font-mono text-sm min-h-[300px]"
-                  defaultValue={JSON.stringify(
-                    sections.find(s => s.section_key === key)?.content || {},
-                    null,
-                    2
-                  )}
-                  id={`content-${key}`}
+                  value={editedContent[key] || '{}'}
+                  onChange={(e) => setEditedContent(prev => ({ ...prev, [key]: e.target.value }))}
                 />
 
                 <Button
                   onClick={() => {
-                    const textarea = document.getElementById(`content-${key}`) as HTMLTextAreaElement;
                     try {
-                      const content = JSON.parse(textarea.value);
+                      const content = JSON.parse(editedContent[key] || '{}');
                       handleSave(key, content);
                     } catch (error) {
                       toast({
@@ -158,13 +167,6 @@ export default function Content() {
             </TabsContent>
           ))}
         </Tabs>
-      </div>
-
-      <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
-        <p className="text-sm text-yellow-600 dark:text-yellow-400">
-          <strong>Note:</strong> Content management requires JSON knowledge. For now, content is still hardcoded in components. 
-          Full integration coming in Phase 9.
-        </p>
       </div>
     </div>
   );
