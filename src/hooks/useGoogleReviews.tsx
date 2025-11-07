@@ -25,8 +25,12 @@ export const useGoogleReviews = () => {
 
       const allReviews = data.reviews as GoogleReview[];
       
-      // Return all reviews for the carousel to cycle through
-      return allReviews;
+      // Filter to only show 5-star reviews with meaningful text (more than 10 characters)
+      const filteredReviews = allReviews.filter(
+        review => review.rating === 5 && review.text.trim().length > 10
+      );
+      
+      return filteredReviews;
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
     refetchOnWindowFocus: false,
