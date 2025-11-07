@@ -63,7 +63,6 @@ export const PricingSection = () => {
               </ul>
 
               <Button
-                variant="outline"
                 className="w-full"
                 asChild
               >
