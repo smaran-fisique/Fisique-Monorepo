@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
-import heroGym from "@/assets/hero-gym.jpg";
+import heroGym from "@/assets/hero-gym.webp";
 
 export const Hero = () => {
   const whatsappNumber = "919515469444";
