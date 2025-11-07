@@ -45,14 +45,22 @@ serve(async (req) => {
       }
     }
 
-    // Fetch fresh reviews from Google Places API
+    // Fetch fresh reviews from Google Places API (New)
     console.log('Fetching fresh reviews from Google Places API');
-    const googleUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,reviews&key=${googleApiKey}`;
+    const googleUrl = `https://places.googleapis.com/v1/places/${placeId}`;
     
-    const googleResponse = await fetch(googleUrl);
+    const googleResponse = await fetch(googleUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': googleApiKey,
+        'X-Goog-FieldMask': 'reviews,displayName,rating'
+      }
+    });
+
     const googleData = await googleResponse.json();
 
-    if (googleData.status !== 'OK') {
+    if (googleResponse.status !== 200) {
       console.error('Google API error:', googleData);
       // Return cached data if available, even if stale
       if (cachedReviews && cachedReviews.length > 0) {
@@ -61,10 +69,10 @@ serve(async (req) => {
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
-      throw new Error(`Google Places API error: ${googleData.status}`);
+      throw new Error(`Google Places API error: ${googleResponse.status}`);
     }
 
-    const reviews = googleData.result?.reviews || [];
+    const reviews = googleData.reviews || [];
     
     if (reviews.length === 0) {
       console.log('No reviews found');
@@ -79,12 +87,12 @@ serve(async (req) => {
 
     // Store fresh reviews in cache (up to 5 most recent)
     const reviewsToCache = reviews.slice(0, 5).map((review: any) => ({
-      author_name: review.author_name,
-      rating: review.rating,
-      text: review.text,
-      time: new Date(review.time * 1000).toISOString(),
-      profile_photo_url: review.profile_photo_url || null,
-      relative_time_description: review.relative_time_description,
+      author_name: review.authorAttribution?.displayName || 'Anonymous',
+      rating: review.rating || 5,
+      text: review.text?.text || review.originalText?.text || '',
+      time: new Date(review.publishTime || Date.now()).toISOString(),
+      profile_photo_url: review.authorAttribution?.photoUri || null,
+      relative_time_description: review.relativePublishTimeDescription || 'Recently',
       fetched_at: new Date().toISOString(),
     }));
 
