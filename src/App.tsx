@@ -23,6 +23,10 @@ import Users from "./pages/admin/Users";
 import SEO from "./pages/admin/SEO";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Terms from "./pages/legal/Terms";
+import Privacy from "./pages/legal/Privacy";
+import Refund from "./pages/legal/Refund";
+import Shipping from "./pages/legal/Shipping";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +42,10 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/refund" element={<Refund />} />
+              <Route path="/shipping" element={<Shipping />} />
               <Route path="/admin/login" element={<Login />} />
               
               {/* Protected Admin Routes */}

@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import fisiquelogo from "@/assets/fisique-logo.webp";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   const scrollToSection = (id: string) => {
@@ -12,7 +13,7 @@ export const Footer = () => {
   return (
     <footer id="contact" className="border-t border-border bg-[hsl(218_31%_3%)] py-10">
       <div className="container-custom">
-        <div className="grid md:grid-cols-[1.3fr_0.7fr] gap-6 items-start">
+        <div className="grid md:grid-cols-[1.3fr_0.7fr_0.7fr] gap-6 items-start">
           <div>
             <div className="flex items-center gap-3 mb-2.5">
               <img 
@@ -90,6 +91,38 @@ export const Footer = () => {
             >
               WhatsApp
             </a>
+          </nav>
+
+          <nav className="flex flex-col gap-2.5">
+            <div className="text-sm font-medium text-foreground mb-1">Legal</div>
+            
+            <Link
+              to="/terms"
+              className="text-muted-foreground hover:text-accent transition-colors text-sm"
+            >
+              Terms & Conditions
+            </Link>
+            
+            <Link
+              to="/privacy"
+              className="text-muted-foreground hover:text-accent transition-colors text-sm"
+            >
+              Privacy Policy
+            </Link>
+            
+            <Link
+              to="/refund"
+              className="text-muted-foreground hover:text-accent transition-colors text-sm"
+            >
+              Cancellation & Refund
+            </Link>
+            
+            <Link
+              to="/shipping"
+              className="text-muted-foreground hover:text-accent transition-colors text-sm"
+            >
+              Shipping & Exchange
+            </Link>
           </nav>
         </div>
       </div>
