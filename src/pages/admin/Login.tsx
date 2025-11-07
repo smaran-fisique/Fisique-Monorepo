@@ -8,11 +8,10 @@ import { useToast } from '@/hooks/use-toast';
 import fisiquelogo from '@/assets/fisique-logo.webp';
 
 export default function Login() {
-  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -27,9 +26,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const { error } = isSignUp 
-        ? await signUp(email, password)
-        : await signIn(email, password);
+      const { error } = await signIn(email, password);
 
       if (error) {
         toast({
@@ -40,13 +37,9 @@ export default function Login() {
       } else {
         toast({
           title: 'Success',
-          description: isSignUp 
-            ? 'Account created! Please check your email to confirm.'
-            : 'Welcome back!',
+          description: 'Welcome back!',
         });
-        if (!isSignUp) {
-          navigate('/admin');
-        }
+        navigate('/admin');
       }
     } catch (error) {
       toast({
@@ -72,12 +65,10 @@ export default function Login() {
           </div>
           
           <h1 className="text-2xl font-bold text-center mb-2">
-            {isSignUp ? 'Create Admin Account' : 'Admin Login'}
+            Admin Login
           </h1>
           <p className="text-muted-foreground text-center mb-6">
-            {isSignUp 
-              ? 'Sign up to access the admin dashboard'
-              : 'Sign in to manage your site'}
+            Sign in to manage your site
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -111,21 +102,9 @@ export default function Login() {
               className="w-full"
               disabled={loading}
             >
-              {loading ? 'Please wait...' : (isSignUp ? 'Sign Up' : 'Sign In')}
+              {loading ? 'Please wait...' : 'Sign In'}
             </Button>
           </form>
-
-          <div className="mt-6 text-center">
-            <button
-              type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isSignUp 
-                ? 'Already have an account? Sign in'
-                : 'Need an account? Sign up'}
-            </button>
-          </div>
         </div>
       </div>
     </div>
