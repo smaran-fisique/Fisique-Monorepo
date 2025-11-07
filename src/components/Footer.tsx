@@ -47,6 +47,17 @@ export const Footer = () => {
           </div>
 
           <nav className="flex flex-col gap-2.5">
+            <a
+              href="https://member.fisique.fitness"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-accent transition-colors text-sm font-medium"
+            >
+              Member Portal →
+            </a>
+            
+            <div className="h-px bg-border/50 my-1" />
+            
             {[
               { id: "programs", label: "Programs" },
               { id: "experience", label: "Experience" },
