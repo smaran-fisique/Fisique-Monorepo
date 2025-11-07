@@ -53,7 +53,7 @@ export const PricingSection = () => {
               <h3 className="text-[22px] font-bold mb-2">{tier.name}</h3>
               <p className="text-muted-foreground mb-3.5">{tier.description}</p>
               
-              <ul className="space-y-2.5 mb-4.5">
+              <ul className="space-y-2.5 mb-7">
                 {tier.features.map((feature, fIndex) => (
                   <li key={fIndex} className="flex items-start gap-2.5 text-muted-foreground">
                     <Check className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
