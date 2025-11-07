@@ -31,7 +31,7 @@ export const WhySection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5.5">
+        <div className="grid md:grid-cols-3 gap-6">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (

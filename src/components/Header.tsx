@@ -47,7 +47,7 @@ export const Header = () => {
             <span className="text-lg font-extrabold tracking-wide">FISIQUE</span>
           </div>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {[
               { id: "programs", label: "Programs" },
               { id: "experience", label: "Experience" },

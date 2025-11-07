@@ -30,7 +30,7 @@ export const ExperienceSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5.5">
+        <div className="grid md:grid-cols-3 gap-6">
           {experiences.map((exp, index) => (
             <figure
               key={index}

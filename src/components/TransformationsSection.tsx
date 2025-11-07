@@ -13,7 +13,7 @@ export const TransformationsSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5.5">
+        <div className="grid md:grid-cols-2 gap-6">
           <TransformationSlider
             before="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1200&auto=format&fit=crop"
             after="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1200&auto=format&fit=crop"

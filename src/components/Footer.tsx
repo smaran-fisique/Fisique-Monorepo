@@ -20,7 +20,7 @@ export const Footer = () => {
             
             <p className="text-muted-foreground mb-2">Premium Personal Training Studio - Kokapet</p>
             
-            <div className="space-y-2 text-sm text-muted-foreground mb-4">
+            <div className="space-y-3 text-sm text-muted-foreground mb-4">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <span>4th Floor, Advant Cedar, Osman Sagar Rd, above Pulla Reddy Sweets, Narsingi, Hyderabad, Telangana 500075</span>
@@ -42,7 +42,7 @@ export const Footer = () => {
             </div>
           </div>
 
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-col gap-2.5">
             {[
               { id: "programs", label: "Programs" },
               { id: "experience", label: "Experience" },

@@ -43,7 +43,7 @@ export const PricingSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5.5">
+        <div className="grid md:grid-cols-2 gap-6">
           {tiers.map((tier, index) => (
             <div
               key={index}

@@ -28,7 +28,7 @@ export const ReviewsSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4.5">
+        <div className="grid md:grid-cols-3 gap-5">
           {reviews.map((review, index) => (
             <article
               key={index}

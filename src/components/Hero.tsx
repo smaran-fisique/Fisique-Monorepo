@@ -33,7 +33,7 @@ export const Hero = () => {
               Transformation starts with direction, not motivation.
             </p>
             
-            <div className="flex flex-wrap gap-3.5 pt-2">
+            <div className="flex flex-wrap gap-4 pt-3">
               <Button 
                 size="lg"
                 asChild

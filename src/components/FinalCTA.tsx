@@ -28,7 +28,7 @@ export const FinalCTA = () => {
           Start with a free consultation and let us calibrate a plan that fits your body and your life.
         </p>
         
-        <div className="flex flex-wrap gap-3.5 justify-center">
+        <div className="flex flex-wrap gap-4 justify-center">
           <Button 
             size="lg"
             asChild

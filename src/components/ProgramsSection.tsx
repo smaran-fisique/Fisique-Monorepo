@@ -47,7 +47,7 @@ export const ProgramsSection = () => {
         </div>
 
         <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
-          <div className="flex md:grid md:grid-cols-3 gap-4 min-w-max md:min-w-0">
+          <div className="flex md:grid md:grid-cols-3 gap-5 min-w-max md:min-w-0">
             {programs.map((program, index) => {
               const Icon = program.icon;
               return (
