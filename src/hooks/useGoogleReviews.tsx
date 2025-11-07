@@ -23,9 +23,13 @@ export const useGoogleReviews = () => {
         throw error;
       }
 
-      return data.reviews as GoogleReview[];
+      const allReviews = data.reviews as GoogleReview[];
+      
+      // Randomly shuffle and pick 3 reviews to show variety on each visit
+      const shuffled = [...allReviews].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, 3);
     },
-    staleTime: 1000 * 60 * 60, // 1 hour
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
     refetchOnWindowFocus: false,
   });
 };

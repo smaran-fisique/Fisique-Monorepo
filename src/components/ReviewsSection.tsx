@@ -39,7 +39,7 @@ export const ReviewsSection = () => {
           </div>
         ) : (
           <div className="grid md:grid-cols-3 gap-5">
-            {reviews?.slice(0, 3).map((review) => (
+            {reviews?.map((review) => (
               <article
                 key={review.id}
                 className="border border-border rounded-[16px] p-4.5 bg-[hsl(220_23%_8%)]"

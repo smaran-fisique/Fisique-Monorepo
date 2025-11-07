@@ -20,24 +20,23 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Check cache freshness (24 hours = 86400000 ms)
+    // Check cache freshness (7 days = 604800000 ms)
     const { data: cachedReviews, error: cacheError } = await supabase
       .from('google_reviews')
       .select('*')
-      .order('fetched_at', { ascending: false })
-      .limit(5);
+      .order('fetched_at', { ascending: false });
 
     if (cacheError) {
       console.error('Error checking cache:', cacheError);
     }
 
-    // If cache exists and is less than 24 hours old, return cached data
+    // If cache exists and is less than 7 days old, return cached data
     if (cachedReviews && cachedReviews.length > 0) {
       const lastFetch = new Date(cachedReviews[0].fetched_at);
-      const hoursSinceLastFetch = (Date.now() - lastFetch.getTime()) / (1000 * 60 * 60);
+      const daysSinceLastFetch = (Date.now() - lastFetch.getTime()) / (1000 * 60 * 60 * 24);
       
-      if (hoursSinceLastFetch < 24) {
-        console.log('Returning cached reviews');
+      if (daysSinceLastFetch < 7) {
+        console.log(`Returning ${cachedReviews.length} cached reviews (${Math.floor(daysSinceLastFetch)} days old)`);
         return new Response(
           JSON.stringify({ reviews: cachedReviews, cached: true }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -95,11 +94,13 @@ serve(async (req) => {
       );
     }
 
+    console.log(`Found ${reviews.length} reviews from Google`);
+
     // Delete old cached reviews
     await supabase.from('google_reviews').delete().neq('id', '00000000-0000-0000-0000-000000000000');
 
-    // Store fresh reviews in cache (up to 5 most recent)
-    const reviewsToCache = reviews.slice(0, 5).map((review: any) => ({
+    // Store ALL reviews in cache
+    const reviewsToCache = reviews.map((review: any) => ({
       author_name: review.authorAttribution?.displayName || 'Anonymous',
       rating: review.rating || 5,
       text: review.text?.text || review.originalText?.text || '',
