@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           author_name: string
           fetched_at: string
+          google_review_id: string | null
           id: string
           profile_photo_url: string | null
           rating: number
@@ -28,6 +29,7 @@ export type Database = {
         Insert: {
           author_name: string
           fetched_at?: string
+          google_review_id?: string | null
           id?: string
           profile_photo_url?: string | null
           rating: number
@@ -38,6 +40,7 @@ export type Database = {
         Update: {
           author_name?: string
           fetched_at?: string
+          google_review_id?: string | null
           id?: string
           profile_photo_url?: string | null
           rating?: number
