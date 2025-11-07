@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
 export const ProtectedRoute = ({ requireAdmin = false }: { requireAdmin?: boolean }) => {
   const { user, loading, hasRole } = useAuth();
+  const location = useLocation();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export const ProtectedRoute = ({ requireAdmin = false }: { requireAdmin?: boolea
   }
 
   if (!user) {
-    return <Navigate to="/admin/login" replace />;
+    return <Navigate to={`/admin/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
   }
 
   if (requireAdmin && !isAdmin) {

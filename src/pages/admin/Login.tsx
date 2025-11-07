@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,12 +14,14 @@ export default function Login() {
   const { signIn, user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/admin';
 
   useEffect(() => {
     if (user) {
-      navigate('/admin');
+      navigate(redirect);
     }
-  }, [user, navigate]);
+  }, [user, navigate, redirect]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ export default function Login() {
           title: 'Success',
           description: 'Welcome back!',
         });
-        navigate('/admin');
+        navigate(redirect);
       }
     } catch (error) {
       toast({
