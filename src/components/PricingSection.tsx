@@ -91,8 +91,6 @@ export const PricingSection = () => {
               >
                 <a
                   href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(tier.whatsappMessage)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   {pricingData.ctaText}
                 </a>

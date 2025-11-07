@@ -9,8 +9,6 @@ export const FloatingWhatsApp = () => {
     <div className="fixed right-4.5 bottom-4.5 z-50">
       <a
         href={`https://wa.me/${settings.whatsapp_number}?text=${message}`}
-        target="_blank"
-        rel="noopener noreferrer"
         className="inline-flex items-center gap-2.5 px-4 py-3 bg-[hsl(158_43%_14%)] border border-[hsl(158_35%_22%)] text-[hsl(158_100%_92%)] rounded-full shadow-xl hover:-translate-y-0.5 transition-transform duration-300"
         aria-label="WhatsApp Concierge"
       >

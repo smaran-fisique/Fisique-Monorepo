@@ -55,11 +55,9 @@ export const FinalCTA = () => {
             size="lg"
             asChild
           >
-            <a 
-              href={`https://wa.me/${whatsappNumber}?text=${consultMessage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <a 
+            href={`https://wa.me/${whatsappNumber}?text=${consultMessage}`}
+          >
               {ctaData.primaryCTA}
             </a>
           </Button>

@@ -65,8 +65,6 @@ export const Hero = () => {
               >
                 <a 
                   href={`https://wa.me/${whatsappNumber}?text=${trialMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   {heroData.ctaText}
                 </a>
@@ -79,8 +77,6 @@ export const Hero = () => {
               >
                 <a 
                   href={`https://wa.me/${whatsappNumber}?text=${conciergeMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   <MessageCircle className="w-4 h-4" />
                   {heroData.secondaryCtaText}
