@@ -1,10 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { useSection } from "@/hooks/useSection";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
-export const PricingSection = () => {
-  const whatsappNumber = "919515469444";
+interface PricingTier {
+  name: string;
+  description: string;
+  features: string[];
+  whatsappMessage: string;
+}
 
-  const tiers = [
+interface PricingData {
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  tiers: PricingTier[];
+}
+
+const defaultPricingData: PricingData = {
+  title: "Membership • By Consultation",
+  subtitle: "We recommend the right program after your in‑depth consultation. Pricing is shared by concierge based on frequency and goals.",
+  ctaText: "Request Pricing on WhatsApp",
+  tiers: [
     {
       name: "Standard PT",
       description: "Core personal training with built‑in access and guidance.",
@@ -15,7 +32,7 @@ export const PricingSection = () => {
         "Sauna Access",
         "Trainer Concierge Support",
       ],
-      message: encodeURIComponent("Hi! Could you share pricing for Standard PT at Fisique?"),
+      whatsappMessage: "Hi! Could you share pricing for Standard PT at Fisique?",
     },
     {
       name: "Intensive PT",
@@ -27,24 +44,30 @@ export const PricingSection = () => {
         "Priority Booking",
         "Sauna + Recovery",
       ],
-      message: encodeURIComponent("Hi! Could you share pricing for Intensive PT at Fisique?"),
+      whatsappMessage: "Hi! Could you share pricing for Intensive PT at Fisique?",
     },
-  ];
+  ],
+};
+
+export const PricingSection = () => {
+  const { data: pricingData } = useSection<PricingData>('pricing', defaultPricingData);
+  const { settings } = useSiteSettings();
+  const whatsappNumber = settings.whatsapp_number;
 
   return (
     <section id="pricing" className="py-20 border-t border-border">
       <div className="container-custom">
         <div className="mb-7">
           <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
-            Membership • By Consultation
+            {pricingData.title}
           </h2>
           <p className="text-muted-foreground max-w-[60ch]">
-            We recommend the right program after your in‑depth consultation. Pricing is shared by concierge based on frequency and goals.
+            {pricingData.subtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {tiers.map((tier, index) => (
+          {pricingData.tiers.map((tier, index) => (
             <div
               key={index}
               className="p-6 rounded-[16px] border border-border relative"
@@ -67,11 +90,11 @@ export const PricingSection = () => {
                 asChild
               >
                 <a
-                  href={`https://wa.me/${whatsappNumber}?text=${tier.message}`}
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(tier.whatsappMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Request Pricing on WhatsApp
+                  {pricingData.ctaText}
                 </a>
               </Button>
             </div>

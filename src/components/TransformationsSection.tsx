@@ -1,27 +1,55 @@
 import { useState } from "react";
+import { useSection } from "@/hooks/useSection";
+
+interface Transformation {
+  before: string;
+  after: string;
+}
+
+interface TransformationsData {
+  title: string;
+  subtitle: string;
+  transformations: Transformation[];
+}
+
+const defaultTransformationsData: TransformationsData = {
+  title: "Real People. Real Transformations.",
+  subtitle: "Our clients achieve sustainable results through dedicated coaching and science-based training.",
+  transformations: [
+    {
+      before: "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1200&auto=format&fit=crop",
+      after: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1200&auto=format&fit=crop",
+    },
+    {
+      before: "https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=1200&auto=format&fit=crop",
+      after: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop",
+    },
+  ],
+};
 
 export const TransformationsSection = () => {
+  const { data: transformationsData } = useSection<TransformationsData>('transformations', defaultTransformationsData);
+  
   return (
     <section id="transformations" className="py-20 border-t border-border">
       <div className="container-custom">
         <div className="mb-7">
           <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
-            Real People. Real Transformations.
+            {transformationsData.title}
           </h2>
           <p className="text-muted-foreground max-w-[60ch]">
-            Our clients achieve sustainable results through dedicated coaching and science-based training.
+            {transformationsData.subtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <TransformationSlider
-            before="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1200&auto=format&fit=crop"
-            after="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1200&auto=format&fit=crop"
-          />
-          <TransformationSlider
-            before="https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=1200&auto=format&fit=crop"
-            after="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1200&auto=format&fit=crop"
-          />
+          {transformationsData.transformations.map((transformation, index) => (
+            <TransformationSlider
+              key={index}
+              before={transformation.before}
+              after={transformation.after}
+            />
+          ))}
         </div>
       </div>
     </section>

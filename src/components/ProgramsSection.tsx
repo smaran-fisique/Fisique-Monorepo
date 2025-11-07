@@ -1,49 +1,77 @@
-import { Dumbbell, TrendingDown, Zap, Move, Ruler, Award } from "lucide-react";
+import { Dumbbell, TrendingDown, Zap, Move, Ruler, Award, type LucideIcon } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { useSection } from "@/hooks/useSection";
 
-export const ProgramsSection = () => {
-  const programs = [
+interface Program {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface ProgramsData {
+  title: string;
+  subtitle: string;
+  programs: Program[];
+}
+
+const iconMap: Record<string, LucideIcon> = {
+  Dumbbell,
+  TrendingDown,
+  Zap,
+  Move,
+  Ruler,
+  Award,
+};
+
+const defaultProgramsData: ProgramsData = {
+  title: "Signature Programs",
+  subtitle: "Specialist coaching for specific outcomes. Select what fits your next 90 days.",
+  programs: [
     {
-      icon: Dumbbell,
+      icon: "Dumbbell",
       title: "Strength Program",
       description: "Progressive overload, impeccable form, durable results.",
     },
     {
-      icon: TrendingDown,
+      icon: "TrendingDown",
       title: "Fat‑Loss Program",
       description: "Calibrated training plus realistic nutrition for steady fat loss.",
     },
     {
-      icon: Zap,
+      icon: "Zap",
       title: "Body Recomposition",
       description: "Lose fat, gain lean mass, improve shape and posture.",
     },
     {
-      icon: Move,
+      icon: "Move",
       title: "Mobility & Stability",
       description: "Move better, lift better, feel better. Joint‑smart training.",
     },
     {
-      icon: Ruler,
+      icon: "Ruler",
       title: "Posture Fix",
       description: "Desk‑job antidote: alignment, symmetry, pain reduction.",
     },
     {
-      icon: Award,
+      icon: "Award",
       title: "Transformation Journey",
       description: "High‑touch coaching with weekly audits and concierge support.",
     },
-  ];
+  ],
+};
+
+export const ProgramsSection = () => {
+  const { data: programsData } = useSection<ProgramsData>('programs', defaultProgramsData);
 
   return (
     <section id="programs" className="py-20 border-t border-border">
       <div className="container-custom">
         <div className="mb-7">
           <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
-            Signature Programs
+            {programsData.title}
           </h2>
           <p className="text-muted-foreground max-w-[60ch]">
-            Specialist coaching for specific outcomes. Select what fits your next 90 days.
+            {programsData.subtitle}
           </p>
         </div>
 
@@ -51,8 +79,8 @@ export const ProgramsSection = () => {
         <div className="md:hidden">
           <Carousel className="w-full">
             <CarouselContent>
-              {programs.map((program, index) => {
-                const Icon = program.icon;
+              {programsData.programs.map((program, index) => {
+                const Icon = iconMap[program.icon] || Dumbbell;
                 return (
                   <CarouselItem key={index}>
                     <article
@@ -82,8 +110,8 @@ export const ProgramsSection = () => {
 
         {/* Desktop: Grid */}
         <div className="hidden md:grid md:grid-cols-3 gap-5">
-          {programs.map((program, index) => {
-            const Icon = program.icon;
+          {programsData.programs.map((program, index) => {
+            const Icon = iconMap[program.icon] || Dumbbell;
             return (
               <article
                 key={index}

@@ -1,39 +1,64 @@
-import { Users, Salad, Waves } from "lucide-react";
+import { Users, Salad, Waves, type LucideIcon } from "lucide-react";
+import { useSection } from "@/hooks/useSection";
 
-export const WhySection = () => {
-  const features = [
+interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface WhyData {
+  title: string;
+  subtitle: string;
+  features: Feature[];
+}
+
+const iconMap: Record<string, LucideIcon> = {
+  Users,
+  Salad,
+  Waves,
+};
+
+const defaultWhyData: WhyData = {
+  title: "Why Fisique",
+  subtitle: "Not a regular gym. A high‑intent studio with expert coaches, realistic nutrition, and built‑in recovery.",
+  features: [
     {
-      icon: Users,
+      icon: "Users",
       title: "Elite Personal Coaching",
       description: "Science‑backed programs built around your body, goals, and lifestyle. No templates.",
     },
     {
-      icon: Salad,
+      icon: "Salad",
       title: "Nutrition That Works",
       description: "Certified guidance that respects how you live. Sustainable, enjoyable, and results‑driven.",
     },
     {
-      icon: Waves,
+      icon: "Waves",
       title: "Sauna + Recovery",
       description: "On‑site recovery that accelerates adaptation, reduces soreness, and keeps momentum high.",
     },
-  ];
+  ],
+};
+
+export const WhySection = () => {
+  const { data: whyData } = useSection<WhyData>('why', defaultWhyData);
 
   return (
     <section className="py-20 border-t border-border">
       <div className="container-custom">
         <div className="mb-7">
           <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
-            Why Fisique
+            {whyData.title}
           </h2>
           <p className="text-muted-foreground max-w-[60ch]">
-            Not a regular gym. A high‑intent studio with expert coaches, realistic nutrition, and built‑in recovery.
+            {whyData.subtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
+          {whyData.features.map((feature, index) => {
+            const Icon = iconMap[feature.icon] || Users;
             return (
               <div
                 key={index}

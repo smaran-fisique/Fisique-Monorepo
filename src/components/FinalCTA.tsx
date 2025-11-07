@@ -1,8 +1,30 @@
 import { Button } from "@/components/ui/button";
+import { useSection } from "@/hooks/useSection";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+
+interface FinalCTAData {
+  headline: string;
+  highlightedText: string;
+  description: string;
+  primaryCTA: string;
+  secondaryCTA: string;
+  whatsappMessage: string;
+}
+
+const defaultFinalCTAData: FinalCTAData = {
+  headline: "Your transformation doesn't need motivation. It needs",
+  highlightedText: "direction",
+  description: "Start with a free consultation and let us calibrate a plan that fits your body and your life.",
+  primaryCTA: "Start Your Journey",
+  secondaryCTA: "Visit Studio",
+  whatsappMessage: "Hi! I want to book a free consultation at Fisique.",
+};
 
 export const FinalCTA = () => {
-  const whatsappNumber = "919515469444";
-  const consultMessage = encodeURIComponent("Hi! I want to book a free consultation at Fisique.");
+  const { data: ctaData } = useSection<FinalCTAData>('cta', defaultFinalCTAData);
+  const { settings } = useSiteSettings();
+  const whatsappNumber = settings.whatsapp_number;
+  const consultMessage = encodeURIComponent(ctaData.whatsappMessage);
 
   const scrollToContact = () => {
     const element = document.getElementById("contact");
@@ -20,12 +42,12 @@ export const FinalCTA = () => {
     >
       <div className="container-custom max-w-[860px]">
         <h2 className="text-[clamp(32px,4vw,46px)] leading-[1.1] font-bold mb-3">
-          Your transformation doesn't need motivation. It needs{" "}
-          <span className="text-gradient">direction</span>.
+          {ctaData.headline}{" "}
+          <span className="text-gradient">{ctaData.highlightedText}</span>.
         </h2>
         
         <p className="text-muted-foreground text-lg mb-5.5 max-w-[50ch] mx-auto">
-          Start with a free consultation and let us calibrate a plan that fits your body and your life.
+          {ctaData.description}
         </p>
         
         <div className="flex flex-wrap gap-4 justify-center">
@@ -38,7 +60,7 @@ export const FinalCTA = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Start Your Journey
+              {ctaData.primaryCTA}
             </a>
           </Button>
           
@@ -47,7 +69,7 @@ export const FinalCTA = () => {
             size="lg"
             onClick={scrollToContact}
           >
-            Visit Studio
+            {ctaData.secondaryCTA}
           </Button>
         </div>
       </div>
