@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
+import fisiquelogo from "@/assets/fisique-logo.webp";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -43,8 +44,11 @@ export const Header = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between min-h-[70px]">
           <div className="flex items-center gap-3">
-            <span className={`glow-dot transition-all duration-300 ${scrolled ? 'shadow-[0_0_24px_hsl(var(--accent-glow)/0.9)]' : ''}`} />
-            <span className="text-lg font-extrabold tracking-wide">FISIQUE</span>
+            <img 
+              src={fisiquelogo} 
+              alt="Fisique Fitness Logo" 
+              className="h-10 w-auto"
+            />
           </div>
 
           <div className="hidden md:flex items-center gap-2">

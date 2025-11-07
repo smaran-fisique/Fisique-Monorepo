@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail } from "lucide-react";
+import fisiquelogo from "@/assets/fisique-logo.webp";
 
 export const Footer = () => {
   const scrollToSection = (id: string) => {
@@ -14,8 +15,11 @@ export const Footer = () => {
         <div className="grid md:grid-cols-[1.3fr_0.7fr] gap-6 items-start">
           <div>
             <div className="flex items-center gap-3 mb-2.5">
-              <span className="glow-dot" />
-              <span className="text-lg font-extrabold tracking-wide">FISIQUE</span>
+              <img 
+                src={fisiquelogo} 
+                alt="Fisique Fitness Logo" 
+                className="h-10 w-auto"
+              />
             </div>
             
             <p className="text-muted-foreground mb-2">Premium Personal Training Studio - Kokapet</p>
