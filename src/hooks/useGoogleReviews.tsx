@@ -25,9 +25,8 @@ export const useGoogleReviews = () => {
 
       const allReviews = data.reviews as GoogleReview[];
       
-      // Randomly shuffle and pick 3 reviews to show variety on each visit
-      const shuffled = [...allReviews].sort(() => Math.random() - 0.5);
-      return shuffled.slice(0, 3);
+      // Return all reviews for the carousel to cycle through
+      return allReviews;
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
     refetchOnWindowFocus: false,

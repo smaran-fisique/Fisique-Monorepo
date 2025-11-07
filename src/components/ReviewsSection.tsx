@@ -1,9 +1,15 @@
 import { Star } from "lucide-react";
 import { useGoogleReviews } from "@/hooks/useGoogleReviews";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
 
 export const ReviewsSection = () => {
   const { data: reviews, isLoading, error } = useGoogleReviews();
+  const plugin = useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: true })
+  );
 
   return (
     <section className="py-20 border-t border-border">
@@ -38,43 +44,55 @@ export const ReviewsSection = () => {
             </a>
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-5">
-            {reviews?.map((review) => (
-              <article
-                key={review.id}
-                className="border border-border rounded-[16px] p-4.5 bg-[hsl(220_23%_8%)]"
-              >
-                <div className="flex items-center gap-2.5 mb-1.5">
-                  {review.profile_photo_url ? (
-                    <img
-                      src={review.profile_photo_url}
-                      alt={review.author_name}
-                      className="w-9 h-9 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-b from-[hsl(220_23%_12%)] to-[hsl(220_28%_10%)] border border-border" />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <strong className="text-sm block truncate">{review.author_name}</strong>
-                    <span className="text-xs text-muted-foreground">{review.relative_time_description}</span>
-                  </div>
-                </div>
-                
-                <div className="flex gap-0.5 mb-2 text-[#ffd166]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      className={`w-3.5 h-3.5 ${i < review.rating ? 'fill-current' : 'fill-none stroke-current opacity-30'}`}
-                    />
-                  ))}
-                </div>
-                
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-4">
-                  {review.text}
-                </p>
-              </article>
-            ))}
-          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[plugin.current]}
+            className="w-full"
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+          >
+            <CarouselContent>
+              {reviews?.map((review) => (
+                <CarouselItem key={review.id} className="md:basis-1/2 lg:basis-1/3">
+                  <article className="border border-border rounded-[16px] p-4.5 bg-[hsl(220_23%_8%)] h-full">
+                    <div className="flex items-center gap-2.5 mb-1.5">
+                      {review.profile_photo_url ? (
+                        <img
+                          src={review.profile_photo_url}
+                          alt={review.author_name}
+                          className="w-9 h-9 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-b from-[hsl(220_23%_12%)] to-[hsl(220_28%_10%)] border border-border" />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <strong className="text-sm block truncate">{review.author_name}</strong>
+                        <span className="text-xs text-muted-foreground">{review.relative_time_description}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-0.5 mb-2 text-[#ffd166]">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`w-3.5 h-3.5 ${i < review.rating ? 'fill-current' : 'fill-none stroke-current opacity-30'}`}
+                        />
+                      ))}
+                    </div>
+                    
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-4">
+                      {review.text}
+                    </p>
+                  </article>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
         )}
       </div>
     </section>
