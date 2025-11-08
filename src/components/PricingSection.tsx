@@ -49,7 +49,7 @@ export const PricingSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className={`grid gap-6 ${pricingData.tiers.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
           {pricingData.tiers.map((tier, index) => <div key={index} className="p-6 rounded-[16px] border border-border relative" style={{
           background: 'var(--gradient-card)'
         }}>
