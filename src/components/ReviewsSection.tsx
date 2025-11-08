@@ -12,7 +12,8 @@ export const ReviewsSection = () => {
   } = useGoogleReviews();
   const plugin = useRef(Autoplay({
     delay: 5000,
-    stopOnInteraction: true
+    stopOnInteraction: false,
+    stopOnMouseEnter: true
   }));
   return <section className="py-20 border-t border-border">
       <div className="container-custom">
