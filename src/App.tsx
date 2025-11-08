@@ -22,6 +22,7 @@ import Content from "./pages/admin/Content";
 import Media from "./pages/admin/Media";
 import Users from "./pages/admin/Users";
 import SEO from "./pages/admin/SEO";
+import ApiKeys from "./pages/admin/ApiKeys";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Terms from "./pages/legal/Terms";
@@ -64,6 +65,7 @@ const App = () => (
                   <Route path="/admin/content" element={<Content />} />
                   <Route path="/admin/seo" element={<SEO />} />
                   <Route path="/admin/media" element={<Media />} />
+                  <Route path="/admin/api-keys" element={<ApiKeys />} />
                   <Route path="/admin/users" element={<Users />} />
                 </Route>
               </Route>

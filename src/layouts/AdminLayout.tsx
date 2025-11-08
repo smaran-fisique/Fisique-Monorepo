@@ -12,7 +12,8 @@ import {
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  Key
 } from 'lucide-react';
 import { useState } from 'react';
 import fisiquelogo from '@/assets/fisique-logo.webp';
@@ -26,6 +27,7 @@ const navigation = [
   { name: 'Content', href: '/admin/content', icon: FileText },
   { name: 'SEO', href: '/admin/seo', icon: FileText },
   { name: 'Media', href: '/admin/media', icon: Image },
+  { name: 'API Keys', href: '/admin/api-keys', icon: Key },
   { name: 'Users', href: '/admin/users', icon: Users },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];

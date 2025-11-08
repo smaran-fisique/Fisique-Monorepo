@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.import-reviews-bulk]
 verify_jwt = false
+
+[functions.create-blog-post]
+verify_jwt = false
