@@ -1,80 +1,66 @@
 import { Users, Salad, Waves, type LucideIcon } from "lucide-react";
 import { useSection } from "@/hooks/useSection";
-
 interface Feature {
   icon: string;
   title: string;
   description: string;
 }
-
 interface WhyData {
   title: string;
   subtitle: string;
   features: Feature[];
 }
-
 const iconMap: Record<string, LucideIcon> = {
   Users,
   Salad,
-  Waves,
+  Waves
 };
-
 const defaultWhyData: WhyData = {
   title: "Why Fisique",
   subtitle: "Not a regular gym. A high‑intent studio with expert coaches, realistic nutrition, and built‑in recovery.",
-  features: [
-    {
-      icon: "Users",
-      title: "Elite Personal Coaching",
-      description: "Science‑backed programs built around your body, goals, and lifestyle. No templates.",
-    },
-    {
-      icon: "Salad",
-      title: "Nutrition That Works",
-      description: "Certified guidance that respects how you live. Sustainable, enjoyable, and results‑driven.",
-    },
-    {
-      icon: "Waves",
-      title: "Sauna + Recovery",
-      description: "On‑site recovery that accelerates adaptation, reduces soreness, and keeps momentum high.",
-    },
-  ],
+  features: [{
+    icon: "Users",
+    title: "Elite Personal Coaching",
+    description: "Science‑backed programs built around your body, goals, and lifestyle. No templates."
+  }, {
+    icon: "Salad",
+    title: "Nutrition That Works",
+    description: "Certified guidance that respects how you live. Sustainable, enjoyable, and results‑driven."
+  }, {
+    icon: "Waves",
+    title: "Sauna + Recovery",
+    description: "On‑site recovery that accelerates adaptation, reduces soreness, and keeps momentum high."
+  }]
 };
-
 export const WhySection = () => {
-  const { data: whyData } = useSection<WhyData>('why', defaultWhyData);
-
-  return (
-    <section className="py-20 border-t border-border">
+  const {
+    data: whyData
+  } = useSection<WhyData>('why', defaultWhyData);
+  return <section className="py-20 border-t border-border">
       <div className="container-custom">
         <div className="mb-7">
-          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
+          <h2 className="tracking-tight mb-3 text-5xl font-bold text-cyan-500">
             {whyData.title}
           </h2>
-          <p className="text-muted-foreground max-w-[60ch]">
+          <p className="text-muted-foreground w-full max-w-none\n">
             {whyData.subtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {whyData.features.map((feature, index) => {
-            const Icon = iconMap[feature.icon] || Users;
-            return (
-              <div
-                key={index}
-                className="p-6 rounded-[18px] border border-border shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-                style={{ background: 'var(--gradient-card)' }}
-              >
+          const Icon = iconMap[feature.icon] || Users;
+          return <div key={index} className="p-6 rounded-[18px] border border-border shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_30px_60px_rgba(0,0,0,0.5)]" style={{
+            background: 'var(--gradient-card)'
+          }}>
                 <div className="mb-4 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
                   <Icon className="w-6 h-6 text-accent" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-              </div>
-            );
-          })}
+              </div>;
+        })}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };

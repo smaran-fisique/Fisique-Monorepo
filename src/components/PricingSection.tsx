@@ -41,10 +41,10 @@ export const PricingSection = () => {
   return <section id="pricing" className="py-20 border-t border-border">
       <div className="container-custom">
         <div className="mb-7">
-          <h2 className="text-[clamp(28px,3.2vw,40px)] font-bold tracking-tight mb-3">
+          <h2 className="tracking-tight mb-3 text-5xl font-bold text-cyan-500">
             {pricingData.title}
           </h2>
-          <p className="text-muted-foreground max-w-[60ch]">
+          <p className="text-muted-foreground w-full max-w-none\n">
             {pricingData.subtitle}
           </p>
         </div>
