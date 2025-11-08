@@ -24,7 +24,7 @@ serve(async (req) => {
     const { data: cachedReviews, error: cacheError } = await supabase
       .from('google_reviews')
       .select('*')
-      .order('fetched_at', { ascending: false });
+      .order('time', { ascending: false });
 
     if (cacheError) {
       console.error('Error checking cache:', cacheError);
@@ -38,7 +38,11 @@ serve(async (req) => {
       if (daysSinceLastFetch < 7) {
         console.log(`Returning ${cachedReviews.length} cached reviews (${Math.floor(daysSinceLastFetch)} days old)`);
         return new Response(
-          JSON.stringify({ reviews: cachedReviews, cached: true }),
+          JSON.stringify({ 
+            reviews: cachedReviews, 
+            cached: true,
+            total_count: cachedReviews.length 
+          }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
