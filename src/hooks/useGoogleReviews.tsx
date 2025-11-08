@@ -25,9 +25,9 @@ export const useGoogleReviews = () => {
 
       const allReviews = data.reviews as GoogleReview[];
       
-      // Filter to only show 5-star reviews with meaningful text (more than 10 characters)
+      // Filter to only show reviews with text content (any rating)
       const filteredReviews = allReviews.filter(
-        review => review.rating === 5 && review.text.trim().length > 10
+        review => review.text.trim().length > 0
       );
       
       return filteredReviews;
