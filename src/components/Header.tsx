@@ -44,7 +44,9 @@ export const Header = () => {
       <div className="container-custom">
         <nav className="flex items-center justify-between min-h-[70px]">
           <div className="flex items-center gap-3">
-            <img src={fisiquelogo} alt="Fisique Fitness Logo" className="h-10 w-auto" />
+            <a href="/">
+              <img src={fisiquelogo} alt="Fisique Fitness Logo" className="h-10 w-auto cursor-pointer" />
+            </a>
           </div>
 
           <div className="hidden md:flex items-center gap-3">
