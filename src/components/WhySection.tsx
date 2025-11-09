@@ -36,7 +36,7 @@ export const WhySection = () => {
   const {
     data: whyData
   } = useSection<WhyData>('why', defaultWhyData);
-  return <section className="premium-section py-20">
+  return <section className="premium-section pt-10 pb-20">
       {/* Premium background effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="premium-glow-orb w-[500px] h-[500px] -left-32 top-20" style={{
