@@ -36,7 +36,7 @@ export const WhySection = () => {
   const {
     data: whyData
   } = useSection<WhyData>('why', defaultWhyData);
-  return <section className="premium-section py-20 border-t border-border">
+  return <section className="premium-section py-20">
       {/* Premium background effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div 
