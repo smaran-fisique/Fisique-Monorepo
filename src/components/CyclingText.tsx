@@ -8,7 +8,7 @@ interface CyclingTextProps {
 
 export const CyclingText = ({ 
   words = [], 
-  intervalMs = 2500,
+  intervalMs = 1000,
   className = ''
 }: CyclingTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,7 +28,7 @@ export const CyclingText = ({
       setTimeout(() => {
         setCurrentIndex((prev) => (prev + 1) % words.length);
         setIsExiting(false);
-      }, 500); // Match animation duration
+      }, 400); // Match animation duration
       
     }, intervalMs);
 
@@ -39,14 +39,16 @@ export const CyclingText = ({
 
   return (
     <span 
-      className={`inline-block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black ${className}`}
+      className={`inline-block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black overflow-hidden ${className}`}
       style={{
         animation: isExiting 
-          ? 'word-fade-out 0.5s forwards' 
-          : 'word-fade-in 0.5s forwards',
+          ? 'word-roll-out 0.4s forwards' 
+          : 'word-roll-in 0.4s forwards',
         minWidth: 'clamp(200px, 20vw, 280px)',
         textAlign: 'center',
-        willChange: 'transform, opacity'
+        willChange: 'transform, opacity',
+        perspective: '400px',
+        transformStyle: 'preserve-3d'
       }}
       aria-live="polite"
       aria-atomic="true"

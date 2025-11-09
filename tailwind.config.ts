@@ -80,32 +80,32 @@ export default {
             height: "0",
           },
         },
-        "word-fade-in": {
+        "word-roll-in": {
           "0%": { 
             opacity: "0", 
-            transform: "translateY(8px) scale(0.96)" 
+            transform: "translateY(100%) rotateX(-90deg)" 
           },
           "100%": { 
             opacity: "1", 
-            transform: "translateY(0) scale(1)" 
+            transform: "translateY(0) rotateX(0deg)" 
           }
         },
-        "word-fade-out": {
+        "word-roll-out": {
           "0%": { 
             opacity: "1", 
-            transform: "translateY(0) scale(1)" 
+            transform: "translateY(0) rotateX(0deg)" 
           },
           "100%": { 
             opacity: "0", 
-            transform: "translateY(-8px) scale(0.96)" 
+            transform: "translateY(-100%) rotateX(90deg)" 
           }
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "word-fade-in": "word-fade-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards",
-        "word-fade-out": "word-fade-out 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "word-roll-in": "word-roll-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "word-roll-out": "word-roll-out 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
       },
     },
   },

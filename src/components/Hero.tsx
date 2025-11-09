@@ -108,7 +108,7 @@ export const Hero = () => {
             {heroData.headlineMiddle}{" "}
             <CyclingText 
               words={cyclingWords}
-              intervalMs={2500}
+              intervalMs={1000}
               className="inline-block"
             />
           </h1>
