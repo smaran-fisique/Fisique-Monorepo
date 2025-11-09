@@ -90,11 +90,11 @@ export const Hero = () => {
           </div>
           
           {/* Headline with Cycling Text */}
-          <h1 className="mt-0 text-[clamp(44px,7vw,80px)] leading-[0.75] tracking-tight font-black text-white drop-shadow-2xl">
+          <h1 className="mt-0 text-[clamp(44px,7vw,80px)] leading-[0.95] md:leading-[0.75] tracking-tight font-black text-white drop-shadow-2xl">
             {heroData.headline}
             <br className="hidden sm:block" />
-            <span className="inline-block mr-5 md:mr-6 pb-8 md:pb-6">{headlineMiddle}</span>
-            <CyclingText words={cyclingWords} intervalMs={2000} className="inline-block" />
+            <span className="inline-block mr-5 md:mr-6 pb-12 md:pb-6">{headlineMiddle}</span>
+            <CyclingText words={cyclingWords} intervalMs={2000} className="inline-block mb-8 md:mb-0" />
           </h1>
           
           {/* Description */}
