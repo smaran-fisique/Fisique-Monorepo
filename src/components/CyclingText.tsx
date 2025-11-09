@@ -28,7 +28,7 @@ export const CyclingText = ({
       setTimeout(() => {
         setCurrentIndex((prev) => (prev + 1) % words.length);
         setIsExiting(false);
-      }, 400); // Match animation duration
+      }, 500); // Match animation duration
       
     }, intervalMs);
 
@@ -39,24 +39,16 @@ export const CyclingText = ({
 
   return (
     <span 
-      className="inline-block"
+      className={`inline-block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black text-center ${
+        isExiting ? 'animate-word-wipe-out' : 'animate-word-wipe-in'
+      } ${className}`}
       style={{
-        perspective: '1000px',
         minWidth: 'clamp(200px, 20vw, 280px)',
       }}
+      aria-live="polite"
+      aria-atomic="true"
     >
-      <span 
-        className={`block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black text-center ${
-          isExiting ? 'animate-word-roll-out' : 'animate-word-roll-in'
-        } ${className}`}
-        style={{
-          transformStyle: 'preserve-3d',
-        }}
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {currentWord}
-      </span>
+      {currentWord}
     </span>
   );
 };

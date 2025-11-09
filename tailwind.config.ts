@@ -80,32 +80,32 @@ export default {
             height: "0",
           },
         },
-        "word-roll-in": {
+        "word-wipe-in": {
           "0%": { 
-            opacity: "0", 
-            transform: "translateY(100%) rotateX(-90deg)" 
+            clipPath: "inset(0 100% 0 0)",
+            opacity: "0"
           },
           "100%": { 
-            opacity: "1", 
-            transform: "translateY(0) rotateX(0deg)" 
+            clipPath: "inset(0 0 0 0)",
+            opacity: "1"
           }
         },
-        "word-roll-out": {
+        "word-wipe-out": {
           "0%": { 
-            opacity: "1", 
-            transform: "translateY(0) rotateX(0deg)" 
+            clipPath: "inset(0 0 0 0)",
+            opacity: "1"
           },
           "100%": { 
-            opacity: "0", 
-            transform: "translateY(-100%) rotateX(90deg)" 
+            clipPath: "inset(0 0 0 100%)",
+            opacity: "0"
           }
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "word-roll-in": "word-roll-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-        "word-roll-out": "word-roll-out 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "word-wipe-in": "word-wipe-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "word-wipe-out": "word-wipe-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
       },
     },
   },
