@@ -7,12 +7,17 @@ interface CyclingTextProps {
 }
 
 export const CyclingText = ({ 
-  words, 
+  words = [], 
   intervalMs = 2500,
   className = ''
 }: CyclingTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+
+  // Handle empty words array
+  if (words.length === 0) {
+    return null;
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {

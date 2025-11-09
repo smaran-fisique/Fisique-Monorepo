@@ -34,6 +34,9 @@ export const Hero = () => {
   const trialMessage = encodeURIComponent("Hi! I want to book a free trial at Fisique.");
   const conciergeMessage = encodeURIComponent("Hi! I'd like concierge assistance with plans and timings.");
 
+  // Ensure cyclingWords has a fallback
+  const cyclingWords = heroData.cyclingWords || defaultHeroData.cyclingWords;
+
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
       
@@ -104,7 +107,7 @@ export const Hero = () => {
             <br className="hidden sm:block" />
             {heroData.headlineMiddle}{" "}
             <CyclingText 
-              words={heroData.cyclingWords}
+              words={cyclingWords}
               intervalMs={2500}
               className="inline-block"
             />
