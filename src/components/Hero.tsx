@@ -90,7 +90,10 @@ export const Hero = () => {
       {/* Layer 3: Vignette for Text Contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/40" />
       
-      {/* Layer 4: Content */}
+      {/* Layer 4: Bottom Fade to Black */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
+      
+      {/* Layer 5: Content */}
       <div className="relative z-10 container-custom px-4 md:px-6 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-7 md:space-y-8">
           
