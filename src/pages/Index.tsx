@@ -12,12 +12,11 @@ import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { OfferBanner } from "@/components/OfferBanner";
 import { Helmet } from "react-helmet-async";
 import { useSEO } from "@/hooks/useSEO";
-
 const Index = () => {
-  const { seo } = useSEO('/');
-
-  return (
-    <>
+  const {
+    seo
+  } = useSEO('/');
+  return <>
       <Helmet>
         <title>{seo.title}</title>
         <meta name="description" content={seo.description} />
@@ -33,7 +32,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <WhySection />
+        <WhySection className="" />
         <ProgramsSection />
         <ExperienceSection />
         <TransformationsSection />
@@ -43,8 +42,6 @@ const Index = () => {
       </main>
       <Footer />
       <FloatingWhatsApp />
-    </>
-  );
+    </>;
 };
-
 export default Index;

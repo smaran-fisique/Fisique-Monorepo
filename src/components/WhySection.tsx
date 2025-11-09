@@ -39,18 +39,12 @@ export const WhySection = () => {
   return <section className="premium-section py-20">
       {/* Premium background effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div 
-          className="premium-glow-orb w-[500px] h-[500px] -left-32 top-20"
-          style={{
-            background: 'radial-gradient(circle, hsl(186 68% 45% / 0.2) 0%, transparent 70%)',
-          }}
-        />
-        <div 
-          className="premium-glow-orb w-[400px] h-[400px] -right-20 bottom-20"
-          style={{
-            background: 'radial-gradient(circle, hsl(186 100% 76% / 0.15) 0%, transparent 70%)',
-          }}
-        />
+        <div className="premium-glow-orb w-[500px] h-[500px] -left-32 top-20" style={{
+        background: 'radial-gradient(circle, hsl(186 68% 45% / 0.2) 0%, transparent 70%)'
+      }} />
+        <div className="premium-glow-orb w-[400px] h-[400px] -right-20 bottom-20" style={{
+        background: 'radial-gradient(circle, hsl(186 100% 76% / 0.15) 0%, transparent 70%)'
+      }} />
       </div>
 
       <div className="container-custom relative z-10">
