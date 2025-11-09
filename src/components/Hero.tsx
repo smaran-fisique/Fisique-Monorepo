@@ -4,7 +4,6 @@ import heroGym from "@/assets/hero-gym.webp";
 import { useSection } from "@/hooks/useSection";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { CyclingText } from "@/components/CyclingText";
-
 interface HeroData {
   badge: string;
   headline: string;
@@ -15,7 +14,6 @@ interface HeroData {
   secondaryCtaText: string;
   backgroundOverlayOpacity?: number;
 }
-
 const defaultHeroData: HeroData = {
   badge: "Kokapet • Luxury Personal Training",
   headline: "",
@@ -24,12 +22,15 @@ const defaultHeroData: HeroData = {
   description: "A complete system designed to get you stronger, fitter, and transformed with expert guidance at every step.",
   ctaText: "Book a Free Trial",
   secondaryCtaText: "WhatsApp Concierge",
-  backgroundOverlayOpacity: 0.6,
+  backgroundOverlayOpacity: 0.6
 };
-
 export const Hero = () => {
-  const { data: heroData } = useSection<HeroData>('hero', defaultHeroData);
-  const { settings } = useSiteSettings();
+  const {
+    data: heroData
+  } = useSection<HeroData>('hero', defaultHeroData);
+  const {
+    settings
+  } = useSiteSettings();
   const whatsappNumber = settings.whatsapp_number;
   const trialMessage = encodeURIComponent("Hi! I want to book a free trial at Fisique.");
   const conciergeMessage = encodeURIComponent("Hi! I'd like concierge assistance with plans and timings.");
@@ -37,50 +38,33 @@ export const Hero = () => {
   // Ensure cyclingWords has a fallback
   const cyclingWords = heroData.cyclingWords || defaultHeroData.cyclingWords;
   const headlineMiddle = heroData.headlineMiddle || defaultHeroData.headlineMiddle;
-
-  return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
       
       {/* Layer 1: Photo Background - Peek Through Effect */}
       <div className="absolute inset-0">
-        <img 
-          src={heroGym}
-          alt="Premium training facility"
-          className="w-full h-full object-cover opacity-40 blur-[2px]"
-          loading="eager"
-          fetchPriority="high"
-        />
+        <img src={heroGym} alt="Premium training facility" className="w-full h-full object-cover opacity-40 blur-[2px]" loading="eager" fetchPriority="high" />
       </div>
       
       {/* Layer 2: Brand Color Gradients + Fun Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Large cyan glow - top left */}
-        <div 
-          className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(186 68% 45% / 0.35) 0%, hsl(186 68% 45% / 0.15) 40%, transparent 70%)',
-            filter: 'blur(80px)',
-            animation: 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-          }}
-        />
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full" style={{
+        background: 'radial-gradient(circle, hsl(186 68% 45% / 0.35) 0%, hsl(186 68% 45% / 0.15) 40%, transparent 70%)',
+        filter: 'blur(80px)',
+        animation: 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+      }} />
         
         {/* Light cyan glow - right side */}
-        <div 
-          className="absolute top-1/3 -right-32 w-[550px] h-[550px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, hsl(186 100% 76% / 0.28) 0%, hsl(186 100% 76% / 0.12) 40%, transparent 70%)',
-            filter: 'blur(100px)',
-            animation: 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-          }}
-        />
+        <div className="absolute top-1/3 -right-32 w-[550px] h-[550px] rounded-full" style={{
+        background: 'radial-gradient(circle, hsl(186 100% 76% / 0.28) 0%, hsl(186 100% 76% / 0.12) 40%, transparent 70%)',
+        filter: 'blur(100px)',
+        animation: 'pulse 10s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+      }} />
         
         {/* Diagonal gradient sweep */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(135deg, hsl(186 68% 45% / 0.18) 0%, transparent 45%, hsl(186 100% 76% / 0.12) 100%)'
-          }}
-        />
+        <div className="absolute inset-0" style={{
+        background: 'linear-gradient(135deg, hsl(186 68% 45% / 0.18) 0%, transparent 45%, hsl(186 100% 76% / 0.12) 100%)'
+      }} />
         
         {/* Decorative glowing dots */}
         <div className="absolute top-24 right-[15%] w-2 h-2 rounded-full bg-accent-glow shadow-glow opacity-70" />
@@ -109,12 +93,8 @@ export const Hero = () => {
           <h1 className="text-[clamp(44px,7vw,80px)] leading-[1.08] tracking-tight font-black text-white drop-shadow-2xl">
             {heroData.headline}
             <br className="hidden sm:block" />
-            <span className="inline-block mr-5 md:mr-6">{headlineMiddle}</span>
-            <CyclingText 
-              words={cyclingWords}
-              intervalMs={2000}
-              className="inline-block"
-            />
+            <span className="inline-block mr-5 md:mr-6 pb-6">{headlineMiddle}</span>
+            <CyclingText words={cyclingWords} intervalMs={2000} className="inline-block" />
           </h1>
           
           {/* Description */}
@@ -124,22 +104,13 @@ export const Hero = () => {
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button 
-              size="lg"
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-glow hover:shadow-glow-hover transition-all"
-              asChild
-            >
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-glow hover:shadow-glow-hover transition-all" asChild>
               <a href={`https://wa.me/${whatsappNumber}?text=${trialMessage}`}>
                 {heroData.ctaText}
               </a>
             </Button>
             
-            <Button 
-              size="lg" 
-              variant="outline"
-              className="border-white/40 text-white hover:bg-white/15 font-semibold backdrop-blur-sm"
-              asChild
-            >
+            <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/15 font-semibold backdrop-blur-sm" asChild>
               <a href={`https://wa.me/${whatsappNumber}?text=${conciergeMessage}`}>
                 <MessageCircle className="w-4 h-4 mr-2" />
                 {heroData.secondaryCtaText}
@@ -149,6 +120,5 @@ export const Hero = () => {
           
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
