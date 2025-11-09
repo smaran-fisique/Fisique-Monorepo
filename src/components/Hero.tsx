@@ -80,7 +80,7 @@ export const Hero = () => {
       
       {/* Layer 5: Content */}
       <div className="relative z-10 container-custom px-4 md:px-6 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-7 md:space-y-8">
+        <div className="max-w-4xl mx-auto text-center space-y-12 md:space-y-8">
           
           {/* Badge */}
           <div className="inline-block">
@@ -93,17 +93,17 @@ export const Hero = () => {
           <h1 className="mt-0 text-[clamp(44px,7vw,80px)] leading-[0.75] tracking-tight font-black text-white drop-shadow-2xl">
             {heroData.headline}
             <br className="hidden sm:block" />
-            <span className="inline-block mr-5 md:mr-6 pb-6">{headlineMiddle}</span>
+            <span className="inline-block mr-5 md:mr-6 pb-8 md:pb-6">{headlineMiddle}</span>
             <CyclingText words={cyclingWords} intervalMs={2000} className="inline-block" />
           </h1>
           
           {/* Description */}
-          <p className="text-[clamp(17px,1.9vw,20px)] leading-relaxed text-white/95 max-w-3xl mx-auto drop-shadow-lg">
+          <p className="text-[clamp(17px,1.9vw,20px)] leading-relaxed text-white/95 max-w-3xl mx-auto drop-shadow-lg mt-4 md:mt-0">
             {heroData.description}
           </p>
           
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 md:pt-4">
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-glow hover:shadow-glow-hover transition-all" asChild>
               <a href={`https://wa.me/${whatsappNumber}?text=${trialMessage}`}>
                 {heroData.ctaText}
