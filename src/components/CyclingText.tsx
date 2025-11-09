@@ -39,21 +39,24 @@ export const CyclingText = ({
 
   return (
     <span 
-      className={`inline-block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black overflow-hidden ${className}`}
+      className="inline-block"
       style={{
-        animation: isExiting 
-          ? 'word-roll-out 0.4s forwards' 
-          : 'word-roll-in 0.4s forwards',
+        perspective: '1000px',
         minWidth: 'clamp(200px, 20vw, 280px)',
-        textAlign: 'center',
-        willChange: 'transform, opacity',
-        perspective: '400px',
-        transformStyle: 'preserve-3d'
       }}
-      aria-live="polite"
-      aria-atomic="true"
     >
-      {currentWord}
+      <span 
+        className={`block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black text-center ${
+          isExiting ? 'animate-word-roll-out' : 'animate-word-roll-in'
+        } ${className}`}
+        style={{
+          transformStyle: 'preserve-3d',
+        }}
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {currentWord}
+      </span>
     </span>
   );
 };
