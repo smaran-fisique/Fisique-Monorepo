@@ -36,6 +36,7 @@ export const Hero = () => {
 
   // Ensure cyclingWords has a fallback
   const cyclingWords = heroData.cyclingWords || defaultHeroData.cyclingWords;
+  const headlineMiddle = heroData.headlineMiddle || defaultHeroData.headlineMiddle;
 
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
@@ -108,7 +109,7 @@ export const Hero = () => {
           <h1 className="text-[clamp(44px,7vw,80px)] leading-[1.08] tracking-tight font-black text-white drop-shadow-2xl">
             {heroData.headline}
             <br className="hidden sm:block" />
-            {heroData.headlineMiddle}{" "}
+            <span className="inline-block">{headlineMiddle}</span>{" "}
             <CyclingText 
               words={cyclingWords}
               intervalMs={2000}
