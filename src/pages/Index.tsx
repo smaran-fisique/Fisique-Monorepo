@@ -32,7 +32,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <WhySection className="" />
+        <WhySection />
         <ProgramsSection />
         <ExperienceSection />
         <TransformationsSection />
