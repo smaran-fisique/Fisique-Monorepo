@@ -34,23 +34,33 @@ export const ExperienceSection = () => {
   const {
     data: experienceData
   } = useSection<ExperienceData>('experience', defaultExperienceData);
-  return <section id="experience" className="py-20 border-t border-border">
-      <div className="container-custom">
-        <div className="mb-7">
-          <h2 className="font-bold tracking-tight mb-3 text-5xl text-cyan-500">
+  return <section id="experience" className="premium-section py-20 border-t border-border">
+      {/* Premium background effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div 
+          className="premium-glow-orb w-[500px] h-[500px] -right-32 top-40"
+          style={{
+            background: 'radial-gradient(circle, hsl(186 100% 76% / 0.15) 0%, transparent 70%)',
+          }}
+        />
+      </div>
+
+      <div className="container-custom relative z-10">
+        <div className="mb-12">
+          <h2 className="font-bold tracking-tight mb-4 text-5xl text-gradient">
             {experienceData.title}
           </h2>
-          <p className="text-muted-foreground w-full max-w-none\n">
+          <p className="text-foreground/80 text-lg max-w-3xl">
             {experienceData.subtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {experienceData.experiences.map((exp, index) => <figure key={index} className="border border-border rounded-[18px] overflow-hidden bg-[hsl(220_23%_8%)] group">
+          {experienceData.experiences.map((exp, index) => <figure key={index} className="premium-card rounded-2xl overflow-hidden group">
               <div className="overflow-hidden">
                 <img src={imageMap[exp.image] || exp.image} alt={exp.caption} className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105" />
               </div>
-              <figcaption className="p-3.5 border-t border-border text-muted-foreground text-sm">
+              <figcaption className="p-4 border-t border-border/50 text-foreground/70 text-sm">
                 {exp.caption}
               </figcaption>
             </figure>)}

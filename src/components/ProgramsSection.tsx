@@ -52,13 +52,23 @@ export const ProgramsSection = () => {
   const {
     data: programsData
   } = useSection<ProgramsData>('programs', defaultProgramsData);
-  return <section id="programs" className="py-20 border-t border-border">
-      <div className="container-custom">
-        <div className="mb-7">
-          <h2 className="font-bold tracking-tight mb-3 text-5xl text-cyan-500">
+  return <section id="programs" className="premium-section py-20 border-t border-border">
+      {/* Premium background effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div 
+          className="premium-glow-orb w-[450px] h-[450px] -right-32 top-32"
+          style={{
+            background: 'radial-gradient(circle, hsl(186 100% 76% / 0.18) 0%, transparent 70%)',
+          }}
+        />
+      </div>
+
+      <div className="container-custom relative z-10">
+        <div className="mb-12">
+          <h2 className="font-bold tracking-tight mb-4 text-5xl text-gradient">
             {programsData.title}
           </h2>
-          <p className="text-muted-foreground max-w-[60ch]">
+          <p className="text-foreground/80 text-lg max-w-3xl">
             {programsData.subtitle}
           </p>
         </div>
@@ -70,14 +80,12 @@ export const ProgramsSection = () => {
               {programsData.programs.map((program, index) => {
               const Icon = iconMap[program.icon] || Dumbbell;
               return <CarouselItem key={index}>
-                    <article className="border border-border rounded-[18px] overflow-hidden" style={{
-                  background: 'var(--gradient-card)'
-                }}>
-                      <div className="p-5 flex flex-col h-full">
-                        <div className="mb-4 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                    <article className="premium-card rounded-2xl overflow-hidden">
+                      <div className="p-6 flex flex-col h-full">
+                        <div className="mb-5 w-12 h-12 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center shadow-glow">
                           <Icon className="w-6 h-6 text-accent" />
                         </div>
-                        <h4 className="text-lg font-bold mb-1.5">{program.title}</h4>
+                        <h4 className="text-lg font-bold mb-2.5">{program.title}</h4>
                         <p className="text-muted-foreground text-[0.95rem] leading-relaxed">
                           {program.description}
                         </p>
@@ -94,17 +102,15 @@ export const ProgramsSection = () => {
         </div>
 
         {/* Desktop: Grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-5">
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
           {programsData.programs.map((program, index) => {
           const Icon = iconMap[program.icon] || Dumbbell;
-          return <article key={index} className="border border-border rounded-[18px] overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-accent/40" style={{
-            background: 'var(--gradient-card)'
-          }}>
-                <div className="p-5 flex flex-col h-full">
-                  <div className="mb-4 w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+          return <article key={index} className="premium-card rounded-2xl overflow-hidden">
+                <div className="p-6 flex flex-col h-full">
+                  <div className="mb-5 w-12 h-12 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 flex items-center justify-center shadow-glow">
                     <Icon className="w-6 h-6 text-accent" />
                   </div>
-                  <h4 className="text-lg font-bold mb-1.5">{program.title}</h4>
+                  <h4 className="text-lg font-bold mb-2.5">{program.title}</h4>
                   <p className="text-muted-foreground text-[0.95rem] leading-relaxed">
                     {program.description}
                   </p>
