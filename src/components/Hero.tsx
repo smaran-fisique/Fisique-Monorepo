@@ -18,10 +18,10 @@ interface HeroData {
 
 const defaultHeroData: HeroData = {
   badge: "Kokapet • Luxury Personal Training",
-  headline: "Personal Training.",
-  headlineMiddle: "Elevated Through",
-  cyclingWords: ["Precision", "Progress", "Expertise"],
-  description: "Premium one-on-one coaching, nutrition that actually delivers, and sauna recovery — all crafted around your transformation. Because lasting results come from guidance, not guesswork.",
+  headline: "",
+  headlineMiddle: "Transform Through",
+  cyclingWords: ["Personal Training", "Nutrition Guidance", "Enhanced Recovery"],
+  description: "A complete system designed to get you stronger, fitter, and transformed with expert guidance at every step.",
   ctaText: "Book a Free Trial",
   secondaryCtaText: "WhatsApp Concierge",
   backgroundOverlayOpacity: 0.6,
