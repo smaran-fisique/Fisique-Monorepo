@@ -30,7 +30,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-border/50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-border/30 transition-all duration-300 ${
         scrolled ? "glass-header shadow-xl" : "glass-header"
       }`}
       style={{
@@ -54,6 +54,9 @@ export const Header = () => {
           background: `linear-gradient(90deg, hsl(var(--accent)) ${scrollProgress}%, transparent ${scrollProgress}%)`,
         }}
       />
+
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-background/60 pointer-events-none" />
 
       <div className="container-custom relative z-10">
         <nav className="flex items-center justify-between min-h-[70px]">
