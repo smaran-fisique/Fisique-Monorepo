@@ -39,16 +39,18 @@ export const CyclingText = ({
 
   return (
     <span 
-      className={`inline-block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black text-center ${
-        isExiting ? 'animate-word-wipe-out' : 'animate-word-wipe-in'
-      } ${className}`}
+      className={`inline-block px-6 py-2 md:px-8 md:py-3 bg-accent/90 text-accent-foreground rounded-lg font-black text-center ${className}`}
       style={{
         minWidth: 'clamp(200px, 20vw, 280px)',
       }}
       aria-live="polite"
       aria-atomic="true"
     >
-      {currentWord}
+      <span 
+        className={isExiting ? 'animate-word-wipe-out' : 'animate-word-wipe-in'}
+      >
+        {currentWord}
+      </span>
     </span>
   );
 };
