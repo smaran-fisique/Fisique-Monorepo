@@ -30,11 +30,11 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-border/30 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "glass-header shadow-xl" : "glass-header"
       }`}
       style={{
-        background: 'linear-gradient(180deg, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.85) 100%)',
+        background: 'linear-gradient(180deg, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.7) 70%, transparent 100%)',
         backdropFilter: 'saturate(150%) blur(12px)'
       }}
     >
@@ -55,8 +55,8 @@ export const Header = () => {
         }}
       />
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-b from-transparent to-background/60 pointer-events-none" />
+      {/* Extended bottom fade for seamless merge */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-background/20 via-transparent to-transparent pointer-events-none" />
 
       <div className="container-custom relative z-10">
         <nav className="flex items-center justify-between min-h-[70px]">
