@@ -30,10 +30,24 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 border-b border-border transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b border-border/50 transition-all duration-300 ${
         scrolled ? "glass-header shadow-xl" : "glass-header"
       }`}
+      style={{
+        background: 'linear-gradient(180deg, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.85) 100%)',
+        backdropFilter: 'saturate(150%) blur(12px)'
+      }}
     >
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(circle at 20% 50%, hsl(186 68% 45% / 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, hsl(186 100% 76% / 0.1) 0%, transparent 50%)',
+          }}
+        />
+      </div>
+
       <div
         className="absolute left-0 right-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-accent-glow opacity-25 transition-all duration-300"
         style={{
@@ -41,7 +55,7 @@ export const Header = () => {
         }}
       />
 
-      <div className="container-custom">
+      <div className="container-custom relative z-10">
         <nav className="flex items-center justify-between min-h-[70px]">
           <div className="flex items-center gap-3">
             <a href="/">
