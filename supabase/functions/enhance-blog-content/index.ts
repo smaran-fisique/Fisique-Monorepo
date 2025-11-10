@@ -1,11 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-async function enhanceWithGemini(content: string, apiKey: string) {
+async function enhanceWithGemini(content: string, apiKey: string, prompt: string) {
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
     {
@@ -14,19 +15,12 @@ async function enhanceWithGemini(content: string, apiKey: string) {
       body: JSON.stringify({
         contents: [{
           parts: [{
-            text: `You are a professional blog content optimizer. Given the following raw blog content, enhance it and extract/generate the following information in JSON format:
-
-1. title: A compelling, SEO-friendly title (max 60 characters)
-2. slug: A URL-friendly version of the title
-3. excerpt: A concise summary (max 160 characters)
-4. content: The enhanced and professionally formatted blog content in HTML format with proper headings, paragraphs, lists, etc.
-5. suggestedCategory: Suggest one of these categories: "Training Tips", "Nutrition & Diet", "Recovery & Wellness", "Success Stories", "Fitness Lifestyle"
-6. featuredImagePrompt: A detailed description for generating a featured image (max 100 characters)
+            text: `${prompt}
 
 Raw content to enhance:
 ${content}
 
-Return ONLY valid JSON with these exact keys: title, slug, excerpt, content, suggestedCategory, featuredImagePrompt`
+Return only the JSON object, no other text.`
           }]
         }],
         generationConfig: {
@@ -64,8 +58,29 @@ serve(async (req) => {
       );
     }
 
+    // Get the custom prompt from settings
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const { data: settingsData, error: settingsError } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'ai_enhance_prompt')
+      .single();
+
+    if (settingsError) {
+      console.error('Error fetching prompt setting:', settingsError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch AI prompt settings' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const prompt = settingsData?.value || '';
+
     console.log('Enhancing content with Gemini API...');
-    const response = await enhanceWithGemini(content, geminiApiKey);
+    const response = await enhanceWithGemini(content, geminiApiKey, prompt);
 
     if (!response.ok) {
       const errorText = await response.text();

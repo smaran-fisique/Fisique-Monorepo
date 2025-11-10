@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -29,7 +30,29 @@ serve(async (req) => {
       );
     }
 
-    console.log('Generating image with prompt:', prompt);
+    // Get the custom prompt template from settings
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const { data: settingsData, error: settingsError } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'ai_image_prompt')
+      .single();
+
+    if (settingsError) {
+      console.error('Error fetching prompt setting:', settingsError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch AI prompt settings' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const promptTemplate = settingsData?.value || 'Generate a professional image for: {prompt}';
+    const finalPrompt = promptTemplate.replace('{prompt}', prompt);
+
+    console.log('Generating image with prompt:', finalPrompt);
     
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -42,7 +65,7 @@ serve(async (req) => {
         messages: [
           {
             role: "user",
-            content: `Generate a professional, high-quality blog featured image for: ${prompt}. The image should be visually appealing, suitable for a fitness blog, and optimized for web use.`
+            content: finalPrompt
           }
         ],
         modalities: ["image", "text"]

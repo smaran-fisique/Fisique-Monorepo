@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -29,6 +30,27 @@ serve(async (req) => {
       );
     }
 
+    // Get the custom prompt from settings
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const { data: settingsData, error: settingsError } = await supabase
+      .from('site_settings')
+      .select('value')
+      .eq('key', 'ai_format_prompt')
+      .single();
+
+    if (settingsError) {
+      console.error('Error fetching prompt setting:', settingsError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch AI prompt settings' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const prompt = settingsData?.value || '';
+
     console.log('Formatting content with Gemini API...');
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
@@ -38,21 +60,7 @@ serve(async (req) => {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `You are a professional HTML formatter. Take the following HTML content and improve its formatting:
-
-1. Add proper semantic HTML5 tags (article, section, header, etc.)
-2. Ensure proper heading hierarchy (h1, h2, h3)
-3. Format paragraphs with proper spacing
-4. Add proper list formatting (ul, ol)
-5. Add blockquotes where appropriate
-6. Ensure proper emphasis (strong, em)
-7. Keep the original meaning and text intact
-8. Return ONLY the formatted HTML without any explanation or markdown code blocks
-
-Content to format:
-${content}
-
-Return only the formatted HTML.`
+              text: prompt.replace('{content}', content)
             }]
           }],
           generationConfig: {

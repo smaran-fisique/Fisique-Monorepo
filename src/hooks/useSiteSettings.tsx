@@ -6,6 +6,9 @@ interface SiteSettings {
   ga4_measurement_id: string;
   site_name: string;
   site_tagline: string;
+  ai_enhance_prompt: string;
+  ai_format_prompt: string;
+  ai_image_prompt: string;
 }
 
 export const useSiteSettings = () => {
@@ -14,6 +17,9 @@ export const useSiteSettings = () => {
     ga4_measurement_id: '',
     site_name: 'Fisique Fitness',
     site_tagline: 'Transform Your Body, Transform Your Life',
+    ai_enhance_prompt: '',
+    ai_format_prompt: '',
+    ai_image_prompt: '',
   });
   const [loading, setLoading] = useState(true);
 

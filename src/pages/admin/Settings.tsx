@@ -126,6 +126,64 @@ export default function Settings() {
       <div className="bg-card border border-border rounded-lg p-6">
         <div className="space-y-4">
           <div>
+            <h2 className="text-xl font-semibold">AI Prompts</h2>
+            <p className="text-sm text-muted-foreground">Customize the prompts used for AI-powered features</p>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="ai_enhance_prompt">Content Enhancement Prompt</Label>
+            <p className="text-sm text-muted-foreground">
+              Used when enhancing blog content with AI
+            </p>
+            <textarea
+              id="ai_enhance_prompt"
+              value={settings.find(s => s.key === 'ai_enhance_prompt')?.value || ''}
+              onChange={(e) => updateSetting('ai_enhance_prompt', e.target.value)}
+              placeholder="Enter AI enhancement prompt"
+              className="w-full min-h-[200px] p-3 rounded-md border border-border bg-background text-foreground"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="ai_format_prompt">Content Formatting Prompt</Label>
+            <p className="text-sm text-muted-foreground">
+              Used when formatting blog content with AI
+            </p>
+            <textarea
+              id="ai_format_prompt"
+              value={settings.find(s => s.key === 'ai_format_prompt')?.value || ''}
+              onChange={(e) => updateSetting('ai_format_prompt', e.target.value)}
+              placeholder="Enter AI formatting prompt"
+              className="w-full min-h-[200px] p-3 rounded-md border border-border bg-background text-foreground"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="ai_image_prompt">Image Generation Prompt Template</Label>
+            <p className="text-sm text-muted-foreground">
+              Used when generating images with AI. Use {'{prompt}'} as placeholder for user input.
+            </p>
+            <textarea
+              id="ai_image_prompt"
+              value={settings.find(s => s.key === 'ai_image_prompt')?.value || ''}
+              onChange={(e) => updateSetting('ai_image_prompt', e.target.value)}
+              placeholder="Enter AI image generation prompt template"
+              className="w-full min-h-[100px] p-3 rounded-md border border-border bg-background text-foreground"
+            />
+          </div>
+
+          <div className="flex justify-end pt-4">
+            <Button onClick={handleSave} disabled={saving}>
+              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+              Save AI Prompts
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-card border border-border rounded-lg p-6">
+        <div className="space-y-4">
+          <div>
             <h2 className="text-xl font-semibold">API Keys</h2>
             <p className="text-sm text-muted-foreground">Manage your API integrations</p>
           </div>
