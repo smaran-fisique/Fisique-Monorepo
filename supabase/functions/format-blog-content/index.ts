@@ -21,11 +21,11 @@ serve(async (req) => {
       );
     }
 
-    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
+    const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
     
-    if (!lovableApiKey) {
+    if (!geminiApiKey) {
       return new Response(
-        JSON.stringify({ error: 'LOVABLE_API_KEY is not configured' }),
+        JSON.stringify({ error: 'GEMINI_API_KEY is not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -51,45 +51,59 @@ serve(async (req) => {
 
     const prompt = settingsData?.value || '';
 
-    console.log('Formatting content with Lovable AI...');
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${lovableApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          {
-            role: "user",
-            content: prompt.replace('{content}', content)
-          }
-        ],
-      })
-    });
+    console.log('Formatting content with Gemini API...');
+    
+    // Retry logic for 503 errors
+    let response: Response | null = null;
+    let retries = 2;
+    for (let i = 0; i <= retries; i++) {
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt.replace('{content}', content)
+              }]
+            }],
+            generationConfig: {
+              temperature: 0.3,
+              maxOutputTokens: 8000,
+            }
+          }),
+        }
+      );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Lovable AI error:', response.status, errorText);
+      if (response.status === 503 && i < retries) {
+        console.log(`Gemini overloaded, retrying (${i + 1}/${retries})...`);
+        await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+        continue;
+      }
       
-      let errorMessage = 'Content formatting failed';
-      if (response.status === 429) {
-        errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
-      } else if (response.status === 402) {
-        errorMessage = 'Payment required. Please add credits to your Lovable workspace.';
-      } else if (response.status === 503) {
-        errorMessage = 'AI service temporarily overloaded. Please try again in a moment.';
+      break;
+    }
+
+    if (!response || !response.ok) {
+      const errorText = response ? await response.text() : 'No response';
+      console.error('Gemini API error:', response?.status, errorText);
+      
+      let errorMessage = 'Gemini API error';
+      if (response?.status === 429) {
+        errorMessage = 'Gemini API rate limit exceeded. Please wait a moment and try again.';
+      } else if (response?.status === 503) {
+        errorMessage = 'Gemini service is temporarily overloaded. Please try again in a moment.';
       }
       
       return new Response(
         JSON.stringify({ error: errorMessage }),
-        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: response?.status || 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     const data = await response.json();
-    const formattedContent = data.choices?.[0]?.message?.content;
+    const formattedContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!formattedContent) {
       return new Response(
