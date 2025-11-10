@@ -107,7 +107,38 @@ export default {
         "word-wipe-in": "word-wipe-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
         "word-wipe-out": "word-wipe-out 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: "hsl(var(--foreground))",
+            maxWidth: "none",
+            h1: { color: "hsl(var(--foreground))" },
+            h2: { color: "hsl(var(--foreground))" },
+            h3: { color: "hsl(var(--foreground))" },
+            h4: { color: "hsl(var(--foreground))" },
+            h5: { color: "hsl(var(--foreground))" },
+            h6: { color: "hsl(var(--foreground))" },
+            strong: { color: "hsl(var(--foreground))" },
+            a: { 
+              color: "hsl(var(--primary))",
+              "&:hover": { color: "hsl(var(--primary))" }
+            },
+            blockquote: { 
+              color: "hsl(var(--muted-foreground))",
+              borderLeftColor: "hsl(var(--border))"
+            },
+            code: { color: "hsl(var(--foreground))" },
+            pre: { backgroundColor: "hsl(var(--muted))" },
+            hr: { borderColor: "hsl(var(--border))" },
+            ol: { color: "hsl(var(--foreground))" },
+            ul: { color: "hsl(var(--foreground))" },
+          },
+        },
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+  ],
 } satisfies Config;
