@@ -93,14 +93,16 @@ export default function BlogPost() {
             </div>
           )}
 
-          <div className="mb-6">
+          <div className="mb-6 flex items-center gap-3 text-sm text-muted-foreground">
             {post.blog_categories && (
-              <span className="text-sm font-medium text-primary">
-                {post.blog_categories.name}
-              </span>
+              <>
+                <span className="font-medium text-primary">
+                  {post.blog_categories.name}
+                </span>
+                <span>•</span>
+              </>
             )}
-            <h1 className="text-4xl md:text-5xl font-bold mt-2 mb-4">{post.title}</h1>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               {new Date(post.published_at).toLocaleDateString('en-US', {
                 year: 'numeric',
