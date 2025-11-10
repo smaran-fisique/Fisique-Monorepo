@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
-import heroGym from "@/assets/hero-gym.webp";
+import heroGym from "@/assets/hero-gym-optimized.webp";
 import { useSection } from "@/hooks/useSection";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { CyclingText } from "@/components/CyclingText";
