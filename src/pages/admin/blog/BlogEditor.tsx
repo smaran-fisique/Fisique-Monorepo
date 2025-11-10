@@ -39,6 +39,7 @@ export default function BlogEditor() {
   const [imagePrompt, setImagePrompt] = useState('');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [activeImageTab, setActiveImageTab] = useState('upload');
 
   useEffect(() => {
     fetchCategories();
@@ -320,19 +321,40 @@ export default function BlogEditor() {
         setExcerpt(data.excerpt || '');
         setContent(data.content || '');
         
-        // Find category by name
+        // Find category by name with flexible matching
         if (data.suggestedCategory) {
+          console.log('AI suggested category:', data.suggestedCategory);
+          console.log('Available categories:', categories.map(c => c.name));
+          
+          const suggestedLower = data.suggestedCategory.toLowerCase().trim();
           const foundCategory = categories.find(
-            cat => cat.name.toLowerCase() === data.suggestedCategory.toLowerCase()
+            cat => {
+              const catLower = cat.name.toLowerCase().trim();
+              // Exact match or partial match
+              return catLower === suggestedLower || 
+                     catLower.includes(suggestedLower) ||
+                     suggestedLower.includes(catLower);
+            }
           );
+          
           if (foundCategory) {
             setCategoryId(foundCategory.id);
+            console.log('Category matched:', foundCategory.name);
+          } else {
+            console.warn('No matching category found for:', data.suggestedCategory);
+            toast({
+              title: 'Category Not Found',
+              description: `AI suggested "${data.suggestedCategory}" but no matching category exists. Please select manually.`,
+              variant: 'default',
+            });
           }
         }
 
-        // Set featured image prompt suggestion
+        // Set featured image prompt suggestion and switch to AI Generate tab
         if (data.featuredImagePrompt) {
           setImagePrompt(data.featuredImagePrompt);
+          setActiveImageTab('generate');
+          console.log('Image prompt set:', data.featuredImagePrompt);
         }
 
         setShowAIInput(false);
@@ -340,7 +362,7 @@ export default function BlogEditor() {
 
         toast({
           title: 'Success',
-          description: 'Content enhanced! Review and adjust as needed.',
+          description: 'Content enhanced! Check the AI Generate tab for image suggestion.',
         });
       }
     } catch (error: any) {
@@ -539,7 +561,7 @@ export default function BlogEditor() {
 
         <div className="space-y-2">
           <Label>Featured Image</Label>
-          <Tabs defaultValue="upload" className="w-full">
+          <Tabs value={activeImageTab} onValueChange={setActiveImageTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="upload">
                 <Upload className="w-4 h-4 mr-2" />
