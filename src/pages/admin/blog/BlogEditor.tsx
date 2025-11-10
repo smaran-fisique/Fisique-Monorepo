@@ -111,7 +111,30 @@ export default function BlogEditor() {
         body: { content: pastedContent }
       });
 
-      if (error) throw error;
+      if (error) {
+        // Check if it's a rate limit error
+        if (error.message?.includes('quota') || error.message?.includes('rate limit')) {
+          toast({
+            variant: 'destructive',
+            title: 'Gemini API Quota Exceeded',
+            description: 'Your Gemini API key has exceeded its quota. Please check your billing at ai.google.dev or wait for quota to reset.',
+            duration: 8000,
+          });
+        } else {
+          throw error;
+        }
+        return;
+      }
+
+      if (data?.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Enhancement Failed',
+          description: data.error,
+          duration: 8000,
+        });
+        return;
+      }
 
       if (data) {
         setTitle(data.title || '');

@@ -66,9 +66,28 @@ Return ONLY valid JSON with these exact keys: title, slug, excerpt, content, sug
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Gemini API error:', response.status, errorText);
+      
+      let errorMessage = `Gemini API error: ${response.status}`;
+      
+      // Handle rate limit errors specifically
+      if (response.status === 429) {
+        try {
+          const errorData = JSON.parse(errorText);
+          if (errorData.error?.message) {
+            errorMessage = 'Gemini API quota exceeded. Please check your API key billing and rate limits at https://ai.google.dev/gemini-api/docs/rate-limits';
+          }
+        } catch (e) {
+          errorMessage = 'Gemini API rate limit exceeded. Please wait a moment and try again, or check your API quota.';
+        }
+      } else if (response.status === 401) {
+        errorMessage = 'Invalid Gemini API key. Please check your API key configuration.';
+      } else if (response.status === 400) {
+        errorMessage = 'Invalid request to Gemini API. Please check your content format.';
+      }
+      
       return new Response(
-        JSON.stringify({ error: `Gemini API error: ${response.status}` }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: errorMessage }),
+        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
