@@ -322,11 +322,11 @@ export default function BlogEditor() {
         setContent(data.content || '');
         
         // Find category by name with flexible matching
-        if (data.suggestedCategory) {
-          console.log('AI suggested category:', data.suggestedCategory);
+        if (data.category) {
+          console.log('AI suggested category:', data.category);
           console.log('Available categories:', categories.map(c => c.name));
           
-          const suggestedLower = data.suggestedCategory.toLowerCase().trim();
+          const suggestedLower = data.category.toLowerCase().trim();
           const foundCategory = categories.find(
             cat => {
               const catLower = cat.name.toLowerCase().trim();
@@ -341,20 +341,20 @@ export default function BlogEditor() {
             setCategoryId(foundCategory.id);
             console.log('Category matched:', foundCategory.name);
           } else {
-            console.warn('No matching category found for:', data.suggestedCategory);
+            console.warn('No matching category found for:', data.category);
             toast({
               title: 'Category Not Found',
-              description: `AI suggested "${data.suggestedCategory}" but no matching category exists. Please select manually.`,
+              description: `AI suggested "${data.category}" but no matching category exists. Please select manually.`,
               variant: 'default',
             });
           }
         }
 
         // Set featured image prompt suggestion and switch to AI Generate tab
-        if (data.featuredImagePrompt) {
-          setImagePrompt(data.featuredImagePrompt);
+        if (data.imagePrompt) {
+          setImagePrompt(data.imagePrompt);
           setActiveImageTab('generate');
-          console.log('Image prompt set:', data.featuredImagePrompt);
+          console.log('Image prompt set:', data.imagePrompt);
         }
 
         setShowAIInput(false);
