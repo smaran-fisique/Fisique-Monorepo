@@ -1,4 +1,5 @@
 import { useEditor, EditorContent } from '@tiptap/react';
+import { useEffect } from 'react';
 import StarterKit from '@tiptap/starter-kit';
 import { Button } from '@/components/ui/button';
 import { Bold, Italic, List, ListOrdered, Heading1, Heading2, Quote } from 'lucide-react';
@@ -16,6 +17,13 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       onChange(editor.getHTML());
     },
   });
+
+  // Update editor content when content prop changes
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) return null;
 
