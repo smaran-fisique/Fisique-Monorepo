@@ -13,6 +13,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [StarterKit],
     content,
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm max-w-none p-4 min-h-[300px] focus:outline-none',
+      },
+    },
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -25,10 +30,11 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       const currentContent = editor.getHTML();
       console.log('RichTextEditor: current editor content length:', currentContent.length);
       
-      // Always update if content prop changes, don't compare
+      // Always update if content prop changes
       if (currentContent !== content) {
         console.log('RichTextEditor: updating editor content');
-        editor.commands.setContent(content);
+        // Use transaction to update without triggering onUpdate
+        editor.chain().setContent(content).setTextSelection(0).run();
       } else {
         console.log('RichTextEditor: content is identical, skipping update');
       }
@@ -107,8 +113,7 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
         </Button>
       </div>
       <EditorContent 
-        editor={editor} 
-        className="prose prose-sm max-w-none p-4 min-h-[300px] focus:outline-none"
+        editor={editor}
       />
     </div>
   );
