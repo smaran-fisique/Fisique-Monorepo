@@ -8,17 +8,34 @@ export const Header = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    let ticking = false;
+    let cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-      setScrollProgress(progress);
-      setScrolled(scrollTop > 10);
+    const updateCache = () => {
+      cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const progress = cachedDocHeight > 0 ? (scrollTop / cachedDocHeight) * 100 : 0;
+
+          setScrollProgress(progress);
+          setScrolled(scrollTop > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", updateCache, { passive: true });
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateCache);
+    };
   }, []);
 
   const scrollToSection = (id: string) => {
