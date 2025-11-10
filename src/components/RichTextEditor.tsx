@@ -20,8 +20,15 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
 
   // Update editor content when content prop changes
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
+    if (editor && content) {
+      const currentContent = editor.getHTML();
+      // Normalize whitespace for comparison
+      const normalizedCurrent = currentContent.replace(/\s+/g, ' ').trim();
+      const normalizedNew = content.replace(/\s+/g, ' ').trim();
+      
+      if (normalizedCurrent !== normalizedNew) {
+        editor.commands.setContent(content);
+      }
     }
   }, [content, editor]);
 
