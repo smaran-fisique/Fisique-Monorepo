@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.get-blog-posts]
 verify_jwt = false
+
+[functions.enhance-blog-content]
+verify_jwt = false

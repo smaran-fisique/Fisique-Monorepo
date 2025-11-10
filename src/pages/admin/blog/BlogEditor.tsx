@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { RichTextEditor } from '@/components/RichTextEditor';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { Loader2, ArrowLeft, Sparkles } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -22,6 +23,9 @@ export default function BlogEditor() {
   const { toast } = useToast();
   
   const [loading, setLoading] = useState(false);
+  const [enhancing, setEnhancing] = useState(false);
+  const [showAIInput, setShowAIInput] = useState(false);
+  const [pastedContent, setPastedContent] = useState('');
   const [categories, setCategories] = useState<Category[]>([]);
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
@@ -91,6 +95,65 @@ export default function BlogEditor() {
     }
   };
 
+  const handleEnhanceContent = async () => {
+    if (!pastedContent.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please paste some content first',
+      });
+      return;
+    }
+
+    setEnhancing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('enhance-blog-content', {
+        body: { content: pastedContent }
+      });
+
+      if (error) throw error;
+
+      if (data) {
+        setTitle(data.title || '');
+        setSlug(data.slug || generateSlug(data.title || ''));
+        setExcerpt(data.excerpt || '');
+        setContent(data.content || '');
+        
+        // Find category by name
+        if (data.suggestedCategory) {
+          const foundCategory = categories.find(
+            cat => cat.name.toLowerCase() === data.suggestedCategory.toLowerCase()
+          );
+          if (foundCategory) {
+            setCategoryId(foundCategory.id);
+          }
+        }
+
+        // Set featured image prompt as a placeholder
+        if (data.featuredImagePrompt) {
+          setFeaturedImageUrl(`// AI Suggestion: ${data.featuredImagePrompt}`);
+        }
+
+        setShowAIInput(false);
+        setPastedContent('');
+
+        toast({
+          title: 'Success',
+          description: 'Content enhanced successfully! Review and adjust as needed.',
+        });
+      }
+    } catch (error: any) {
+      console.error('Enhancement error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'Failed to enhance content',
+      });
+    } finally {
+      setEnhancing(false);
+    }
+  };
+
   const handleSave = async () => {
     if (!title || !content || !user) {
       toast({
@@ -149,13 +212,67 @@ export default function BlogEditor() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" onClick={() => navigate('/admin/blog')}>
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
-        </Button>
-        <h1 className="text-3xl font-bold">{id ? 'Edit' : 'New'} Blog Post</h1>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/admin/blog')}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <h1 className="text-3xl font-bold">{id ? 'Edit' : 'New'} Blog Post</h1>
+        </div>
+        {!id && (
+          <Button
+            variant="outline"
+            onClick={() => setShowAIInput(!showAIInput)}
+            className="gap-2"
+          >
+            <Sparkles className="w-4 h-4" />
+            AI Enhance
+          </Button>
+        )}
       </div>
+
+      {showAIInput && (
+        <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-dashed border-primary/20 rounded-lg p-6 space-y-4">
+          <div className="flex items-start gap-3">
+            <Sparkles className="w-5 h-5 text-primary mt-1" />
+            <div className="flex-1 space-y-3">
+              <div>
+                <h3 className="font-semibold text-lg">AI Content Enhancement</h3>
+                <p className="text-sm text-muted-foreground">
+                  Paste your existing blog content below and let AI enhance it, generate SEO-friendly metadata, and fill in all required fields automatically.
+                </p>
+              </div>
+              <Textarea
+                value={pastedContent}
+                onChange={(e) => setPastedContent(e.target.value)}
+                placeholder="Paste your raw blog content here... (can be bullet points, rough draft, or existing article)"
+                className="min-h-[200px] font-mono text-sm"
+              />
+              <div className="flex gap-2">
+                <Button 
+                  onClick={handleEnhanceContent} 
+                  disabled={enhancing || !pastedContent.trim()}
+                  className="gap-2"
+                >
+                  {enhancing && <Loader2 className="w-4 h-4 animate-spin" />}
+                  <Sparkles className="w-4 h-4" />
+                  Enhance with AI
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => {
+                    setShowAIInput(false);
+                    setPastedContent('');
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="bg-card border border-border rounded-lg p-6 space-y-6">
         <div className="space-y-2">

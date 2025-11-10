@@ -122,6 +122,32 @@ export default function Settings() {
           </div>
         </div>
       </div>
+
+      <div className="bg-card border border-border rounded-lg p-6">
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-xl font-semibold">API Keys</h2>
+            <p className="text-sm text-muted-foreground">Manage your API integrations</p>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="gemini-api-key">Gemini API Key</Label>
+            <p className="text-sm text-muted-foreground">
+              Used for AI-powered blog content enhancement
+            </p>
+            <Input
+              id="gemini-api-key"
+              type="password"
+              value="••••••••••••••••"
+              disabled
+              placeholder="Configured in backend"
+            />
+            <p className="text-xs text-muted-foreground">
+              To update this key, please use the backend secrets management
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
