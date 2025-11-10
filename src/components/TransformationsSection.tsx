@@ -51,11 +51,11 @@ const TransformationSlider = ({
 }: TransformationSliderProps) => {
   const [position, setPosition] = useState(50);
   return <figure className="relative border border-border rounded-[18px] overflow-hidden bg-[hsl(220_23%_8%)]">
-      <img src={before} alt="Before transformation" className="w-full h-96 object-cover" />
+      <img src={before} alt="Before transformation" width={660} height={384} className="w-full h-96 object-cover" loading="lazy" />
       <div className="absolute inset-0 overflow-hidden border-r border-white/25" style={{
       width: `${position}%`
     }}>
-        <img src={after} alt="After transformation" className="w-[200%] h-full object-cover" />
+        <img src={after} alt="After transformation" width={1320} height={384} className="w-[200%] h-full object-cover" loading="lazy" />
       </div>
       <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-full max-w-[420px] px-4">
         <input type="range" min="5" max="95" value={position} onChange={e => setPosition(Number(e.target.value))} className="w-full h-1 bg-[hsl(220_23%_12%)] rounded-full appearance-none cursor-pointer

@@ -62,7 +62,7 @@ export const Header = () => {
         <nav className="flex items-center justify-between min-h-[70px]">
           <div className="flex items-center gap-3">
             <a href="/">
-              <img src={fisiquelogo} alt="Fisique Fitness Logo" className="h-10 w-auto cursor-pointer" />
+              <img src={fisiquelogo} alt="Fisique Fitness Logo" width={157} height={40} className="h-10 w-auto cursor-pointer" />
             </a>
           </div>
 

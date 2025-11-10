@@ -15,7 +15,7 @@ export const Footer = () => {
         <div className="grid md:grid-cols-[1fr_1fr_1fr] gap-6 items-start">
           <div>
             <div className="flex items-center gap-3 mb-2.5">
-              <img src={fisiquelogo} alt="Fisique Fitness Logo" className="h-12 w-auto" />
+              <img src={fisiquelogo} alt="Fisique Fitness Logo" width={188} height={48} className="h-12 w-auto" />
             </div>
 
             <p className="text-muted-foreground mb-2">Premium Personal Training Studio - Kokapet</p>

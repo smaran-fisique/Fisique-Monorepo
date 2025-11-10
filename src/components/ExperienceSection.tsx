@@ -58,7 +58,7 @@ export const ExperienceSection = () => {
         <div className="grid md:grid-cols-3 gap-6">
           {experienceData.experiences.map((exp, index) => <figure key={index} className="premium-card rounded-2xl overflow-hidden group">
               <div className="overflow-hidden">
-                <img src={imageMap[exp.image] || exp.image} alt={exp.caption} className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={imageMap[exp.image] || exp.image} alt={exp.caption} width={660} height={495} className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
               </div>
               <figcaption className="p-4 border-t border-border/50 text-foreground/70 text-sm">
                 {exp.caption}
