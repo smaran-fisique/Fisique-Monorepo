@@ -87,9 +87,12 @@ export const ReviewsSection = () => {
                     <div className="flex items-center gap-3 pt-4 border-t border-border/30">
                       {review.profile_photo_url ? (
                         <img
-                          src={review.profile_photo_url}
+                          src={review.profile_photo_url.replace(/=s\d+/, '=s200')}
                           alt={review.author_name}
+                          width={44}
+                          height={44}
                           className="w-11 h-11 rounded-full object-cover ring-2 ring-border/50"
+                          loading="lazy"
                         />
                       ) : (
                         <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 border border-border/50 flex items-center justify-center">
