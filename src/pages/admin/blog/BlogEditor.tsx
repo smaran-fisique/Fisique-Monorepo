@@ -160,11 +160,9 @@ export default function BlogEditor() {
         setShowAIInput(false);
         setPastedContent('');
 
-        // Show success message with AI provider info
-        const aiProvider = data._aiProvider || 'AI';
         toast({
           title: 'Success',
-          description: `Content enhanced with ${aiProvider}! Review and adjust as needed.`,
+          description: 'Content enhanced! Review and adjust as needed.',
         });
       }
     } catch (error: any) {
