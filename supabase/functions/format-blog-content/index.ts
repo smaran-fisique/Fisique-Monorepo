@@ -21,11 +21,11 @@ serve(async (req) => {
       );
     }
 
-    const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
     
-    if (!geminiApiKey) {
+    if (!lovableApiKey) {
       return new Response(
-        JSON.stringify({ error: 'GEMINI_API_KEY is not configured' }),
+        JSON.stringify({ error: 'LOVABLE_API_KEY is not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -51,33 +51,35 @@ serve(async (req) => {
 
     const prompt = settingsData?.value || '';
 
-    console.log('Formatting content with Gemini API...');
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt.replace('{content}', content)
-            }]
-          }],
-          generationConfig: {
-            temperature: 0.3,
-            maxOutputTokens: 8000,
+    console.log('Formatting content with Lovable AI...');
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "user",
+            content: prompt.replace('{content}', content)
           }
-        }),
-      }
-    );
+        ],
+      })
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Gemini API error:', response.status, errorText);
+      console.error('Lovable AI error:', response.status, errorText);
       
-      let errorMessage = 'Gemini API error';
+      let errorMessage = 'Content formatting failed';
       if (response.status === 429) {
-        errorMessage = 'Gemini API rate limit exceeded. Please wait a moment and try again.';
+        errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
+      } else if (response.status === 402) {
+        errorMessage = 'Payment required. Please add credits to your Lovable workspace.';
+      } else if (response.status === 503) {
+        errorMessage = 'AI service temporarily overloaded. Please try again in a moment.';
       }
       
       return new Response(
@@ -87,7 +89,7 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    const formattedContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const formattedContent = data.choices?.[0]?.message?.content;
 
     if (!formattedContent) {
       return new Response(

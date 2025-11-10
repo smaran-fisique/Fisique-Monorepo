@@ -6,34 +6,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-async function enhanceWithGemini(content: string, apiKey: string, prompt: string) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `${prompt}
-
-Raw content to enhance:
-${content}
-
-Return only the JSON object, no other text.`
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 8000,
-        }
-      }),
-    }
-  );
-
-  return response;
-}
-
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -49,11 +21,11 @@ serve(async (req) => {
       );
     }
 
-    const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
     
-    if (!geminiApiKey) {
+    if (!lovableApiKey) {
       return new Response(
-        JSON.stringify({ error: 'GEMINI_API_KEY is not configured' }),
+        JSON.stringify({ error: 'LOVABLE_API_KEY is not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -79,21 +51,41 @@ serve(async (req) => {
 
     const prompt = settingsData?.value || '';
 
-    console.log('Enhancing content with Gemini API...');
-    const response = await enhanceWithGemini(content, geminiApiKey, prompt);
+    console.log('Enhancing content with Lovable AI...');
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${lovableApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "user",
+            content: `${prompt}
+
+Raw content to enhance:
+${content}
+
+Return only the JSON object, no other text.`
+          }
+        ],
+      })
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Gemini API error:', response.status, errorText);
+      console.error('Lovable AI error:', response.status, errorText);
       
-      let errorMessage = 'Gemini API error';
+      let errorMessage = 'AI enhancement failed';
       
       if (response.status === 429) {
-        errorMessage = 'Gemini API rate limit exceeded. Please wait a moment and try again.';
-      } else if (response.status === 401) {
-        errorMessage = 'Invalid Gemini API key. Please check your API key configuration.';
-      } else if (response.status === 400) {
-        errorMessage = 'Invalid request to Gemini API. Please check your content format.';
+        errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
+      } else if (response.status === 402) {
+        errorMessage = 'Payment required. Please add credits to your Lovable workspace.';
+      } else if (response.status === 503) {
+        errorMessage = 'AI service temporarily overloaded. Please try again in a moment.';
       }
       
       return new Response(
@@ -103,14 +95,14 @@ serve(async (req) => {
     }
 
     const data = await response.json();
-    console.log('Gemini response received successfully');
+    console.log('AI response received successfully');
 
-    const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    const generatedText = data.choices?.[0]?.message?.content;
 
     if (!generatedText) {
-      console.error('No text in Gemini response:', JSON.stringify(data));
+      console.error('No text in AI response:', JSON.stringify(data));
       return new Response(
-        JSON.stringify({ error: 'No content generated from Gemini' }),
+        JSON.stringify({ error: 'No content generated from AI' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
