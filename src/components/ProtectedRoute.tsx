@@ -10,8 +10,10 @@ export const ProtectedRoute = ({ requireAdmin = false }: { requireAdmin?: boolea
   useEffect(() => {
     if (!loading && user && requireAdmin) {
       hasRole('admin').then(setIsAdmin);
-    } else if (!requireAdmin) {
+    } else if (!loading && !requireAdmin) {
       setIsAdmin(true);
+    } else if (!loading && !user) {
+      setIsAdmin(false);
     }
   }, [user, loading, requireAdmin, hasRole]);
 
