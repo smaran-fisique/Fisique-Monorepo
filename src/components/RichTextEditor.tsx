@@ -21,13 +21,16 @@ export const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   // Update editor content when content prop changes
   useEffect(() => {
     if (editor && content) {
+      console.log('RichTextEditor: content prop changed, length:', content.length);
       const currentContent = editor.getHTML();
-      // Normalize whitespace for comparison
-      const normalizedCurrent = currentContent.replace(/\s+/g, ' ').trim();
-      const normalizedNew = content.replace(/\s+/g, ' ').trim();
+      console.log('RichTextEditor: current editor content length:', currentContent.length);
       
-      if (normalizedCurrent !== normalizedNew) {
+      // Always update if content prop changes, don't compare
+      if (currentContent !== content) {
+        console.log('RichTextEditor: updating editor content');
         editor.commands.setContent(content);
+      } else {
+        console.log('RichTextEditor: content is identical, skipping update');
       }
     }
   }, [content, editor]);

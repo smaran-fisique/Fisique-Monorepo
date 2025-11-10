@@ -112,6 +112,8 @@ export default function BlogEditor() {
 
     setFormatting(true);
     try {
+      console.log('Original content length:', content.length);
+      
       const { data, error } = await supabase.functions.invoke('format-blog-content', {
         body: { content }
       });
@@ -128,13 +130,22 @@ export default function BlogEditor() {
       }
 
       if (data?.formattedContent) {
-        setContent(data.formattedContent);
+        console.log('Formatted content length:', data.formattedContent.length);
+        console.log('Content changed:', content !== data.formattedContent);
+        
+        // Force a unique update by temporarily clearing content
+        setContent('');
+        setTimeout(() => {
+          setContent(data.formattedContent);
+        }, 0);
+        
         toast({
           title: 'Success',
           description: 'Content formatted successfully!',
         });
       }
     } catch (error: any) {
+      console.error('Format error:', error);
       toast({
         variant: 'destructive',
         title: 'Error',
