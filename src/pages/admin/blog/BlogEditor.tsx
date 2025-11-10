@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { RichTextEditor } from '@/components/RichTextEditor';
-import { Loader2, ArrowLeft, Sparkles } from 'lucide-react';
+import { Loader2, ArrowLeft, Sparkles, Wand2, Upload, ImageIcon } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface Category {
   id: string;
@@ -24,6 +25,8 @@ export default function BlogEditor() {
   
   const [loading, setLoading] = useState(false);
   const [enhancing, setEnhancing] = useState(false);
+  const [formatting, setFormatting] = useState(false);
+  const [generatingImage, setGeneratingImage] = useState(false);
   const [showAIInput, setShowAIInput] = useState(false);
   const [pastedContent, setPastedContent] = useState('');
   const [categories, setCategories] = useState<Category[]>([]);
@@ -33,6 +36,8 @@ export default function BlogEditor() {
   const [content, setContent] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [featuredImageUrl, setFeaturedImageUrl] = useState('');
+  const [imagePrompt, setImagePrompt] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [status, setStatus] = useState<'draft' | 'published'>('draft');
 
   useEffect(() => {
@@ -95,6 +100,168 @@ export default function BlogEditor() {
     }
   };
 
+  const handleFormatContent = async () => {
+    if (!content.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No content to format',
+      });
+      return;
+    }
+
+    setFormatting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('format-blog-content', {
+        body: { content }
+      });
+
+      if (error) throw error;
+
+      if (data?.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Formatting Failed',
+          description: data.error,
+        });
+        return;
+      }
+
+      if (data?.formattedContent) {
+        setContent(data.formattedContent);
+        toast({
+          title: 'Success',
+          description: 'Content formatted successfully!',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'Failed to format content',
+      });
+    } finally {
+      setFormatting(false);
+    }
+  };
+
+  const handleGenerateImage = async () => {
+    if (!imagePrompt.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please enter an image prompt',
+      });
+      return;
+    }
+
+    setGeneratingImage(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-blog-image', {
+        body: { prompt: imagePrompt }
+      });
+
+      if (error) throw error;
+
+      if (data?.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Generation Failed',
+          description: data.error,
+        });
+        return;
+      }
+
+      if (data?.imageUrl) {
+        // Upload the base64 image to storage
+        const base64Data = data.imageUrl.split(',')[1];
+        const byteCharacters = atob(base64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'image/png' });
+        
+        const fileName = `blog-${Date.now()}.png`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('public-media')
+          .upload(`blog-images/${fileName}`, blob, {
+            contentType: 'image/png',
+            upsert: false
+          });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('public-media')
+          .getPublicUrl(`blog-images/${fileName}`);
+
+        setFeaturedImageUrl(publicUrl);
+        setImagePrompt('');
+        
+        toast({
+          title: 'Success',
+          description: 'Image generated and uploaded successfully!',
+        });
+      }
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'Failed to generate image',
+      });
+    } finally {
+      setGeneratingImage(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please upload an image file',
+      });
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const fileName = `blog-${Date.now()}-${file.name}`;
+      const { data, error } = await supabase.storage
+        .from('public-media')
+        .upload(`blog-images/${fileName}`, file, {
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('public-media')
+        .getPublicUrl(`blog-images/${fileName}`);
+
+      setFeaturedImageUrl(publicUrl);
+      
+      toast({
+        title: 'Success',
+        description: 'Image uploaded successfully!',
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'Failed to upload image',
+      });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleEnhanceContent = async () => {
     if (!pastedContent.trim()) {
       toast({
@@ -152,9 +319,9 @@ export default function BlogEditor() {
           }
         }
 
-        // Set featured image prompt as a placeholder
+        // Set featured image prompt suggestion
         if (data.featuredImagePrompt) {
-          setFeaturedImageUrl(`// AI Suggestion: ${data.featuredImagePrompt}`);
+          setImagePrompt(data.featuredImagePrompt);
         }
 
         setShowAIInput(false);
@@ -360,17 +527,80 @@ export default function BlogEditor() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="featuredImage">Featured Image URL</Label>
-          <Input
-            id="featuredImage"
-            value={featuredImageUrl}
-            onChange={(e) => setFeaturedImageUrl(e.target.value)}
-            placeholder="https://example.com/image.jpg"
-          />
+          <Label>Featured Image</Label>
+          <Tabs defaultValue="upload" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="upload">
+                <Upload className="w-4 h-4 mr-2" />
+                Upload
+              </TabsTrigger>
+              <TabsTrigger value="generate">
+                <Sparkles className="w-4 h-4 mr-2" />
+                AI Generate
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="upload" className="space-y-3">
+              <div className="flex items-center gap-3">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  disabled={uploadingImage}
+                  className="flex-1"
+                />
+                {uploadingImage && <Loader2 className="w-4 h-4 animate-spin" />}
+              </div>
+              {featuredImageUrl && (
+                <div className="relative w-full h-48 rounded-lg overflow-hidden border border-border">
+                  <img src={featuredImageUrl} alt="Preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </TabsContent>
+            
+            <TabsContent value="generate" className="space-y-3">
+              <div className="space-y-2">
+                <Textarea
+                  value={imagePrompt}
+                  onChange={(e) => setImagePrompt(e.target.value)}
+                  placeholder="Describe the image you want to generate..."
+                  className="min-h-[100px]"
+                  disabled={generatingImage}
+                />
+                <Button 
+                  onClick={handleGenerateImage} 
+                  disabled={generatingImage || !imagePrompt.trim()}
+                  className="w-full gap-2"
+                >
+                  {generatingImage && <Loader2 className="w-4 h-4 animate-spin" />}
+                  <ImageIcon className="w-4 h-4" />
+                  Generate Image with AI
+                </Button>
+              </div>
+              {featuredImageUrl && (
+                <div className="relative w-full h-48 rounded-lg overflow-hidden border border-border">
+                  <img src={featuredImageUrl} alt="Preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
         </div>
 
         <div className="space-y-2">
-          <Label>Content</Label>
+          <div className="flex items-center justify-between">
+            <Label>Content</Label>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleFormatContent}
+              disabled={formatting || !content.trim()}
+              className="gap-2"
+            >
+              {formatting && <Loader2 className="w-4 h-4 animate-spin" />}
+              <Wand2 className="w-4 h-4" />
+              Magic Format
+            </Button>
+          </div>
           <RichTextEditor content={content} onChange={setContent} />
         </div>
 
