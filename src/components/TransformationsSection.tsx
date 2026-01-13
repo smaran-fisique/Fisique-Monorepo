@@ -35,9 +35,11 @@ export const TransformationsSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {transformationsData.transformations.map((transformation, index) => <TransformationSlider key={index} before={transformation.before} after={transformation.after} />)}
-        </div>
+        {transformationsData.transformations && transformationsData.transformations.length > 0 && (
+          <div className="grid md:grid-cols-2 gap-6">
+            {transformationsData.transformations.map((transformation, index) => <TransformationSlider key={index} before={transformation.before} after={transformation.after} />)}
+          </div>
+        )}
       </div>
     </section>;
 };
