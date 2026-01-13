@@ -1,4 +1,4 @@
-import { Users, Salad, Waves, type LucideIcon } from "lucide-react";
+import { Users, Salad, Waves, Lock, Dumbbell, Flame, type LucideIcon } from "lucide-react";
 import { useSection } from "@/hooks/useSection";
 interface Feature {
   icon: string;
@@ -13,7 +13,10 @@ interface WhyData {
 const iconMap: Record<string, LucideIcon> = {
   Users,
   Salad,
-  Waves
+  Waves,
+  Lock,
+  Dumbbell,
+  Flame
 };
 const defaultWhyData: WhyData = {
   title: "Why Fisique",
