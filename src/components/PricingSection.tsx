@@ -7,6 +7,7 @@ interface PricingTier {
   description: string;
   features: string[];
   whatsappMessage: string;
+  price?: string;
 }
 interface PricingData {
   title: string;
@@ -59,9 +60,12 @@ export const PricingSection = () => {
           </p>
         </div>
 
-        <div className={`grid gap-6 ${pricingData.tiers.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
+        <div className={`grid gap-6 ${pricingData.tiers.length === 1 ? 'max-w-lg mx-auto' : pricingData.tiers.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
           {pricingData.tiers.map((tier, index) => <div key={index} className="premium-card p-8 rounded-2xl relative">
-              <h3 className="text-2xl font-bold mb-3 text-foreground">{tier.name}</h3>
+              <h3 className="text-2xl font-bold mb-2 text-foreground">{tier.name}</h3>
+              {tier.price && (
+                <p className="text-3xl font-bold text-accent mb-4">{tier.price}</p>
+              )}
               <p className="text-muted-foreground mb-6 text-base">{tier.description}</p>
               
               <ul className="space-y-3 mb-8">
