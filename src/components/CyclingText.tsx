@@ -14,12 +14,10 @@ export const CyclingText = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
 
-  // Handle empty words array
-  if (words.length === 0) {
-    return null;
-  }
-
   useEffect(() => {
+    // Don't run if no words
+    if (words.length === 0) return;
+
     const timer = setInterval(() => {
       // Start exit animation
       setIsExiting(true);
@@ -34,6 +32,11 @@ export const CyclingText = ({
 
     return () => clearInterval(timer);
   }, [words.length, intervalMs]);
+
+  // Handle empty words array - moved AFTER hooks
+  if (words.length === 0) {
+    return null;
+  }
 
   const currentWord = words[currentIndex];
 
