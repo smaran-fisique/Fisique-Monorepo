@@ -68,7 +68,7 @@ export const Hero = () => {
               className="border-border hover:bg-secondary text-foreground font-semibold" 
               asChild
             >
-              <a href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20set%20up%20a%20PT%20Trial!" target="_blank" rel="noopener noreferrer">
+              <a href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="w-4 h-4 mr-2" />
                 WhatsApp Us
               </a>
