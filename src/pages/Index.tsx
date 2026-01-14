@@ -1,22 +1,21 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { WhySection } from "@/components/WhySection";
-import { ProgramsSection } from "@/components/ProgramsSection";
-import { ExperienceSection } from "@/components/ExperienceSection";
-
-import { PricingSection } from "@/components/PricingSection";
-import { ReviewsSection } from "@/components/ReviewsSection";
+import { ProblemSection } from "@/components/ProblemSection";
+import { WhatIsFisiqueSection } from "@/components/WhatIsFisiqueSection";
+import { TrainingOptionsSection } from "@/components/TrainingOptionsSection";
+import { StudioProvidesSection } from "@/components/StudioProvidesSection";
+import { WhatWeDontDoSection } from "@/components/WhatWeDontDoSection";
+import { WhoIsForSection } from "@/components/WhoIsForSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
-import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
-import { OfferBanner } from "@/components/OfferBanner";
 import { Helmet } from "react-helmet-async";
 import { useSEO } from "@/hooks/useSEO";
+
 const Index = () => {
-  const {
-    seo
-  } = useSEO('/');
-  return <>
+  const { seo } = useSEO('/');
+  
+  return (
+    <>
       <Helmet>
         <title>{seo.title}</title>
         <meta name="description" content={seo.description} />
@@ -28,20 +27,20 @@ const Index = () => {
         <meta property="og:type" content="website" />
       </Helmet>
       
-      <OfferBanner />
       <Header />
       <main>
         <Hero />
-        <WhySection />
-        <ProgramsSection />
-        <ExperienceSection />
-        
-        <PricingSection />
-        <ReviewsSection />
+        <ProblemSection />
+        <WhatIsFisiqueSection />
+        <TrainingOptionsSection />
+        <StudioProvidesSection />
+        <WhatWeDontDoSection />
+        <WhoIsForSection />
         <FinalCTA />
       </main>
       <Footer />
-      <FloatingWhatsApp />
-    </>;
+    </>
+  );
 };
+
 export default Index;
