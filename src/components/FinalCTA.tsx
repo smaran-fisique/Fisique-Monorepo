@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 
 export const FinalCTA = () => {
   return (
@@ -47,9 +47,9 @@ export const FinalCTA = () => {
             className="border-border hover:bg-secondary text-foreground font-semibold" 
             asChild
           >
-            <a href="tel:+917671959610">
-              <Phone className="w-4 h-4 mr-2" />
-              Call 7671959610
+            <a href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20set%20up%20a%20PT%20Trial!" target="_blank" rel="noopener noreferrer">
+              <MessageCircle className="w-4 h-4 mr-2" />
+              WhatsApp Us
             </a>
           </Button>
         </div>
