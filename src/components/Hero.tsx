@@ -25,7 +25,7 @@ export const Hero = () => {
           
           {/* Eyebrow */}
           <span className="text-accent font-medium tracking-[0.15em] text-sm uppercase">
-            Fisique Fitness
+            Kokapet's Only Private Training Studio
           </span>
           
           {/* Main Headline */}
