@@ -1,28 +1,18 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, LogIn } from "lucide-react";
+import { Phone } from "lucide-react";
 import fisiquelogo from "@/assets/fisique-logo.webp";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     let ticking = false;
-    let cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-    const updateCache = () => {
-      cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
-    };
 
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const scrollTop = window.scrollY;
-          const progress = cachedDocHeight > 0 ? (scrollTop / cachedDocHeight) * 100 : 0;
-
-          setScrollProgress(progress);
-          setScrolled(scrollTop > 10);
+          setScrolled(window.scrollY > 10);
           ticking = false;
         });
         ticking = true;
@@ -30,100 +20,56 @@ export const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", updateCache, { passive: true });
     
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", updateCache);
     };
   }, []);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-header shadow-xl" : "glass-header"
+        scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
-      style={{
-        background: 'linear-gradient(180deg, hsl(var(--background) / 0.95) 0%, hsl(var(--background) / 0.7) 70%, transparent 100%)',
-        backdropFilter: 'saturate(150%) blur(12px)'
-      }}
     >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(circle at 20% 50%, hsl(186 68% 45% / 0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, hsl(186 100% 76% / 0.1) 0%, transparent 50%)',
-          }}
-        />
-      </div>
-
-      <div
-        className="absolute left-0 right-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-accent-glow opacity-25 transition-all duration-300"
-        style={{
-          background: `linear-gradient(90deg, hsl(var(--accent)) ${scrollProgress}%, transparent ${scrollProgress}%)`,
-        }}
-      />
-
-      {/* Extended bottom fade for seamless merge */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-background/20 via-transparent to-transparent pointer-events-none" />
-
-      <div className="container-custom relative z-10">
+      <div className="container-custom">
         <nav className="flex items-center justify-between min-h-[70px]">
+          {/* Logo */}
+          <a href="/">
+            <img 
+              src={fisiquelogo} 
+              alt="Fisique Fitness Logo" 
+              width={157} 
+              height={40} 
+              className="h-10 w-auto" 
+            />
+          </a>
+
+          {/* Right side - minimal nav */}
           <div className="flex items-center gap-3">
-            <a href="/">
-              <img src={fisiquelogo} alt="Fisique Fitness Logo" width={157} height={40} className="h-10 w-auto cursor-pointer" />
-            </a>
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            {[
-              { id: "programs", label: "Programs" },
-              { id: "pricing", label: "Pricing" },
-              { id: "contact", label: "Contact" },
-            ].map(({ id, label }) => (
-              <button
-                key={id}
-                onClick={() => scrollToSection(id)}
-                className="px-3.5 py-2 rounded-lg opacity-90 hover:bg-[hsl(220_23%_8%)] hover:text-[hsl(var(--accent-glow))] transition-all duration-200 relative group"
-              >
-                {label}
-                <span className="absolute left-3 right-3 bottom-1.5 h-0.5 bg-gradient-to-r from-transparent via-[hsl(var(--accent-glow))] to-transparent opacity-0 scale-x-50 group-hover:opacity-90 group-hover:scale-x-100 transition-all duration-300" />
-              </button>
-            ))}
-
-            <Button
-              asChild
-              variant="outline"
+            <Button 
+              asChild 
+              variant="ghost" 
               size="sm"
-              className="ml-2 border-accent/30 hover:bg-accent/10 hover:border-accent"
+              className="text-muted-foreground hover:text-foreground"
             >
-              <a href="https://member.fisique.fitness" target="_blank" rel="noopener noreferrer">
+              <a 
+                href="https://member.fisique.fitness" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
                 Member Login
               </a>
             </Button>
-          </div>
-
-          <div className="flex md:hidden items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => scrollToSection("contact")}>
-              <MessageCircle className="w-4 h-4" />
-            </Button>
-
-            <Button asChild variant="ghost" size="sm">
-              <a
-                href="https://member.fisique.fitness"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Member Portal Login"
-              >
-                <LogIn className="w-4 h-4" />
+            
+            <Button 
+              asChild 
+              size="sm"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground"
+            >
+              <a href="tel:+917671959610">
+                <Phone className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Call Us</span>
               </a>
             </Button>
           </div>
