@@ -106,16 +106,19 @@ export const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 md:pt-4">
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-glow hover:shadow-glow-hover transition-all" asChild>
               <a href={`https://wa.me/${whatsappNumber}?text=${trialMessage}`}>
+                <MessageCircle className="w-4 h-4 mr-2" />
                 {heroData.ctaText}
               </a>
             </Button>
             
-            <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/15 font-semibold backdrop-blur-sm" asChild>
-              <a href={`https://wa.me/${whatsappNumber}?text=${conciergeMessage}`}>
-                <MessageCircle className="w-4 h-4 mr-2" />
-                {heroData.secondaryCtaText}
-              </a>
-            </Button>
+            {heroData.secondaryCtaText && (
+              <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/15 font-semibold backdrop-blur-sm" asChild>
+                <a href={`https://wa.me/${whatsappNumber}?text=${conciergeMessage}`}>
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  {heroData.secondaryCtaText}
+                </a>
+              </Button>
+            )}
           </div>
           
         </div>
