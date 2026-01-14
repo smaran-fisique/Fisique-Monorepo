@@ -36,7 +36,7 @@ export const Hero = () => {
           {/* Sub-headline */}
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             Train by yourself or with your own coach
-            <br className="hidden sm:block" />
+            <br className="hidden sm:block" />{" "}
             in a focused, distraction-free environment.
           </p>
           
