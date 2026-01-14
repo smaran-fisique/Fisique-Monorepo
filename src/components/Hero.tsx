@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, MessageCircle } from "lucide-react";
 import heroGym from "@/assets/hero-gym-optimized.webp";
 
 export const Hero = () => {
@@ -68,9 +68,9 @@ export const Hero = () => {
               className="border-border hover:bg-secondary text-foreground font-semibold" 
               asChild
             >
-              <a href="tel:+917671959610">
-                <Phone className="w-4 h-4 mr-2" />
-                Call 7671959610
+              <a href="https://wa.me/917671959610" target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="w-4 h-4 mr-2" />
+                WhatsApp Us
               </a>
             </Button>
           </div>
