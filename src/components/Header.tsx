@@ -98,10 +98,16 @@ export const Header = () => {
                 href="/blog-posts/" 
                 className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Posts
+                Blog
+              </a>
+              <a 
+                href="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" 
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Contact
               </a>
               
-              <Button 
+              <Button
                 asChild 
                 size="sm"
                 className="ml-2 bg-accent hover:bg-accent/90 text-accent-foreground"
@@ -175,10 +181,17 @@ export const Header = () => {
             className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setMenuOpen(false)}
           >
-            Posts
+            Blog
+          </a>
+          <a 
+            href="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" 
+            className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Contact
           </a>
           
-          <Button 
+          <Button
             asChild 
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
           >

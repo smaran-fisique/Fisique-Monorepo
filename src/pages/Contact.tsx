@@ -1,11 +1,27 @@
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Mail, MessageCircle, Clock } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { MapPin, Phone, Mail, MessageCircle, Clock, Send } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 
 const Contact = () => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim()) return;
+    
+    const message = encodeURIComponent(
+      `Hi! I'm ${name.trim()}, phone: ${phone.trim()}. I'd like to know more about Fisique Fitness.`
+    );
+    window.open(`https://wa.me/919515469444?text=${message}`, "_blank");
+  };
+
   return (
     <>
       <Helmet>
@@ -65,18 +81,16 @@ const Contact = () => {
                       </div>
                     </div>
                     
-                    <a 
-                      href="mailto:hello@fisique.fitness"
-                      className="flex items-start gap-4 text-muted-foreground hover:text-accent transition-colors group"
-                    >
-                      <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/20 transition-colors">
+                    <div className="flex items-start gap-4 text-muted-foreground">
+                      <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
                         <Mail className="w-5 h-5 text-accent" />
                       </div>
                       <div>
                         <p className="font-medium text-foreground">Email</p>
-                        <p>hello@fisique.fitness</p>
+                        <a href="mailto:hello@fisique.fitness" className="hover:text-accent transition-colors block">hello@fisique.fitness</a>
+                        <a href="mailto:smaran@fisique.fitness" className="hover:text-accent transition-colors block">smaran@fisique.fitness</a>
                       </div>
-                    </a>
+                    </div>
                     
                     <div className="flex items-start gap-4 text-muted-foreground">
                       <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
@@ -90,19 +104,54 @@ const Contact = () => {
                   </div>
                 </div>
                 
-                {/* CTA Card */}
-                <div className="space-y-8 p-8 rounded-2xl bg-accent/5 border border-accent/20">
-                  <h2 className="text-2xl font-bold text-foreground">Start Your Journey</h2>
+                {/* Quick Inquiry Form */}
+                <div className="space-y-6 p-8 rounded-2xl bg-accent/5 border border-accent/20">
+                  <h2 className="text-2xl font-bold text-foreground">Quick Inquiry</h2>
                   
                   <p className="text-muted-foreground leading-relaxed">
-                    Whether you're interested in personal training, gym membership, or have questions 
-                    about our facilities - reach out on WhatsApp for the fastest response.
+                    Leave your details and we'll get back to you on WhatsApp.
                   </p>
                   
-                  <div className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Your Name</Label>
+                      <Input
+                        id="name"
+                        type="text"
+                        placeholder="Enter your name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder="Enter your phone number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
+                      />
+                    </div>
+                    
                     <Button 
+                      type="submit"
                       size="lg"
                       className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+                    >
+                      <Send className="w-5 h-5 mr-2" />
+                      Submit Inquiry
+                    </Button>
+                  </form>
+                  
+                  <div className="pt-4 border-t border-border/50 space-y-3">
+                    <Button 
+                      size="lg"
+                      variant="outline"
+                      className="w-full border-border hover:bg-secondary text-foreground"
                       asChild
                     >
                       <a 
@@ -111,7 +160,7 @@ const Contact = () => {
                         rel="noopener noreferrer"
                       >
                         <MessageCircle className="w-5 h-5 mr-2" />
-                        WhatsApp Us
+                        WhatsApp Us Directly
                       </a>
                     </Button>
                     

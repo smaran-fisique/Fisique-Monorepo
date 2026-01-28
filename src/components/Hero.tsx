@@ -77,6 +77,17 @@ export const Hero = () => {
             </Button>
           </div>
           
+          {/* Click-to-call */}
+          <p className="text-muted-foreground text-sm pt-2">
+            or call{" "}
+            <a 
+              href="tel:+919515469444" 
+              className="text-accent hover:underline font-medium"
+            >
+              +91-9515469444
+            </a>
+          </p>
+          
         </div>
       </div>
     </section>
