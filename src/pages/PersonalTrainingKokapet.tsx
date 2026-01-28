@@ -46,7 +46,7 @@ const PersonalTrainingKokapet = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-20 relative overflow-hidden">
+        <section className="pt-24 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden px-4">
           <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent" />
           <div className="container-custom relative">
             <div className="max-w-4xl mx-auto text-center">
@@ -54,7 +54,7 @@ const PersonalTrainingKokapet = () => {
                 <span className="text-sm font-medium text-accent">90-Day Transformation Programs</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 Personal Training{" "}
                 <span className="text-primary">Kokapet</span>
               </h1>
@@ -87,7 +87,7 @@ const PersonalTrainingKokapet = () => {
         </section>
 
         {/* What's Included */}
-        <section className="py-20 border-t border-border">
+        <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               What's Included in Personal Training
@@ -114,7 +114,7 @@ const PersonalTrainingKokapet = () => {
         </section>
 
         {/* Our Approach */}
-        <section className="py-20 bg-muted/30 border-t border-border">
+        <section className="py-16 sm:py-20 bg-muted/30 border-t border-border px-4">
           <div className="container-custom">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -217,7 +217,7 @@ const PersonalTrainingKokapet = () => {
         </section>
 
         {/* Before/After Placeholder */}
-        <section className="py-20 border-t border-border">
+        <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               Real Transformations
@@ -260,7 +260,7 @@ const PersonalTrainingKokapet = () => {
         />
 
         {/* Final CTA */}
-        <section className="py-20 bg-primary/5 border-t border-border">
+        <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
           <div className="container-custom text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
               Ready to Transform?
