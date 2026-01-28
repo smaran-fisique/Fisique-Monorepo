@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet-async";
 export const LocalBusinessSchema = () => {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://fisique.fitness",
+    "@type": ["LocalBusiness", "HealthClub", "SportsActivityLocation"],
+    "@id": "https://fisique.fitness/#localbusiness",
+    "additionalType": "https://schema.org/ExerciseGym",
     "name": "Fisique Fitness",
     "description": "Premium personal training gym in Kokapet, Hyderabad offering one-on-one coaching, nutrition guidance, and sauna recovery.",
     "url": "https://fisique.fitness",
@@ -12,26 +13,73 @@ export const LocalBusinessSchema = () => {
     "email": "hello@fisique.fitness",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "4th Floor, Above Pulla reddy Sweets, Avant Cedar",
+      "streetAddress": "4th Floor, Above Pulla Reddy Sweets, Avant Cedar",
       "addressLocality": "Kokapet",
       "addressRegion": "Hyderabad",
+      "postalCode": "500075",
       "addressCountry": "IN"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "17.4156",
-      "longitude": "78.3558"
+      "latitude": "17.3871",
+      "longitude": "78.3401"
     },
     "image": "https://fisique.fitness/fisique-logo.webp",
     "priceRange": "₹₹₹",
+    "currenciesAccepted": "INR",
+    "paymentAccepted": "Cash, Credit Card, UPI, Bank Transfer",
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        "opens": "06:00",
+        "opens": "05:30",
         "closes": "22:00"
       }
     ],
+    "amenityFeature": [
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Personal Training",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Sauna",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Nutrition Counseling",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Strength Training Equipment",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Cardio Equipment",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Locker Rooms",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "Air Conditioning",
+        "value": true
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "91",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "sameAs": [
       "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
     ],
@@ -44,7 +92,7 @@ export const LocalBusinessSchema = () => {
           "itemOffered": {
             "@type": "Service",
             "name": "Personal Training",
-            "description": "One-on-one coaching with customized nutrition plans"
+            "description": "One-on-one coaching with customized nutrition plans and 90-day transformation programs"
           }
         },
         {
@@ -52,11 +100,47 @@ export const LocalBusinessSchema = () => {
           "itemOffered": {
             "@type": "Service",
             "name": "Gym Membership",
-            "description": "Premium equipment access with sauna facilities"
+            "description": "Premium equipment access with flexible 1, 3, 6, and 12-month plans"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Sauna Recovery",
+            "description": "On-site sauna for post-workout muscle recovery and wellness"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Nutrition Counseling",
+            "description": "Personalized diet plans and meal guidance"
           }
         }
       ]
-    }
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Kokapet"
+      },
+      {
+        "@type": "City",
+        "name": "Financial District"
+      },
+      {
+        "@type": "City",
+        "name": "Narsingi"
+      },
+      {
+        "@type": "City",
+        "name": "Gandipet"
+      }
+    ],
+    "isAccessibleForFree": false,
+    "publicAccess": true
   };
 
   return (

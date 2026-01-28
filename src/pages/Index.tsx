@@ -10,6 +10,8 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
+import { OrganizationSchema } from "@/components/OrganizationSchema";
+import { WebSiteSchema } from "@/components/WebSiteSchema";
 import { Helmet } from "react-helmet-async";
 import { useSEO } from "@/hooks/useSEO";
 
@@ -27,7 +29,10 @@ const Index = () => {
         <meta property="og:title" content={seo.title} />
         <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://fisique.fitness/" />
       </Helmet>
+      <OrganizationSchema />
+      <WebSiteSchema />
       <LocalBusinessSchema />
       
       <Header />
