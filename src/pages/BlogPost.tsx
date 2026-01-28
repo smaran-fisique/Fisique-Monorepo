@@ -6,6 +6,9 @@ import { Footer } from '@/components/Footer';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { Button } from '@/components/ui/button';
 import { Loader2, ArrowLeft, Calendar } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { BlogPostSchema } from '@/components/BlogPostSchema';
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
 
 interface BlogPost {
   title: string;
@@ -13,6 +16,7 @@ interface BlogPost {
   excerpt: string | null;
   featured_image_url: string | null;
   published_at: string;
+  updated_at: string | null;
   blog_categories: { name: string } | null;
 }
 
@@ -31,7 +35,7 @@ export default function BlogPost() {
     try {
       const { data, error } = await supabase
         .from('blog_posts')
-        .select('title, content, excerpt, featured_image_url, published_at, blog_categories(name)')
+        .select('title, content, excerpt, featured_image_url, published_at, updated_at, blog_categories(name)')
         .eq('slug', slug)
         .eq('status', 'published')
         .single();
@@ -70,8 +74,36 @@ export default function BlogPost() {
     );
   }
 
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://fisique.fitness/' },
+    { name: 'Blog', url: 'https://fisique.fitness/blog-posts/' },
+    { name: post.title }
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>{post.title} | Fisique Fitness Blog</title>
+        <meta name="description" content={post.excerpt || `Read ${post.title} on the Fisique Fitness blog.`} />
+        <link rel="canonical" href={`https://fisique.fitness/blog/${slug}`} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt || `Read ${post.title} on the Fisique Fitness blog.`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://fisique.fitness/blog/${slug}`} />
+        {post.featured_image_url && <meta property="og:image" content={post.featured_image_url} />}
+        <meta property="article:published_time" content={post.published_at} />
+        {post.updated_at && <meta property="article:modified_time" content={post.updated_at} />}
+      </Helmet>
+      <BlogPostSchema
+        title={post.title}
+        excerpt={post.excerpt || ''}
+        slug={slug || ''}
+        featuredImage={post.featured_image_url || undefined}
+        publishedAt={post.published_at}
+        updatedAt={post.updated_at || undefined}
+      />
+      <BreadcrumbSchema items={breadcrumbItems} />
+      
       <Header />
       
       <main className="flex-1 pt-24 pb-16">
@@ -92,6 +124,8 @@ export default function BlogPost() {
               />
             </div>
           )}
+
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
 
           <div className="mb-6 flex items-center gap-3 text-sm text-muted-foreground">
             {post.blog_categories && (
