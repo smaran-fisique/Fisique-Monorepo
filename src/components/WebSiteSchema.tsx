@@ -4,12 +4,12 @@ export const WebSiteSchema = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://fisiquefitness.com/#website",
+    "@id": "https://fisique.fitness/#website",
     "name": "Fisique Fitness",
-    "url": "https://fisiquefitness.com",
+    "url": "https://fisique.fitness",
     "description": "Premium personal training gym in Kokapet, Hyderabad",
     "publisher": {
-      "@id": "https://fisiquefitness.com/#organization"
+      "@id": "https://fisique.fitness/#organization"
     },
     "inLanguage": "en-IN"
   };

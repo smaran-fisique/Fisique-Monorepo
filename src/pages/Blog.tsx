@@ -51,7 +51,7 @@ export default function Blog() {
   );
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Blog' }
   ];
 
@@ -60,11 +60,11 @@ export default function Blog() {
       <Helmet>
         <title>Fitness Blog | Fisique Fitness - Kokapet, Hyderabad</title>
         <meta name="description" content="Tips, guides, and inspiration for your fitness journey. Expert advice on personal training, nutrition, and wellness from Fisique Fitness in Kokapet." />
-        <link rel="canonical" href="https://fisiquefitness.com/blog-posts/" />
+        <link rel="canonical" href="https://fisique.fitness/blog-posts/" />
         <meta property="og:title" content="Fitness Blog | Fisique Fitness" />
         <meta property="og:description" content="Tips, guides, and inspiration for your fitness journey from Kokapet's premium personal training studio." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisiquefitness.com/blog-posts/" />
+        <meta property="og:url" content="https://fisique.fitness/blog-posts/" />
       </Helmet>
       <BlogListSchema posts={posts} />
       <BreadcrumbSchema items={breadcrumbItems} />

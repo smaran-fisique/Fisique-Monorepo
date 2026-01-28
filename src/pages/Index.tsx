@@ -32,11 +32,11 @@ const Index = () => {
         <meta name="description" content={seo.description} />
         {seo.keywords && <meta name="keywords" content={seo.keywords} />}
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
-        <link rel="canonical" href="https://fisiquefitness.com/" />
+        <link rel="canonical" href="https://fisique.fitness/" />
         <meta property="og:title" content={seo.title} />
         <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisiquefitness.com/" />
+        <meta property="og:url" content="https://fisique.fitness/" />
       </Helmet>
       <OrganizationSchema />
       <WebSiteSchema />
