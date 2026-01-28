@@ -5,14 +5,17 @@ import heroGym from "@/assets/hero-gym-optimized.webp";
 export const Hero = () => {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image - LCP optimized */}
       <div className="absolute inset-0">
         <img 
           src={heroGym} 
           alt="Private training studio interior" 
           className="w-full h-full object-cover opacity-30" 
-          loading="eager" 
-          fetchPriority="high" 
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          width={1920}
+          height={1080}
         />
       </div>
       
