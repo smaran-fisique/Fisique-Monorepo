@@ -30,6 +30,9 @@ import Privacy from "./pages/legal/Privacy";
 import Refund from "./pages/legal/Refund";
 import Shipping from "./pages/legal/Shipping";
 import Contact from "./pages/Contact";
+import KokapetGym from "./pages/KokapetGym";
+import PersonalTrainingKokapet from "./pages/PersonalTrainingKokapet";
+import GymMembershipKokapet from "./pages/GymMembershipKokapet";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +57,9 @@ const App = () => (
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/refund" element={<Refund />} />
               <Route path="/shipping" element={<Shipping />} />
+              <Route path="/kokapet-gym" element={<KokapetGym />} />
+              <Route path="/personal-training-kokapet" element={<PersonalTrainingKokapet />} />
+              <Route path="/gym-membership-kokapet" element={<GymMembershipKokapet />} />
               <Route path="/admin/login" element={<Login />} />
               
               {/* Protected Admin Routes */}

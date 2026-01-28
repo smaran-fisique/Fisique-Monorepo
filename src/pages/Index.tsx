@@ -6,6 +6,7 @@ import { StudioProvidesSection } from "@/components/StudioProvidesSection";
 import { MembershipPlansSection } from "@/components/MembershipPlansSection";
 import { TrainingOptionsSubSection } from "@/components/TrainingOptionsSubSection";
 import { WhoIsForSection } from "@/components/WhoIsForSection";
+import { ReviewsSection } from "@/components/ReviewsSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
@@ -38,6 +39,7 @@ const Index = () => {
         <MembershipPlansSection />
         <TrainingOptionsSubSection />
         <WhoIsForSection />
+        <ReviewsSection />
         <FinalCTA />
       </main>
       <Footer />
