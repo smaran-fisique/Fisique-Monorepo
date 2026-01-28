@@ -1,189 +1,263 @@
 
+# Phases 1-3 Implementation + Blog Migration
 
-# Fisique Fitness: Prioritized Hybrid Model + SEO Preservation
-
-## Priority Framework
-
-| Priority | Model | Where to Feature |
-|----------|-------|------------------|
-| **P0** | Personal Training | Hero, About, Core Offerings, Membership (primary) |
-| **P1** | Gym Membership | Hero, Membership Plans, Studio Features |
-| **P2** | Freelance/BYOT | Sub-section mention, Membership tier note |
+## Executive Summary
+This plan implements the three-phase SEO strategy from our marketing analysis and migrates all 7 blogs from the current fisique.fitness site to the new platform.
 
 ---
 
-## Phase 1: Homepage Structure
+## Phase 1: Local SEO Dominance
 
-### 1.1 Hero Section
-**File:** `src/components/Hero.tsx`
+### 1.1 Create `/kokapet-gym` Landing Page
+**File:** `src/pages/KokapetGym.tsx`
 
-**Changes:**
-- H1: "Elevate Your Fitness Journey in Kokapet" (SEO requirement)
-- Subtitle: "Experience personalized training tailored to your goals. Expert coaches. Premium equipment. Results-driven programs."
-- Eyebrow: "Kokapet, Hyderabad" (already done)
-- NO mention of freelancing here
-- CTAs: "Start Your Journey" (WhatsApp) + "Visit the Studio" (Maps)
+**SEO-Optimized Structure:**
+- Title: "Premium Personal Gym Kokapet | Fisique Fitness Hyderabad"
+- H1: "Premium Personal Gym Kokapet"
+- Content sections:
+  - Hero with location context and 4.9-star rating badge
+  - About the Kokapet location (800+ words with natural keyword density)
+  - Services overview (links to main offerings)
+  - Google Reviews carousel (reuse existing component)
+  - FAQ section with schema markup
+  - Google Maps embed
+  - Free Trial CTA
 
-### 1.2 About Us Section
-**File:** `src/components/AboutSection.tsx` (New)
+**Route Addition:** `/kokapet-gym` in `App.tsx`
 
-**Content:**
-- H2: "About Us"
-- Focus on PT-first positioning with SEO phrases:
-  - "Located in Kokapet"
-  - "personalized, results-driven training"
-  - "one-on-one coaching"
-  - "customized nutrition plans"
-  - "on-site sauna recovery"
+### 1.2 Google Reviews Integration on Homepage
+**File:** `src/pages/Index.tsx` (Update)
 
-### 1.3 Core Offerings Section
-**File:** `src/components/CoreOfferingsSection.tsx` (New)
+Add `ReviewsSection` component to homepage after `WhoIsForSection`:
+- Displays 4.9-star rating with live Google reviews
+- Trust signal: "91+ 5-Star Reviews | Kokapet Local"
+- Already built - just needs to be added to Index.tsx
 
-**H2: "Our Core Offerings" with required H3 sub-headings:**
-- H3: "Personalised Plans"
-- H3: "Strength Training"
-- H3: "Mobility and Flexibility"
-- H3: "Nutrition Guidance"
+### 1.3 FAQ Schema Implementation
+**File:** `src/components/FAQSchema.tsx` (New)
 
-### 1.4 Studio Features Section
-**File:** `src/components/StudioProvidesSection.tsx` (Update)
-
-Keep existing content about equipment, sauna, limited capacity - applies to all members.
-
-### 1.5 Membership Plans Section
-**File:** `src/components/MembershipPlansSection.tsx` (New)
-
-**H2: "Membership Plans"**
-
-| Tier | Priority | Description |
-|------|----------|-------------|
-| **Personal Training** | P0 | One-on-one coaching + nutrition + sauna |
-| **Gym Membership** | P1 | Equipment access, 1/3/6/12 month options |
-| **Freelance Trainer Access** | P2 | Small note: "Already have a trainer? They're welcome here." |
-
-The freelance option appears as a note or smaller card, not equal prominence.
-
-### 1.6 Training Options Sub-Section (P2 Mention)
-**File:** `src/components/TrainingOptionsSubSection.tsx` (New)
-
-A smaller, secondary section after Membership Plans:
-
-**H3: "Already Have a Trainer?"**
-- Brief copy: "Freelance trainers and physiotherapists are welcome to train clients at Fisique. Contact us for trainer access options."
-- Single CTA: "Inquire on WhatsApp"
-
-This keeps freelancing visible for SEO ("freelance trainer gym") without competing with PT messaging.
-
-### 1.7 Who Is This For Section
-**File:** `src/components/WhoIsForSection.tsx` (Update)
-
-Update criteria focusing on PT and membership:
-- You want expert guidance to accelerate results
-- You value quality equipment over crowded gyms
-- You care about recovery as much as workouts
-- You want accountability and progress tracking
-
-### 1.8 Final CTA
-**File:** `src/components/FinalCTA.tsx` (Update)
-
-Focus on PT trial:
-- Headline: "Ready to Transform Your Fitness?"
-- CTA: "Book a PT Trial"
-
----
-
-## Phase 2: Homepage Section Order
-
-**Updated `src/pages/Index.tsx`:**
-
-```
-1. Header
-2. Hero (PT-focused)
-3. AboutSection (H2: About Us)
-4. CoreOfferingsSection (H2: Our Core Offerings)
-5. StudioProvidesSection (H2: What the Studio Gives You)
-6. MembershipPlansSection (H2: Membership Plans) - PT primary, Gym secondary, Freelance note
-7. TrainingOptionsSubSection (H3: Already Have a Trainer?) - P2 mention
-8. WhoIsForSection (H2: This Space Is For You If)
-9. FinalCTA
-10. Footer
+Create reusable FAQ component with JSON-LD schema:
+```json
+{
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What makes Fisique different from other gyms in Kokapet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "..."
+      }
+    }
+  ]
+}
 ```
 
-**Sections to Remove:**
-- `ProblemSection.tsx`
-- `WhatWeDontDoSection.tsx`
-- `WhatIsFisiqueSection.tsx`
-- `TrainingOptionsSection.tsx`
+**File:** `src/components/FAQSection.tsx` (New)
+- Visual FAQ accordion for homepage/landing pages
+- Questions covering PT, membership, sauna, location
 
 ---
 
-## Phase 3: Multi-Page Routes (SEO Requirement)
+## Phase 2: Personal Training Landing Page
 
-### Route Changes
-**File:** `src/App.tsx`
+### 2.1 Create `/personal-training-kokapet` Page
+**File:** `src/pages/PersonalTrainingKokapet.tsx`
 
-- `/blog` → `/blog-posts/`
-- Add `/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/`
+**SEO Structure:**
+- Title: "Personal Training Kokapet | 90-Day Transformation Plans | Fisique"
+- H1: "Personal Training Kokapet"
 
-### Contact Page
-**File:** `src/pages/Contact.tsx` (New)
+**Content Sections:**
+1. Hero with transformation messaging
+2. "What's Included" - PT packages breakdown
+3. "Our Approach" - Science-backed methodology
+4. Before/After Carousel (placeholder for future client photos)
+5. Pricing inquiry CTA (WhatsApp)
+6. FAQ schema specific to PT
+7. Testimonials from reviews
 
-- Title: "Contact - Fisique Fitness - Kokapets' Most Holistic Gym"
-- H1: "Contact Us"
-- NAP matching Google Business Profile
+**Route Addition:** `/personal-training-kokapet` in `App.tsx`
+
+### 2.2 Blog Rollout Strategy
+Instead of auto-generating 5 blogs, we'll migrate the existing 7 from fisique.fitness (see Phase 3).
 
 ---
 
-## Phase 4: Navigation & Footer
+## Phase 3: Membership Landing Page + Blog Migration
+
+### 3.1 Create `/gym-membership-kokapet` Page
+**File:** `src/pages/GymMembershipKokapet.tsx`
+
+**SEO Structure:**
+- Title: "Gym Membership Kokapet | Flexible Plans | Fisique Fitness"
+- H1: "Gym Membership Kokapet"
+
+**Content Sections:**
+1. Hero emphasizing flexibility and premium equipment
+2. Membership tiers (1, 3, 6, 12 months)
+3. "What's Included" feature grid
+4. Comparison with typical gyms (premium positioning)
+5. FAQ schema specific to membership
+6. CTA: "Request Pricing on WhatsApp"
+
+**Route Addition:** `/gym-membership-kokapet` in `App.tsx`
+
+### 3.2 Blog Migration from fisique.fitness
+
+**Blogs to Migrate (7 total):**
+
+| # | Current URL | New Slug | Status |
+|---|------------|----------|--------|
+| 1 | `/gym-near-me-kokapet-benefits/` | `gym-near-me-kokapet-benefits` | Migrate |
+| 2 | `/kokapet-premium-lifestyle-fitness-fisique/` | `kokapet-premium-lifestyle-fitness-fisique` | Migrate |
+| 3 | `/personalized-diet-counseling-kokapet/` | `personalized-diet-counseling-kokapet` | Migrate |
+| 4 | `/the-role-of-sauna-therapy-in-fitness-recovery/` | `the-role-of-sauna-therapy-in-fitness-recovery` | Migrate |
+| 5 | `/first-personal-training-session-kokapet/` | `first-personal-training-session-kokapet` | Migrate |
+| 6 | `/strength-training-beginners-kokape/` | `strength-training-beginners-kokapet` | Migrate (fix typo) |
+| 7 | `/personal-training-kokapet-sauna-nutrition/` | `personal-training-kokapet-sauna-nutrition` | Migrate |
+
+**Migration Approach:**
+1. Create edge function `migrate-blog-posts` to scrape content from fisique.fitness
+2. Parse markdown, extract title, content, featured image
+3. Insert into `blog_posts` table with proper slugs
+4. Ensure category assignment (create categories if needed)
+
+**Note:** 8 blogs already exist in the database (different content) - these will be preserved.
+
+---
+
+## Homepage Enhancements
+
+### Add Reviews Section
+**File:** `src/pages/Index.tsx`
+
+Update section order:
+```
+Hero
+AboutSection
+CoreOfferingsSection
+StudioProvidesSection
+MembershipPlansSection
+TrainingOptionsSubSection
+WhoIsForSection
+ReviewsSection  <-- ADD HERE
+FinalCTA
+```
+
+### Add "What Sets Fisique Apart" Section (Optional Enhancement)
+**File:** `src/components/DifferentiatorsSection.tsx` (New)
+
+Bullet-style section highlighting:
+- Private sauna recovery
+- Certified personal trainers
+- Flexible scheduling
+- Proven client results (link to reviews)
+
+---
+
+## Navigation Updates
 
 ### Header Navigation
 **File:** `src/components/Header.tsx`
 
-- Home, About, Services, Membership, Posts, Contact
-
-### Footer
-**File:** `src/components/Footer.tsx`
-
-Update NAP:
-- Address: 4th Floor, Above Pulla reddy Sweets, Avant Cedar, Kokapet
-- Phone: +91-9515847444 | +91-7671959610
-- Email: hello@fisique.fitness
+Add new landing pages to navigation dropdown or footer links:
+- Kokapet Gym (`/kokapet-gym`)
+- Personal Training (`/personal-training-kokapet`)
+- Membership (`/gym-membership-kokapet`)
 
 ---
 
-## Phase 5: SEO Technical
+## Technical SEO Implementation
 
-### Files to Create/Update:
-- `index.html` - Update title tag
-- `public/sitemap.xml` - Three indexed URLs
-- `src/components/LocalBusinessSchema.tsx` - JSON-LD markup
+### Sitemap Updates
+**File:** `public/sitemap.xml`
+
+Add new URLs:
+```xml
+<url>
+  <loc>https://fisique.fitness/kokapet-gym</loc>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://fisique.fitness/personal-training-kokapet</loc>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://fisique.fitness/gym-membership-kokapet</loc>
+  <priority>0.8</priority>
+</url>
+```
+
+### Meta Tags for New Pages
+Each new page will include:
+- Title tag with location keywords
+- Meta description (160 chars)
+- Open Graph tags
+- Canonical URL
 
 ---
 
 ## Files Summary
 
-### New Files:
-- `src/components/AboutSection.tsx`
-- `src/components/CoreOfferingsSection.tsx`
-- `src/components/MembershipPlansSection.tsx`
-- `src/components/TrainingOptionsSubSection.tsx` (P2 freelance mention)
-- `src/pages/Contact.tsx`
-- `src/components/LocalBusinessSchema.tsx`
-- `public/sitemap.xml`
+### New Files to Create:
+1. `src/pages/KokapetGym.tsx` - Phase 1 landing page
+2. `src/pages/PersonalTrainingKokapet.tsx` - Phase 2 landing page
+3. `src/pages/GymMembershipKokapet.tsx` - Phase 3 landing page
+4. `src/components/FAQSchema.tsx` - JSON-LD FAQ schema
+5. `src/components/FAQSection.tsx` - Visual FAQ accordion
+6. `supabase/functions/migrate-blog-posts/index.ts` - Blog migration utility
 
-### Modify:
-- `src/components/Hero.tsx` - PT-focused messaging
-- `src/components/Header.tsx` - Navigation
-- `src/components/Footer.tsx` - NAP update
-- `src/components/WhoIsForSection.tsx` - Updated criteria
-- `src/components/FinalCTA.tsx` - PT trial focus
-- `src/pages/Index.tsx` - New section order
-- `src/App.tsx` - Route updates
-- `index.html` - SEO title
+### Files to Modify:
+1. `src/App.tsx` - Add 3 new routes
+2. `src/pages/Index.tsx` - Add ReviewsSection
+3. `src/components/Header.tsx` - Add navigation links (optional)
+4. `public/sitemap.xml` - Add new URLs
 
-### Remove:
-- `src/components/ProblemSection.tsx`
-- `src/components/WhatWeDontDoSection.tsx`
-- `src/components/WhatIsFisiqueSection.tsx`
-- `src/components/TrainingOptionsSection.tsx`
+---
 
+## Implementation Order
+
+1. **Phase 1 First:**
+   - Create FAQSchema and FAQSection components
+   - Create `/kokapet-gym` landing page
+   - Add ReviewsSection to homepage
+
+2. **Phase 2 Next:**
+   - Create `/personal-training-kokapet` landing page
+   - Add Before/After carousel component (placeholder)
+
+3. **Phase 3 Last:**
+   - Create `/gym-membership-kokapet` landing page
+   - Run blog migration (scrape and import 7 posts)
+   - Update sitemap
+
+4. **Cleanup:**
+   - Test all new pages for mobile responsiveness
+   - Validate schema markup via Google Rich Results Test
+   - Verify PageSpeed scores (target 90+)
+
+---
+
+## Blog Migration Technical Details
+
+### Edge Function: `migrate-blog-posts`
+
+Will fetch each blog URL from fisique.fitness, parse the HTML/markdown content, and insert into the database. This is a one-time migration utility.
+
+**Process:**
+1. Fetch page content using Firecrawl or direct fetch
+2. Extract: title, content (HTML), featured image URL
+3. Generate excerpt from first 160 characters
+4. Assign to "Fitness" or "Nutrition" category
+5. Insert with status "published"
+
+---
+
+## Expected Outcomes
+
+- **Local SEO:** 3 location-specific landing pages targeting "Kokapet" and "Narsingi" keywords
+- **Trust Signals:** Google reviews prominently displayed with 4.9-star rating
+- **Content Authority:** 15 total blog posts (7 migrated + 8 existing)
+- **Schema Markup:** LocalBusiness + FAQ schemas for rich snippets
+- **Map Pack Visibility:** Improved with location-specific pages
