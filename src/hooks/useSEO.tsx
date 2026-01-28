@@ -10,9 +10,9 @@ interface SEOData {
 }
 
 const defaultSEO: SEOData = {
-  title: 'Fisique Fitness - Transform Your Body, Transform Your Life',
-  description: 'Premium fitness center in Bangalore offering personal training, group classes, nutrition coaching, and state-of-the-art facilities. Start your transformation journey today.',
-  keywords: 'fitness, gym, personal training, bangalore, workout, health, wellness',
+  title: 'Fisique Fitness - Premium Personal Training Gym in Kokapet, Hyderabad',
+  description: 'Premium personal training gym in Kokapet, Hyderabad offering one-on-one coaching, nutrition guidance, and sauna recovery. Start your transformation journey today.',
+  keywords: 'fitness, gym, personal training, kokapet, hyderabad, workout, health, wellness, sauna',
 };
 
 export const useSEO = (pagePath: string) => {

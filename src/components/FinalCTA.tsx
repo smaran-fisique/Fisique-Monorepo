@@ -32,7 +32,7 @@ export const FinalCTA = () => {
             asChild
           >
             <a 
-              href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20book%20a%20PT%20trial%20at%20Fisique" 
+              href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20book%20a%20PT%20trial%20at%20Fisique" 
               target="_blank" 
               rel="noopener noreferrer"
             >

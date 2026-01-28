@@ -8,7 +8,7 @@ export const LocalBusinessSchema = () => {
     "name": "Fisique Fitness",
     "description": "Premium personal training gym in Kokapet, Hyderabad offering one-on-one coaching, nutrition guidance, and sauna recovery.",
     "url": "https://fisique.fitness",
-    "telephone": ["+91-9515847444", "+91-7671959610"],
+    "telephone": ["+91-9515469444", "+91-7671959610"],
     "email": "hello@fisique.fitness",
     "address": {
       "@type": "PostalAddress",

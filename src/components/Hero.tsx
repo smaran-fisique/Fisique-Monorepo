@@ -48,7 +48,7 @@ export const Hero = () => {
               asChild
             >
               <a 
-                href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20start%20my%20fitness%20journey%20at%20Fisique" 
+                href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20start%20my%20fitness%20journey%20at%20Fisique" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >

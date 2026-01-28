@@ -1,6 +1,19 @@
 User-agent: *
 Allow: /
+
+# Landing Pages
+Allow: /kokapet-gym
+Allow: /personal-training-kokapet
+Allow: /gym-membership-kokapet
+
+# Blog
 Allow: /blog-posts/
+
+# Contact
 Allow: /embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/
+
+# AI Crawlers - llms.txt files
+Allow: /llms.txt
+Allow: /llms-full.txt
 
 Sitemap: https://fisique.fitness/sitemap.xml

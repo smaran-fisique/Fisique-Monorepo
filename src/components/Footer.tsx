@@ -45,11 +45,11 @@ export const Footer = () => {
             </a>
             
             <a 
-              href="tel:+919515847444" 
+              href="tel:+919515469444" 
               className="flex items-center gap-2 hover:text-accent transition-colors"
             >
               <Phone className="w-4 h-4" />
-              +91-9515847444
+              +91-9515469444
             </a>
             
             <a 

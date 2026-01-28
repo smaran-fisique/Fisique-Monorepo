@@ -89,7 +89,7 @@ export const MembershipPlansSection = () => {
                   asChild
                 >
                   <a 
-                    href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique%20membership" 
+                    href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique%20membership" 
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
@@ -107,7 +107,7 @@ export const MembershipPlansSection = () => {
               <span className="text-foreground font-medium">Already have a trainer?</span>{" "}
               Freelance trainers and physiotherapists are welcome to train clients at Fisique.{" "}
               <a 
-                href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20inquire%20about%20trainer%20access" 
+                href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20inquire%20about%20trainer%20access" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-accent hover:underline"
