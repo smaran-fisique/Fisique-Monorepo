@@ -35,25 +35,20 @@ export const StickyBottomCTA = () => {
       className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border shadow-lg animate-slide-up will-change-transform"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="w-full px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-        <p className="text-sm text-foreground hidden sm:block">
-          Ready to transform your fitness?
-        </p>
-        <div className="flex items-center gap-3 flex-1 sm:flex-none justify-end">
-          <Button size="sm" asChild>
-            <a href={`https://wa.me/919515469444?text=${message}`}>
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Book Free Trial
-            </a>
-          </Button>
-          <button
-            onClick={() => setIsDismissed(true)}
-            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Dismiss"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+      <div className="w-full px-4 sm:px-6 py-3 flex items-center gap-3">
+        <Button size="sm" className="flex-1" asChild>
+          <a href={`https://wa.me/919515469444?text=${message}`}>
+            <MessageCircle className="w-4 h-4 mr-2" />
+            Book Free Trial
+          </a>
+        </Button>
+        <button
+          onClick={() => setIsDismissed(true)}
+          className="p-2 text-muted-foreground hover:text-foreground transition-colors flex-shrink-0"
+          aria-label="Dismiss"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );
