@@ -18,18 +18,37 @@
     <meta name="twitter:description" content="Premium personal training gym in Kokapet with sauna recovery and nutrition guidance." />
     <meta name="twitter:image" content="/fisique-logo.webp" />
     
-    <!-- Preconnect to external origins -->
+    <!-- DNS Prefetch for third-party origins -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cwzeymrokgsvwytkrhim.supabase.co">
+    <link rel="dns-prefetch" href="https://lh3.googleusercontent.com">
+    <link rel="dns-prefetch" href="https://wa.me">
+    
+    <!-- Preconnect to critical external origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cwzeymrokgsvwytkrhim.supabase.co">
-    <link rel="preconnect" href="https://lh3.googleusercontent.com">
+    <link rel="preconnect" href="https://cwzeymrokgsvwytkrhim.supabase.co" crossorigin>
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/assets/hero-gym-ClrSMuBT.webp" as="image" type="image/webp" fetchpriority="high">
-    <link rel="preload" href="/assets/fisique-logo-DdJHfcSv.webp" as="image" type="image/webp">
+    <!-- Preload LCP hero image with high priority -->
+    <link rel="preload" as="image" href="/src/assets/hero-gym-optimized.webp" type="image/webp" fetchpriority="high">
+    
+    <!-- Preload critical font weights only -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin>
     
     <!-- Load fonts with display=swap for better FCP -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    </noscript>
+    
+    <!-- Inline critical CSS for initial render -->
+    <style>
+      :root{--background:220 20% 4%;--foreground:220 20% 92%}
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{background:hsl(220 20% 4%);color:hsl(220 20% 92%);font-family:Inter,system-ui,-apple-system,sans-serif}
+      #root{min-height:100vh}
+    </style>
   </head>
 
   <body>
