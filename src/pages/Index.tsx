@@ -13,12 +13,17 @@ import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { OrganizationSchema } from "@/components/OrganizationSchema";
 import { WebSiteSchema } from "@/components/WebSiteSchema";
+import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 import { Helmet } from "react-helmet-async";
 import { useSEO } from "@/hooks/useSEO";
 
 const Index = () => {
   const { seo } = useSEO('/');
+
+  const breadcrumbItems = [
+    { name: 'Home' }
+  ];
   
   return (
     <>
@@ -27,15 +32,16 @@ const Index = () => {
         <meta name="description" content={seo.description} />
         {seo.keywords && <meta name="keywords" content={seo.keywords} />}
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
-        {seo.canonicalUrl && <link rel="canonical" href={seo.canonicalUrl} />}
+        <link rel="canonical" href="https://fisiquefitness.com/" />
         <meta property="og:title" content={seo.title} />
         <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisique.fitness/" />
+        <meta property="og:url" content="https://fisiquefitness.com/" />
       </Helmet>
       <OrganizationSchema />
       <WebSiteSchema />
       <LocalBusinessSchema />
+      <BreadcrumbSchema items={breadcrumbItems} />
       
       <Header />
       <main>

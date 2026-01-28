@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
+import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 import { FAQSection } from "@/components/FAQSection";
 import { FAQSchema, defaultFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
@@ -10,6 +11,11 @@ import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock } from "lucide
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
 const KokapetGym = () => {
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Kokapet Gym' }
+  ];
+
   return (
     <>
       <Helmet>
@@ -22,17 +28,18 @@ const KokapetGym = () => {
           name="keywords"
           content="gym kokapet, personal gym kokapet, fitness center kokapet, gym near me kokapet, personal training hyderabad, sauna gym kokapet"
         />
-        <link rel="canonical" href="https://fisique.fitness/kokapet-gym" />
+        <link rel="canonical" href="https://fisiquefitness.com/kokapet-gym" />
         <meta property="og:title" content="Premium Personal Gym Kokapet | Fisique Fitness" />
         <meta
           property="og:description"
           content="Kokapet's premier personal training studio with sauna recovery. 4.9★ rated."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisique.fitness/kokapet-gym" />
+        <meta property="og:url" content="https://fisiquefitness.com/kokapet-gym" />
       </Helmet>
       <LocalBusinessSchema />
       <FAQSchema faqs={defaultFAQs} />
+      <BreadcrumbSchema items={breadcrumbItems} />
 
       <Header />
       
