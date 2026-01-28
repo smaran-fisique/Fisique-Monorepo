@@ -1,101 +1,86 @@
 
-# Implementation Plan: Contact Form, Navigation & Hero Updates
 
-## Summary
+## Fix AI Crawler Access Issues
 
-| Change | File | Description |
-|--------|------|-------------|
-| Add contact form | `src/pages/Contact.tsx` | Name + Phone form with WhatsApp submission |
-| Add second email | `src/pages/Contact.tsx` | Add smaran@fisique.fitness |
-| Rename "Posts" to "Blog" | `src/components/Header.tsx` | Desktop and mobile navigation |
-| Add "Contact" link | `src/components/Header.tsx` | Add to both desktop and mobile nav |
-| Add "Blog" & "Contact" links | `src/components/Footer.tsx` | Add to footer navigation |
-| Add click-to-call | `src/components/Hero.tsx` | Add phone link below CTAs |
+### Problem Summary
+Three issues are preventing AI crawlers (Perplexity, ChatGPT, Gemini) from properly indexing the site:
+
+1. **Static files being intercepted** - `llms.txt` and `llms-full.txt` are returning Sedo parking pages instead of actual content
+2. **Wrong domain in robots.txt** - Sitemap URL points to `fisique.fitness` instead of `fisiquefitness.com`
+3. **Wrong domain in sitemap.xml** - All 22 URLs reference `fisique.fitness` instead of the live domain
 
 ---
 
-## 1. Contact Page Enhancements
+### Step 1: Update robots.txt with correct domain
 
-### Add Second Email
-In the email section, display both email addresses:
-- `hello@fisique.fitness`
-- `smaran@fisique.fitness`
+**File:** `public/robots.txt`
 
-### Add Contact Form
-Add a simple lead capture form in the right-side CTA card:
-
+Change the sitemap reference from:
 ```
-+---------------------------+
-|    Quick Inquiry Form     |
-+---------------------------+
-| Your Name                 |
-| [____________________]    |
-|                           |
-| Phone Number              |
-| [____________________]    |
-|                           |
-| [ Submit Inquiry ]        |
-+---------------------------+
+Sitemap: https://fisique.fitness/sitemap.xml
+```
+to:
+```
+Sitemap: https://fisiquefitness.com/sitemap.xml
 ```
 
-**Form behavior:**
-- Uses React state for controlled inputs
-- Basic validation (both fields required)
-- On submit: Opens WhatsApp with pre-filled message containing user's name and phone
-- Message format: "Hi! I'm [Name], phone: [Phone]. I'd like to know more about Fisique Fitness."
+---
+
+### Step 2: Update sitemap.xml with correct domain
+
+**File:** `public/sitemap.xml`
+
+Replace all 22 instances of `https://fisique.fitness/` with `https://fisiquefitness.com/`
+
+This includes:
+- Homepage
+- Kokapet Gym page
+- Personal Training page
+- Gym Membership page
+- Blog listing and all 15 blog posts
+- Contact page
+- Legal page
 
 ---
 
-## 2. Header Navigation Updates
+### Step 3: Update llms.txt with correct domain
 
-### Desktop Navigation
-- Change "Posts" to "Blog"
-- Add "Contact" link pointing to `/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/`
+**File:** `public/llms.txt`
 
-### Mobile Navigation
-- Same changes: "Posts" becomes "Blog", add "Contact" link
-
----
-
-## 3. Footer Updates
-
-Add two new links to the footer navigation:
-- "Blog" linking to `/blog-posts/`
-- "Contact" linking to `/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/`
+Update all URL references from `fisique.fitness` to `fisiquefitness.com`:
+- Homepage link
+- Kokapet Gym link
+- Personal Training link
+- Gym Membership link
+- Blog link
+- Contact link
 
 ---
 
-## 4. Hero Click-to-Call
+### Step 4: Update llms-full.txt with correct domain
 
-Add a subtle click-to-call line below the existing CTA buttons:
+**File:** `public/llms-full.txt`
 
-```
-[ Start Your Journey ] [ Visit the Studio ]
-
-        or call +91-9515469444
-              (clickable tel: link)
-```
-
-Styled as muted text with hover effect, making the phone number easily tappable on mobile.
+Update all URL references from `fisique.fitness` to `fisiquefitness.com` in:
+- Website Structure section (6 main page URLs)
+- Related Subdomains section (if applicable)
 
 ---
 
-## Files to Modify
+### Step 5: Republish and verify
 
-1. **`src/pages/Contact.tsx`**
-   - Add `smaran@fisique.fitness` email
-   - Add contact form with Name + Phone fields
-   - Form submits via WhatsApp link
+After publishing:
+1. Wait 5-10 minutes for CDN propagation
+2. Test `https://fisiquefitness.com/llms.txt` directly in browser
+3. Test with Perplexity by asking it to describe the site
+4. If still showing Sedo, there may be DNS-level caching that needs 24-48 hours to clear
 
-2. **`src/components/Header.tsx`**
-   - Rename "Posts" to "Blog" (lines 98-102, 173-179)
-   - Add "Contact" link to desktop nav (after Blog)
-   - Add "Contact" link to mobile nav (after Blog)
+---
 
-3. **`src/components/Footer.tsx`**
-   - Add "Blog" link to `/blog-posts/`
-   - Add "Contact" link to the long-form URL
+### Why This Should Fix It
 
-4. **`src/components/Hero.tsx`**
-   - Add click-to-call link below CTA buttons
+The Sedo parking page appearing for `llms.txt` suggests the old domain (`fisique.fitness`) may still have some DNS routing issues. By ensuring all references use `fisiquefitness.com` consistently, AI crawlers will:
+- Find the correct sitemap location
+- Follow valid URLs that resolve to Lovable
+- Access the AI-specific context files properly
 
