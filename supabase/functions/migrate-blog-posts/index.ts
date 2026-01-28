@@ -1,9 +1,5 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { verifyAuth, corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 const BLOG_URLS = [
   { url: 'https://fisique.fitness/gym-near-me-kokapet-benefits/', slug: 'gym-near-me-kokapet-benefits' },
@@ -21,6 +17,10 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Verify admin authentication
+    const auth = await verifyAuth(req, true);
+    if (auth.error) return auth.error;
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -56,22 +56,8 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Get a default author (first admin)
-    const { data: adminRole } = await supabase
-      .from('user_roles')
-      .select('user_id')
-      .eq('role', 'admin')
-      .limit(1)
-      .single();
-
-    const authorId = adminRole?.user_id;
-
-    if (!authorId) {
-      return new Response(
-        JSON.stringify({ error: 'No admin user found to assign as author' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
+    // Use the authenticated user as author
+    const authorId = auth.user!.id;
 
     for (const blogInfo of BLOG_URLS) {
       try {
@@ -103,7 +89,6 @@ Deno.serve(async (req) => {
         let title = titleMatch ? titleMatch[1].replace(' - Fisique Fitness', '').trim() : blogInfo.slug.replace(/-/g, ' ');
 
         // Extract content from article or main content area
-        // This is a simple extraction - may need adjustment based on actual site structure
         let content = '';
         
         // Try to find article content
@@ -128,7 +113,6 @@ Deno.serve(async (req) => {
           .trim();
 
         if (!content) {
-          // If no content extracted, create placeholder
           content = `<p>This article was migrated from fisique.fitness. Please visit the original URL for full content.</p>`;
         }
 
@@ -159,14 +143,13 @@ Deno.serve(async (req) => {
           });
 
         if (insertError) {
-          results.push({ slug: blogInfo.slug, status: 'error', error: insertError.message });
+          results.push({ slug: blogInfo.slug, status: 'error', error: 'Insert failed' });
         } else {
           results.push({ slug: blogInfo.slug, status: 'success' });
         }
 
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-        results.push({ slug: blogInfo.slug, status: 'error', error: errorMessage });
+        results.push({ slug: blogInfo.slug, status: 'error', error: 'Processing failed' });
       }
     }
 
@@ -185,10 +168,9 @@ Deno.serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Migration error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const sanitized = sanitizeError(error, 'migrate-blog-posts');
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify(sanitized),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

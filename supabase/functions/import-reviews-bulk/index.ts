@@ -1,9 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.80.0';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { verifyAuth, corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 interface ReviewData {
   reviewId: string;
@@ -22,9 +18,13 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Verify admin authentication
+    const auth = await verifyAuth(req, true);
+    if (auth.error) return auth.error;
+
     console.log('Starting bulk review import');
 
-    // Create Supabase client
+    // Create Supabase client with service role for database operations
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -33,7 +33,10 @@ Deno.serve(async (req) => {
     const { reviews } = await req.json() as { reviews: ReviewData[] };
 
     if (!reviews || !Array.isArray(reviews)) {
-      throw new Error('Invalid request: reviews array is required');
+      return new Response(
+        JSON.stringify({ error: 'Invalid request: reviews array is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     console.log(`Processing ${reviews.length} reviews for import`);
@@ -61,7 +64,10 @@ Deno.serve(async (req) => {
 
     if (error) {
       console.error('Error inserting reviews:', error);
-      throw error;
+      return new Response(
+        JSON.stringify({ error: 'Failed to import reviews' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     console.log(`Successfully imported ${data?.length || reviewsToInsert.length} reviews`);
@@ -78,13 +84,9 @@ Deno.serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error in bulk import:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    const sanitized = sanitizeError(error, 'import-reviews-bulk');
     return new Response(
-      JSON.stringify({
-        success: false,
-        error: errorMessage
-      }),
+      JSON.stringify(sanitized),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,

@@ -1,10 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { verifyAuth, corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 async function enhanceWithGemini(content: string, apiKey: string, prompt: string, retries = 2) {
   for (let i = 0; i <= retries; i++) {
@@ -55,6 +51,10 @@ serve(async (req) => {
   }
 
   try {
+    // Verify admin authentication
+    const auth = await verifyAuth(req, true);
+    if (auth.error) return auth.error;
+
     const { content } = await req.json();
     
     if (!content) {
@@ -68,17 +68,17 @@ serve(async (req) => {
     
     if (!geminiApiKey) {
       return new Response(
-        JSON.stringify({ error: 'GEMINI_API_KEY is not configured' }),
+        JSON.stringify({ error: 'AI service is not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Get the custom prompt from settings
+    // Get the custom prompt from settings using service role for server-side access
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
-    const { data: settingsData, error: settingsError } = await supabase
+    const { data: settingsData, error: settingsError } = await supabaseAdmin
       .from('site_settings')
       .select('value')
       .eq('key', 'ai_enhance_prompt')
@@ -101,16 +101,12 @@ serve(async (req) => {
       const errorText = await response.text();
       console.error('Gemini API error:', response.status, errorText);
       
-      let errorMessage = 'Gemini API error';
+      let errorMessage = 'AI service error';
       
       if (response.status === 429) {
-        errorMessage = 'Gemini API rate limit exceeded. Please wait a moment and try again.';
-      } else if (response.status === 401) {
-        errorMessage = 'Invalid Gemini API key. Please check your API key configuration.';
-      } else if (response.status === 400) {
-        errorMessage = 'Invalid request to Gemini API. Please check your content format.';
+        errorMessage = 'AI service rate limit exceeded. Please wait a moment and try again.';
       } else if (response.status === 503) {
-        errorMessage = 'Gemini service is temporarily overloaded. Please try again in a moment.';
+        errorMessage = 'AI service is temporarily overloaded. Please try again in a moment.';
       }
       
       return new Response(
@@ -127,7 +123,7 @@ serve(async (req) => {
     if (!generatedText) {
       console.error('No text in Gemini response:', JSON.stringify(data));
       return new Response(
-        JSON.stringify({ error: 'No content generated from Gemini' }),
+        JSON.stringify({ error: 'No content generated' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -148,11 +144,9 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Error in enhance-blog-content function:', error);
+    const sanitized = sanitizeError(error, 'enhance-blog-content');
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
-      }),
+      JSON.stringify(sanitized),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.80.0';
-import { corsHeaders } from '../_shared/cors.ts';
+import { corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 interface BlogPostRequest {
   title: string;
@@ -48,7 +48,7 @@ Deno.serve(async (req) => {
       .single();
 
     if (keyError || !apiKeyData) {
-      console.error('Invalid API key:', keyError);
+      console.error('Invalid API key attempt');
       return new Response(
         JSON.stringify({ error: 'Invalid API key' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     // Check if key has blog:write scope
     if (!apiKeyData.scopes?.includes('blog:write')) {
       return new Response(
-        JSON.stringify({ error: 'API key does not have blog:write permission' }),
+        JSON.stringify({ error: 'API key does not have required permission' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -76,6 +76,29 @@ Deno.serve(async (req) => {
     if (!body.title || !body.slug || !body.content) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields: title, slug, content' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate field lengths
+    if (body.title.length > 500) {
+      return new Response(
+        JSON.stringify({ error: 'Title must be less than 500 characters' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (body.slug.length > 200) {
+      return new Response(
+        JSON.stringify({ error: 'Slug must be less than 200 characters' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Validate slug format (alphanumeric and hyphens only)
+    if (!/^[a-z0-9-]+$/.test(body.slug)) {
+      return new Response(
+        JSON.stringify({ error: 'Slug must contain only lowercase letters, numbers, and hyphens' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -102,7 +125,7 @@ Deno.serve(async (req) => {
     if (postError) {
       console.error('Error creating blog post:', postError);
       return new Response(
-        JSON.stringify({ error: 'Failed to create blog post', details: postError.message }),
+        JSON.stringify({ error: 'Failed to create blog post' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -114,10 +137,10 @@ Deno.serve(async (req) => {
       { status: 201, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
-  } catch (error: any) {
-    console.error('Error in create-blog-post function:', error);
+  } catch (error) {
+    const sanitized = sanitizeError(error, 'create-blog-post');
     return new Response(
-      JSON.stringify({ error: 'Internal server error', details: error.message }),
+      JSON.stringify(sanitized),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
