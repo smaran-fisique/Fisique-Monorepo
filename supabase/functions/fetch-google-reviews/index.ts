@@ -1,10 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -56,8 +52,6 @@ serve(async (req) => {
     const googleUrl = `https://places.googleapis.com/v1/places/${cleanPlaceId}`;
     
     console.log('Request URL:', googleUrl);
-    console.log('API Key present:', !!googleApiKey);
-    console.log('Place ID:', cleanPlaceId);
     
     const googleResponse = await fetch(googleUrl, {
       method: 'GET',
@@ -70,12 +64,9 @@ serve(async (req) => {
 
     const googleData = await googleResponse.json();
     console.log('Google API Response Status:', googleResponse.status);
-    console.log('Google API Response:', JSON.stringify(googleData).substring(0, 200));
 
     if (googleResponse.status !== 200) {
-      console.error('Google API error - Full response:', googleData);
-      console.error('Response status:', googleResponse.status);
-      console.error('Response headers:', Object.fromEntries(googleResponse.headers.entries()));
+      console.error('Google API error - Status:', googleResponse.status);
       
       // Return cached data if available, even if stale
       if (cachedReviews && cachedReviews.length > 0) {
@@ -85,7 +76,10 @@ serve(async (req) => {
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
-      throw new Error(`Google Places API error: ${googleResponse.status} - ${JSON.stringify(googleData)}`);
+      return new Response(
+        JSON.stringify({ error: 'Failed to fetch reviews' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     const reviews = googleData.reviews || [];
@@ -121,7 +115,10 @@ serve(async (req) => {
 
     if (insertError) {
       console.error('Error caching reviews:', insertError);
-      throw insertError;
+      return new Response(
+        JSON.stringify({ error: 'Failed to cache reviews' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     console.log('Successfully cached fresh reviews');
@@ -131,10 +128,9 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Error in fetch-google-reviews:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    const sanitized = sanitizeError(error, 'fetch-google-reviews');
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify(sanitized),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

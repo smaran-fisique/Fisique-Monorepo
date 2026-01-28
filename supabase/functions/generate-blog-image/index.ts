@@ -1,10 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { verifyAuth, corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -12,6 +8,10 @@ serve(async (req) => {
   }
 
   try {
+    // Verify admin authentication
+    const auth = await verifyAuth(req, true);
+    if (auth.error) return auth.error;
+
     const { prompt } = await req.json();
     
     if (!prompt) {
@@ -25,17 +25,17 @@ serve(async (req) => {
     
     if (!lovableApiKey) {
       return new Response(
-        JSON.stringify({ error: 'LOVABLE_API_KEY is not configured' }),
+        JSON.stringify({ error: 'Image generation service is not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Get the custom prompt template from settings
+    // Get the custom prompt template from settings using service role
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 
-    const { data: settingsData, error: settingsError } = await supabase
+    const { data: settingsData, error: settingsError } = await supabaseAdmin
       .from('site_settings')
       .select('value')
       .eq('key', 'ai_image_prompt')
@@ -80,7 +80,7 @@ serve(async (req) => {
       if (response.status === 429) {
         errorMessage = 'Rate limit exceeded. Please try again later.';
       } else if (response.status === 402) {
-        errorMessage = 'Payment required. Please add credits to your Lovable workspace.';
+        errorMessage = 'Service quota exceeded. Please try again later.';
       }
       
       return new Response(
@@ -107,11 +107,9 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Error in generate-blog-image function:', error);
+    const sanitized = sanitizeError(error, 'generate-blog-image');
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error occurred' 
-      }),
+      JSON.stringify(sanitized),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

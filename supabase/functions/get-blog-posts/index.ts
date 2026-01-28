@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.80.0';
-import { corsHeaders } from '../_shared/cors.ts';
+import { corsHeaders, sanitizeError } from '../_shared/auth.ts';
 
 interface GetBlogPostsRequest {
   date_from?: string;
@@ -48,7 +48,7 @@ Deno.serve(async (req) => {
       .single();
 
     if (keyError || !apiKeyData) {
-      console.error('Invalid API key:', keyError);
+      console.error('Invalid API key attempt');
       return new Response(
         JSON.stringify({ error: 'Invalid API key' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
     if (!apiKeyData.scopes.includes('blog:read')) {
       console.error('API key does not have blog:read scope');
       return new Response(
-        JSON.stringify({ error: 'Insufficient permissions. Required scope: blog:read' }),
+        JSON.stringify({ error: 'Insufficient permissions' }),
         { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -81,9 +81,9 @@ Deno.serve(async (req) => {
     // Parse request body
     const requestData: GetBlogPostsRequest = await req.json().catch(() => ({}));
     
-    // Set defaults
-    const limit = Math.min(requestData.limit || 50, 200);
-    const offset = requestData.offset || 0;
+    // Validate and set defaults with limits
+    const limit = Math.min(Math.max(requestData.limit || 50, 1), 200);
+    const offset = Math.max(requestData.offset || 0, 0);
     const includeContent = requestData.include_content || false;
 
     // Build query
@@ -107,15 +107,24 @@ Deno.serve(async (req) => {
       .eq('status', 'published')
       .order('published_at', { ascending: false });
 
-    // Apply filters
+    // Apply filters with validation
     if (requestData.date_from) {
-      query = query.gte('published_at', requestData.date_from);
+      const dateFrom = new Date(requestData.date_from);
+      if (!isNaN(dateFrom.getTime())) {
+        query = query.gte('published_at', dateFrom.toISOString());
+      }
     }
     if (requestData.date_to) {
-      query = query.lte('published_at', requestData.date_to);
+      const dateTo = new Date(requestData.date_to);
+      if (!isNaN(dateTo.getTime())) {
+        query = query.lte('published_at', dateTo.toISOString());
+      }
     }
     if (requestData.category_id) {
-      query = query.eq('category_id', requestData.category_id);
+      // Basic UUID validation
+      if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(requestData.category_id)) {
+        query = query.eq('category_id', requestData.category_id);
+      }
     }
 
     // Apply pagination
@@ -126,7 +135,7 @@ Deno.serve(async (req) => {
     if (postsError) {
       console.error('Error fetching blog posts:', postsError);
       return new Response(
-        JSON.stringify({ error: 'Failed to fetch blog posts', details: postsError.message }),
+        JSON.stringify({ error: 'Failed to fetch blog posts' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -157,10 +166,9 @@ Deno.serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Unexpected error in get-blog-posts function:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const sanitized = sanitizeError(error, 'get-blog-posts');
     return new Response(
-      JSON.stringify({ error: 'Internal server error', details: errorMessage }),
+      JSON.stringify(sanitized),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
