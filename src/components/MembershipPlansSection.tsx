@@ -23,7 +23,7 @@ const plans = [
     features: [
       "Full equipment access",
       "1, 3, 6, 12 month options",
-      "Limited capacity, no crowding",
+      "Uncrowded, focused environment",
       "Sauna access included",
       "Professional maintenance",
     ],
