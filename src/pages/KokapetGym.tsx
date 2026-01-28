@@ -7,6 +7,7 @@ import { FAQSchema, defaultFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock } from "lucide-react";
+import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
 const KokapetGym = () => {
   return (
@@ -304,6 +305,7 @@ const KokapetGym = () => {
       </main>
 
       <Footer />
+      <StickyBottomCTA />
     </>
   );
 };

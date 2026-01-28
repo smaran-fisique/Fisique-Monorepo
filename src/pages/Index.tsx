@@ -13,6 +13,7 @@ import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { OrganizationSchema } from "@/components/OrganizationSchema";
 import { WebSiteSchema } from "@/components/WebSiteSchema";
+import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 import { Helmet } from "react-helmet-async";
 import { useSEO } from "@/hooks/useSEO";
 
@@ -50,6 +51,7 @@ const Index = () => {
         <FinalCTA />
       </main>
       <Footer />
+      <StickyBottomCTA />
     </>
   );
 };
