@@ -96,6 +96,22 @@ export const Footer = () => {
             </a>
           </div>
           
+          {/* Copyright Notice */}
+          <div className="pt-6 text-center text-xs text-muted-foreground/70">
+            <p>© {new Date().getFullYear()} Surya Narayana Enterprises LLP. All rights reserved.</p>
+            <p className="mt-1">
+              Site built by{" "}
+              <a 
+                href="https://www.linkedin.com/in/smaranchallapalli/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-accent transition-colors"
+              >
+                Smaran Challapalli
+              </a>
+            </p>
+          </div>
+          
         </div>
       </div>
     </footer>
