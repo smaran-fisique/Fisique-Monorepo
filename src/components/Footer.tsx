@@ -71,14 +71,17 @@ export const Footer = () => {
           
           {/* Legal Links */}
           <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 pt-8 border-t border-border/50 text-sm text-muted-foreground">
-            <Link to="/terms" className="hover:text-accent transition-colors">
+            <Link to="/legal#terms" className="hover:text-accent transition-colors">
               Terms
             </Link>
-            <Link to="/privacy" className="hover:text-accent transition-colors">
+            <Link to="/legal#privacy" className="hover:text-accent transition-colors">
               Privacy
             </Link>
-            <Link to="/refund" className="hover:text-accent transition-colors">
+            <Link to="/legal#refund" className="hover:text-accent transition-colors">
               Refund Policy
+            </Link>
+            <Link to="/legal#shipping" className="hover:text-accent transition-colors">
+              Shipping
             </Link>
             <a 
               href="https://member.fisique.fitness" 
