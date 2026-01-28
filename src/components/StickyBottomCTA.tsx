@@ -35,7 +35,7 @@ export const StickyBottomCTA = () => {
       className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border shadow-lg animate-slide-up will-change-transform"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="container-custom px-4 py-3 flex items-center justify-between gap-4">
+      <div className="w-full px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
         <p className="text-sm text-foreground hidden sm:block">
           Ready to transform your fitness?
         </p>
