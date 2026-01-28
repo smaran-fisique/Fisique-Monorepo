@@ -60,7 +60,7 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-medium text-foreground">Phone</p>
-                        <a href="tel:+919515847444" className="hover:text-accent transition-colors block">+91-9515847444</a>
+                        <a href="tel:+919515469444" className="hover:text-accent transition-colors block">+91-9515469444</a>
                         <a href="tel:+917671959610" className="hover:text-accent transition-colors block">+91-7671959610</a>
                       </div>
                     </div>
@@ -106,7 +106,7 @@ const Contact = () => {
                       asChild
                     >
                       <a 
-                        href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique%20Fitness" 
+                        href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique%20Fitness" 
                         target="_blank" 
                         rel="noopener noreferrer"
                       >

@@ -56,7 +56,7 @@ export const defaultFAQs: FAQItem[] = [
   },
   {
     question: "Can I bring my own personal trainer to Fisique?",
-    answer: "Yes, freelance trainers and physiotherapists are welcome to train their clients at Fisique. We offer trainer access passes. Contact us on WhatsApp at +91-9515847444 for trainer access options and pricing.",
+    answer: "Yes, freelance trainers and physiotherapists are welcome to train their clients at Fisique. We offer trainer access passes. Contact us on WhatsApp at +91-9515469444 for trainer access options and pricing.",
   },
   {
     question: "Do you offer nutrition counseling?",
@@ -84,7 +84,7 @@ export const personalTrainingFAQs: FAQItem[] = [
   },
   {
     question: "Can I try a session before committing?",
-    answer: "Yes! We offer a free consultation and trial session so you can experience our training approach firsthand. Contact us at +91-9515847444 to book your complimentary session.",
+    answer: "Yes! We offer a free consultation and trial session so you can experience our training approach firsthand. Contact us at +91-9515469444 to book your complimentary session.",
   },
   {
     question: "Do you provide diet plans with personal training?",

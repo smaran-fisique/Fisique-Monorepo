@@ -115,7 +115,7 @@ const GymMembershipKokapet = () => {
                 className="bg-accent hover:bg-accent/90 text-accent-foreground"
                 asChild
               >
-                <a href="https://wa.me/919515847444?text=Hi%2C%20I%27m%20interested%20in%20gym%20membership%20at%20Fisique%20Kokapet">
+                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20gym%20membership%20at%20Fisique%20Kokapet">
                   <Phone className="w-5 h-5 mr-2" />
                   Request Pricing
                 </a>
@@ -178,7 +178,7 @@ const GymMembershipKokapet = () => {
                     asChild
                   >
                     <a
-                      href={`https://wa.me/919515847444?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(
+                      href={`https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(
                         tier.name
                       )}%20gym%20membership`}
                     >
@@ -333,7 +333,7 @@ const GymMembershipKokapet = () => {
                 className="bg-accent hover:bg-accent/90 text-accent-foreground"
                 asChild
               >
-                <a href="https://wa.me/919515847444?text=Hi%2C%20I%27m%20interested%20in%20gym%20membership%20at%20Fisique%20Kokapet">
+                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20gym%20membership%20at%20Fisique%20Kokapet">
                   <Phone className="w-5 h-5 mr-2" />
                   Request Pricing on WhatsApp
                 </a>

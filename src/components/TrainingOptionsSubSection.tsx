@@ -26,7 +26,7 @@ export const TrainingOptionsSubSection = () => {
             asChild
           >
             <a 
-              href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20inquire%20about%20freelance%20trainer%20access%20at%20Fisique" 
+              href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20inquire%20about%20freelance%20trainer%20access%20at%20Fisique" 
               target="_blank" 
               rel="noopener noreferrer"
             >

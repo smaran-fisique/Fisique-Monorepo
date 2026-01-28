@@ -71,13 +71,13 @@ const PersonalTrainingKokapet = () => {
                   className="bg-accent hover:bg-accent/90 text-accent-foreground"
                   asChild
                 >
-                  <a href="https://wa.me/919515847444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet">
+                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet">
                     <Phone className="w-5 h-5 mr-2" />
                     Start Free Trial
                   </a>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <a href="tel:+919515847444">
+                  <a href="tel:+919515469444">
                     Call to Inquire
                   </a>
                 </Button>
@@ -206,7 +206,7 @@ const PersonalTrainingKokapet = () => {
                   className="w-full mt-8 bg-accent hover:bg-accent/90 text-accent-foreground"
                   asChild
                 >
-                  <a href="https://wa.me/919515847444?text=Hi%2C%20I%27m%20interested%20in%20the%2090-day%20transformation%20program">
+                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20the%2090-day%20transformation%20program">
                     <Phone className="w-5 h-5 mr-2" />
                     Start Your Transformation
                   </a>
@@ -275,7 +275,7 @@ const PersonalTrainingKokapet = () => {
                 className="bg-accent hover:bg-accent/90 text-accent-foreground"
                 asChild
               >
-                <a href="https://wa.me/919515847444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet">
+                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet">
                   <Phone className="w-5 h-5 mr-2" />
                   Book Free Consultation
                 </a>

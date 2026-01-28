@@ -98,7 +98,7 @@ export const Header = () => {
                 size="sm"
                 className="ml-2 bg-accent hover:bg-accent/90 text-accent-foreground"
               >
-                <a href="tel:+919515847444">
+                <a href="tel:+919515469444">
                   <Phone className="w-4 h-4 mr-2" />
                   Call Us
                 </a>
@@ -165,7 +165,7 @@ export const Header = () => {
             asChild 
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
           >
-            <a href="tel:+919515847444" onClick={() => setMenuOpen(false)}>
+            <a href="tel:+919515469444" onClick={() => setMenuOpen(false)}>
               <Phone className="w-4 h-4 mr-2" />
               Call Us
             </a>
