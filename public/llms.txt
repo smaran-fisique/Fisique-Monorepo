@@ -34,12 +34,12 @@ Kokapet, Hyderabad - Near Financial District
 Easily accessible from Narsingi, Gandipet, and Financial District areas
 
 ## Links
-- Homepage: https://fisique.fitness/
-- Kokapet Gym: https://fisique.fitness/kokapet-gym
-- Personal Training: https://fisique.fitness/personal-training-kokapet
-- Gym Membership: https://fisique.fitness/gym-membership-kokapet
-- Blog: https://fisique.fitness/blog-posts/
-- Contact: https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/
+- Homepage: https://fisiquefitness.com/
+- Kokapet Gym: https://fisiquefitness.com/kokapet-gym
+- Personal Training: https://fisiquefitness.com/personal-training-kokapet
+- Gym Membership: https://fisiquefitness.com/gym-membership-kokapet
+- Blog: https://fisiquefitness.com/blog-posts/
+- Contact: https://fisiquefitness.com/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/
 - Google Maps: https://maps.app.goo.gl/GoiqDpnditiJBRmJ9
 
 ## Related Subdomains
