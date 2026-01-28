@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { StickyBottomCTA } from '@/components/StickyBottomCTA';
 import { Button } from '@/components/ui/button';
 import { Loader2, ArrowLeft, Calendar } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
@@ -154,7 +154,7 @@ export default function BlogPost() {
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
+      <StickyBottomCTA />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { FAQSchema, membershipFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Dumbbell, Users, Clock, Thermometer, X } from "lucide-react";
+import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
 const GymMembershipKokapet = () => {
   const membershipTiers = [
@@ -349,6 +350,7 @@ const GymMembershipKokapet = () => {
       </main>
 
       <Footer />
+      <StickyBottomCTA />
     </>
   );
 };

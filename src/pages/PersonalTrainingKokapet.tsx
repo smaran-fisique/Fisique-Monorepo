@@ -7,6 +7,7 @@ import { FAQSchema, personalTrainingFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Target, Apple, Dumbbell, Thermometer, TrendingUp, Calendar } from "lucide-react";
+import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
 const PersonalTrainingKokapet = () => {
   const whatsIncluded = [
@@ -291,6 +292,7 @@ const PersonalTrainingKokapet = () => {
       </main>
 
       <Footer />
+      <StickyBottomCTA />
     </>
   );
 };
