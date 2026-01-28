@@ -1,14 +1,6 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+Allow: /blog-posts/
+Allow: /embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/
+
+Sitemap: https://fisique.fitness/sitemap.xml

@@ -31,6 +31,11 @@ export const Footer = () => {
             </p>
           </div>
           
+          {/* Address */}
+          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+            4th Floor, Above Pulla reddy Sweets, Avant Cedar, Kokapet
+          </p>
+          
           {/* Contact Info */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-12 text-sm text-muted-foreground">
             <a 
@@ -40,7 +45,15 @@ export const Footer = () => {
               className="flex items-center gap-2 hover:text-accent transition-colors"
             >
               <MapPin className="w-4 h-4" />
-              Kokapet, Hyderabad
+              Get Directions
+            </a>
+            
+            <a 
+              href="tel:+919515847444" 
+              className="flex items-center gap-2 hover:text-accent transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              +91-9515847444
             </a>
             
             <a 
@@ -48,7 +61,7 @@ export const Footer = () => {
               className="flex items-center gap-2 hover:text-accent transition-colors"
             >
               <Phone className="w-4 h-4" />
-              +91 7671959610
+              +91-7671959610
             </a>
             
             <a 

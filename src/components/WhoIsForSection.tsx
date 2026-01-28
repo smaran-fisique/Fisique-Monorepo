@@ -1,11 +1,11 @@
 import { Check } from "lucide-react";
 
 const criteria = [
-  "You already know how you want to train",
-  "You value quality over convenience",
-  "You dislike crowded gyms",
+  "You want expert guidance to accelerate your results",
+  "You value quality equipment over crowded gyms",
   "You care about recovery as much as workouts",
-  "You want consistency, not motivation hacks",
+  "You want accountability and progress tracking",
+  "You're ready to invest in your health seriously",
 ];
 
 export const WhoIsForSection = () => {

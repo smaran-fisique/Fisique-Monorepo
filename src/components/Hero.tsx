@@ -30,19 +30,14 @@ export const Hero = () => {
           
           {/* Main Headline */}
           <h1 className="text-[clamp(48px,8vw,88px)] leading-[0.95] tracking-tight font-black text-foreground">
-            Private Training Studio
+            Elevate Your Fitness Journey in Kokapet
           </h1>
           
           {/* Sub-headline */}
           <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Train by yourself or with your own coach
+            Experience personalized training tailored to your goals.
             <br className="hidden sm:block" />{" "}
-            in a focused, distraction-free environment.
-          </p>
-          
-          {/* Clarity line */}
-          <p className="text-sm md:text-base text-foreground/70 font-medium tracking-wide">
-            No in-house personal training. No programs. No crowding.
+            Expert coaches. Premium equipment. Results-driven programs.
           </p>
           
           {/* CTA Buttons */}
@@ -53,12 +48,12 @@ export const Hero = () => {
               asChild
             >
               <a 
-                href="https://maps.app.goo.gl/GoiqDpnditiJBRmJ9" 
+                href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20start%20my%20fitness%20journey%20at%20Fisique" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                <MapPin className="w-4 h-4 mr-2" />
-                Visit the Studio
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Start Your Journey
               </a>
             </Button>
             
@@ -68,9 +63,13 @@ export const Hero = () => {
               className="border-border hover:bg-secondary text-foreground font-semibold" 
               asChild
             >
-              <a href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="w-4 h-4 mr-2" />
-                WhatsApp Us
+              <a 
+                href="https://maps.app.goo.gl/GoiqDpnditiJBRmJ9" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <MapPin className="w-4 h-4 mr-2" />
+                Visit the Studio
               </a>
             </Button>
           </div>
