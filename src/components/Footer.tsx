@@ -19,15 +19,11 @@ export const Footer = () => {
             />
             
             <p className="text-lg font-medium text-foreground">
-              Private Training Studio
+              Kokapet's Premium Fitness Studio
             </p>
             
             <p className="text-muted-foreground leading-relaxed max-w-md mx-auto">
-              Train independently.
-              <br />
-              Or bring your coach.
-              <br />
-              Just don't compromise on the environment.
+              Personalized training, customized nutrition plans, and on-site sauna recovery — all under one roof. At Fisique, it's never generic. It's always personal.
             </p>
           </div>
           
