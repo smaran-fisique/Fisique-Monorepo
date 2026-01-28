@@ -11,7 +11,7 @@ const features = [
   },
   {
     icon: Users,
-    title: "Limited capacity access",
+    title: "Uncrowded environment",
   },
   {
     icon: Flame,
