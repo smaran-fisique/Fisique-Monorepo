@@ -91,7 +91,7 @@ const GymMembershipKokapet = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-20 relative overflow-hidden">
+        <section className="pt-24 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden px-4">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
           <div className="container-custom relative">
             <div className="max-w-4xl mx-auto text-center">
@@ -99,7 +99,7 @@ const GymMembershipKokapet = () => {
                 <span className="text-sm font-medium text-primary">Flexible Plans • No Lock-in</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 Gym Membership{" "}
                 <span className="text-primary">Kokapet</span>
               </h1>
@@ -125,7 +125,7 @@ const GymMembershipKokapet = () => {
         </section>
 
         {/* Membership Tiers */}
-        <section className="py-20 border-t border-border">
+        <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               Choose Your Plan
@@ -196,7 +196,7 @@ const GymMembershipKokapet = () => {
         </section>
 
         {/* What's Included */}
-        <section className="py-20 bg-muted/30 border-t border-border">
+        <section className="py-16 sm:py-20 bg-muted/30 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               What's Included
@@ -250,7 +250,7 @@ const GymMembershipKokapet = () => {
         </section>
 
         {/* Comparison */}
-        <section className="py-20 border-t border-border">
+        <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               Why Fisique Over Typical Gyms
@@ -259,43 +259,43 @@ const GymMembershipKokapet = () => {
               See the difference a boutique fitness experience makes
             </p>
 
-            <div className="max-w-3xl mx-auto">
-              <div className="bg-card border border-border rounded-2xl overflow-hidden">
+            <div className="max-w-3xl mx-auto overflow-x-auto">
+              <div className="bg-card border border-border rounded-2xl overflow-hidden min-w-[320px]">
                 {/* Header */}
-                <div className="grid grid-cols-3 bg-muted/50 p-4 border-b border-border">
-                  <div className="font-medium">Feature</div>
-                  <div className="font-medium text-center text-primary">Fisique</div>
-                  <div className="font-medium text-center text-muted-foreground">Typical Gym</div>
+                <div className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-3 bg-muted/50 p-3 sm:p-4 border-b border-border gap-2">
+                  <div className="font-medium text-sm sm:text-base">Feature</div>
+                  <div className="font-medium text-center text-primary text-sm sm:text-base">Fisique</div>
+                  <div className="font-medium text-center text-muted-foreground text-xs sm:text-base">Typical</div>
                 </div>
 
                 {/* Rows */}
                 {comparisonFeatures.map((item, index) => (
                   <div
                     key={index}
-                    className={`grid grid-cols-3 p-4 ${
+                    className={`grid grid-cols-[1fr_80px_80px] sm:grid-cols-3 p-3 sm:p-4 gap-2 ${
                       index !== comparisonFeatures.length - 1 ? "border-b border-border" : ""
                     }`}
                   >
-                    <div className="text-muted-foreground">{item.feature}</div>
+                    <div className="text-muted-foreground text-sm sm:text-base">{item.feature}</div>
                     <div className="flex justify-center">
                       {item.fisique ? (
-                        <div className="w-6 h-6 bg-accent/20 rounded-full flex items-center justify-center">
-                          <Check className="w-4 h-4 text-accent" />
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-accent/20 rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-accent" />
                         </div>
                       ) : (
-                        <div className="w-6 h-6 bg-destructive/20 rounded-full flex items-center justify-center">
-                          <X className="w-4 h-4 text-destructive" />
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-destructive/20 rounded-full flex items-center justify-center">
+                          <X className="w-3 h-3 sm:w-4 sm:h-4 text-destructive" />
                         </div>
                       )}
                     </div>
                     <div className="flex justify-center">
                       {item.typical ? (
-                        <div className="w-6 h-6 bg-destructive/20 rounded-full flex items-center justify-center">
-                          <Check className="w-4 h-4 text-destructive" />
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-destructive/20 rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-destructive" />
                         </div>
                       ) : (
-                        <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-                          <X className="w-4 h-4 text-muted-foreground" />
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-muted rounded-full flex items-center justify-center">
+                          <X className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
                         </div>
                       )}
                     </div>
@@ -318,7 +318,7 @@ const GymMembershipKokapet = () => {
         />
 
         {/* Final CTA */}
-        <section className="py-20 bg-primary/5 border-t border-border">
+        <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
           <div className="container-custom text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
               Ready to Experience the Difference?

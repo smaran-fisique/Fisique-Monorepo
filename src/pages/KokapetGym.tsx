@@ -37,7 +37,7 @@ const KokapetGym = () => {
       
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-20 relative overflow-hidden">
+        <section className="pt-24 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden px-4">
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
           <div className="container-custom relative">
             <div className="max-w-4xl">
@@ -48,7 +48,7 @@ const KokapetGym = () => {
                 <span className="text-muted-foreground text-sm">• 91+ Reviews</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
                 Premium Personal Gym{" "}
                 <span className="text-primary">Kokapet</span>
               </h1>
@@ -98,7 +98,7 @@ const KokapetGym = () => {
         </section>
 
         {/* About Kokapet Location */}
-        <section className="py-20 border-t border-border">
+        <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -170,7 +170,7 @@ const KokapetGym = () => {
         </section>
 
         {/* Services Overview */}
-        <section className="py-20 bg-muted/30 border-t border-border">
+        <section className="py-16 sm:py-20 bg-muted/30 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               Our Services in Kokapet
@@ -248,7 +248,7 @@ const KokapetGym = () => {
         />
 
         {/* Google Maps Embed */}
-        <section className="py-20 border-t border-border">
+        <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
               Find Us in Kokapet
@@ -273,7 +273,7 @@ const KokapetGym = () => {
         </section>
 
         {/* Final CTA */}
-        <section className="py-20 bg-primary/5 border-t border-border">
+        <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
           <div className="container-custom text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
               Ready to Start Your Fitness Journey in Kokapet?
