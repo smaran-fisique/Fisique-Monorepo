@@ -83,6 +83,9 @@ export const Footer = () => {
             <Link to="/legal#shipping" className="hover:text-accent transition-colors">
               Shipping
             </Link>
+            <Link to="/legal#emi" className="hover:text-accent transition-colors">
+              EMI Terms
+            </Link>
             <a 
               href="https://member.fisique.fitness" 
               target="_blank" 
