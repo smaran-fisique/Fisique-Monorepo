@@ -4,13 +4,13 @@ export const OrganizationSchema = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "https://fisique.fitness/#organization",
+    "@id": "https://fisiquefitness.com/#organization",
     "name": "Fisique Fitness",
     "alternateName": "Fisique",
-    "url": "https://fisique.fitness",
+    "url": "https://fisiquefitness.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://fisique.fitness/fisique-logo.webp",
+      "url": "https://fisiquefitness.com/fisique-logo.webp",
       "width": 157,
       "height": 40
     },

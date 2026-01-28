@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
+import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 import { FAQSection } from "@/components/FAQSection";
 import { FAQSchema, personalTrainingFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
@@ -10,6 +11,11 @@ import { Phone, Check, Target, Apple, Dumbbell, Thermometer, TrendingUp, Calenda
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
 const PersonalTrainingKokapet = () => {
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Personal Training Kokapet' }
+  ];
+
   const whatsIncluded = [
     { icon: Dumbbell, title: "1:1 Training Sessions", description: "Personalized workouts with certified trainers" },
     { icon: Target, title: "Custom Programs", description: "Tailored to your goals, fitness level, and schedule" },
@@ -31,17 +37,18 @@ const PersonalTrainingKokapet = () => {
           name="keywords"
           content="personal training kokapet, personal trainer kokapet, fitness coach kokapet, 1:1 training hyderabad, transformation program kokapet"
         />
-        <link rel="canonical" href="https://fisique.fitness/personal-training-kokapet" />
+        <link rel="canonical" href="https://fisiquefitness.com/personal-training-kokapet" />
         <meta property="og:title" content="Personal Training Kokapet | Fisique Fitness" />
         <meta
           property="og:description"
           content="Transform your body with expert personal training in Kokapet. 90-day programs, nutrition coaching, sauna recovery."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisique.fitness/personal-training-kokapet" />
+        <meta property="og:url" content="https://fisiquefitness.com/personal-training-kokapet" />
       </Helmet>
       <LocalBusinessSchema />
       <FAQSchema faqs={personalTrainingFAQs} />
+      <BreadcrumbSchema items={breadcrumbItems} />
 
       <Header />
 

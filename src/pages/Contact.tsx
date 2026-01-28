@@ -7,10 +7,16 @@ import { Label } from "@/components/ui/label";
 import { MapPin, Phone, Mail, MessageCircle, Clock, Send } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
+import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 
 const Contact = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Contact' }
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +31,16 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact - Fisique Fitness - Kokapets' Most Holistic Gym</title>
+        <title>Contact - Fisique Fitness - Kokapet's Most Holistic Gym</title>
         <meta name="description" content="Contact Fisique Fitness in Kokapet, Hyderabad. Visit us at Avant Cedar or reach out via phone and WhatsApp for personal training inquiries." />
-        <link rel="canonical" href="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
+        <link rel="canonical" href="https://fisiquefitness.com/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
+        <meta property="og:title" content="Contact - Fisique Fitness" />
+        <meta property="og:description" content="Contact Fisique Fitness in Kokapet, Hyderabad for personal training inquiries." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://fisiquefitness.com/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
       </Helmet>
       <LocalBusinessSchema />
+      <BreadcrumbSchema items={breadcrumbItems} />
       
       <Header />
       <main className="pt-20">
