@@ -22,30 +22,30 @@ export const BlogPostSchema = ({
     "@type": "BlogPosting",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://fisiquefitness.com/blog/${slug}`
+      "@id": `https://fisique.fitness/blog/${slug}`
     },
     "headline": title,
     "description": excerpt,
-    "image": featuredImage || "https://fisiquefitness.com/fisique-logo.webp",
+    "image": featuredImage || "https://fisique.fitness/fisique-logo.webp",
     "datePublished": publishedAt,
     "dateModified": updatedAt || publishedAt,
     "author": {
       "@type": "Organization",
       "name": "Fisique Fitness",
-      "@id": "https://fisiquefitness.com/#organization"
+      "@id": "https://fisique.fitness/#organization"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Fisique Fitness",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://fisiquefitness.com/fisique-logo.webp",
+        "url": "https://fisique.fitness/fisique-logo.webp",
         "width": 157,
         "height": 40
       }
     },
     "isPartOf": {
-      "@id": "https://fisiquefitness.com/#website"
+      "@id": "https://fisique.fitness/#website"
     },
     "inLanguage": "en-IN"
   };

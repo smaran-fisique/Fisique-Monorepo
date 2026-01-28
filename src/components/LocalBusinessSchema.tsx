@@ -4,11 +4,11 @@ export const LocalBusinessSchema = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "HealthClub", "SportsActivityLocation"],
-    "@id": "https://fisiquefitness.com/#localbusiness",
+    "@id": "https://fisique.fitness/#localbusiness",
     "additionalType": "https://schema.org/ExerciseGym",
     "name": "Fisique Fitness",
     "description": "Premium personal training gym in Kokapet, Hyderabad offering one-on-one coaching, nutrition guidance, and sauna recovery.",
-    "url": "https://fisiquefitness.com",
+    "url": "https://fisique.fitness",
     "telephone": ["+91-9515469444", "+91-7671959610"],
     "email": "hello@fisique.fitness",
     "address": {
@@ -24,7 +24,7 @@ export const LocalBusinessSchema = () => {
       "latitude": "17.3871",
       "longitude": "78.3401"
     },
-    "image": "https://fisiquefitness.com/fisique-logo.webp",
+    "image": "https://fisique.fitness/fisique-logo.webp",
     "priceRange": "₹₹₹",
     "currenciesAccepted": "INR",
     "paymentAccepted": "Cash, Credit Card, UPI, Bank Transfer",

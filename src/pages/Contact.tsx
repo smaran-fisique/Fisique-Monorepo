@@ -14,7 +14,7 @@ const Contact = () => {
   const [phone, setPhone] = useState("");
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Contact' }
   ];
 
@@ -33,11 +33,11 @@ const Contact = () => {
       <Helmet>
         <title>Contact - Fisique Fitness - Kokapet's Most Holistic Gym</title>
         <meta name="description" content="Contact Fisique Fitness in Kokapet, Hyderabad. Visit us at Avant Cedar or reach out via phone and WhatsApp for personal training inquiries." />
-        <link rel="canonical" href="https://fisiquefitness.com/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
+        <link rel="canonical" href="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
         <meta property="og:title" content="Contact - Fisique Fitness" />
         <meta property="og:description" content="Contact Fisique Fitness in Kokapet, Hyderabad for personal training inquiries." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisiquefitness.com/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
+        <meta property="og:url" content="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
       </Helmet>
       <LocalBusinessSchema />
       <BreadcrumbSchema items={breadcrumbItems} />

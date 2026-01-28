@@ -12,7 +12,7 @@ import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
 const KokapetGym = () => {
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Kokapet Gym' }
   ];
 
@@ -28,14 +28,14 @@ const KokapetGym = () => {
           name="keywords"
           content="gym kokapet, personal gym kokapet, fitness center kokapet, gym near me kokapet, personal training hyderabad, sauna gym kokapet"
         />
-        <link rel="canonical" href="https://fisiquefitness.com/kokapet-gym" />
+        <link rel="canonical" href="https://fisique.fitness/kokapet-gym" />
         <meta property="og:title" content="Premium Personal Gym Kokapet | Fisique Fitness" />
         <meta
           property="og:description"
           content="Kokapet's premier personal training studio with sauna recovery. 4.9★ rated."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisiquefitness.com/kokapet-gym" />
+        <meta property="og:url" content="https://fisique.fitness/kokapet-gym" />
       </Helmet>
       <LocalBusinessSchema />
       <FAQSchema faqs={defaultFAQs} />

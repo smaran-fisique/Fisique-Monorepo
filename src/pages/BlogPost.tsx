@@ -75,8 +75,8 @@ export default function BlogPost() {
   }
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://fisiquefitness.com/' },
-    { name: 'Blog', url: 'https://fisiquefitness.com/blog-posts/' },
+    { name: 'Home', url: 'https://fisique.fitness/' },
+    { name: 'Blog', url: 'https://fisique.fitness/blog-posts/' },
     { name: post.title }
   ];
 
@@ -85,11 +85,11 @@ export default function BlogPost() {
       <Helmet>
         <title>{post.title} | Fisique Fitness Blog</title>
         <meta name="description" content={post.excerpt || `Read ${post.title} on the Fisique Fitness blog.`} />
-        <link rel="canonical" href={`https://fisiquefitness.com/blog/${slug}`} />
+        <link rel="canonical" href={`https://fisique.fitness/blog/${slug}`} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.excerpt || `Read ${post.title} on the Fisique Fitness blog.`} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://fisiquefitness.com/blog/${slug}`} />
+        <meta property="og:url" content={`https://fisique.fitness/blog/${slug}`} />
         {post.featured_image_url && <meta property="og:image" content={post.featured_image_url} />}
         <meta property="article:published_time" content={post.published_at} />
         {post.updated_at && <meta property="article:modified_time" content={post.updated_at} />}
