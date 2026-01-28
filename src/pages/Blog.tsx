@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StickyBottomCTA } from '@/components/StickyBottomCTA';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Loader2, Search } from 'lucide-react';
+import { BlogListSchema } from '@/components/BlogListSchema';
+import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
 
 interface BlogPost {
   id: string;
@@ -48,8 +50,25 @@ export default function Blog() {
     post.title.toLowerCase().includes(search.toLowerCase())
   );
 
+  const breadcrumbItems = [
+    { name: 'Home', url: 'https://fisiquefitness.com/' },
+    { name: 'Blog' }
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Fitness Blog | Fisique Fitness - Kokapet, Hyderabad</title>
+        <meta name="description" content="Tips, guides, and inspiration for your fitness journey. Expert advice on personal training, nutrition, and wellness from Fisique Fitness in Kokapet." />
+        <link rel="canonical" href="https://fisiquefitness.com/blog-posts/" />
+        <meta property="og:title" content="Fitness Blog | Fisique Fitness" />
+        <meta property="og:description" content="Tips, guides, and inspiration for your fitness journey from Kokapet's premium personal training studio." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://fisiquefitness.com/blog-posts/" />
+      </Helmet>
+      <BlogListSchema posts={posts} />
+      <BreadcrumbSchema items={breadcrumbItems} />
+      
       <Header />
       
       <main className="flex-1 pt-24 pb-16">
