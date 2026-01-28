@@ -29,6 +29,7 @@ import Terms from "./pages/legal/Terms";
 import Privacy from "./pages/legal/Privacy";
 import Refund from "./pages/legal/Refund";
 import Shipping from "./pages/legal/Shipping";
+import Legal from "./pages/legal/Legal";
 import Contact from "./pages/Contact";
 import KokapetGym from "./pages/KokapetGym";
 import PersonalTrainingKokapet from "./pages/PersonalTrainingKokapet";
@@ -53,6 +54,8 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey" element={<Contact />} />
               <Route path="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" element={<Contact />} />
+              <Route path="/legal" element={<Legal />} />
+              <Route path="/legal/" element={<Legal />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/refund" element={<Refund />} />
