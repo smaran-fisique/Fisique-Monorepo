@@ -16,13 +16,13 @@ export const FinalCTA = () => {
 
       <div className="container-custom max-w-3xl relative z-10 px-4">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-          Train Without Compromise
+          Ready to Transform Your Fitness?
         </h2>
 
         <p className="text-muted-foreground text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-          Whether you train solo or with your coach,
+          Start with a personal training trial and experience
           <br className="hidden sm:block" />{" "}
-          Fisique gives you a space that respects your seriousness.
+          what focused, results-driven training feels like.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -32,12 +32,12 @@ export const FinalCTA = () => {
             asChild
           >
             <a 
-              href="https://maps.app.goo.gl/GoiqDpnditiJBRmJ9" 
+              href="https://wa.me/919515847444?text=Hi!%20I%20want%20to%20book%20a%20PT%20trial%20at%20Fisique" 
               target="_blank" 
               rel="noopener noreferrer"
             >
-              <MapPin className="w-4 h-4 mr-2" />
-              Visit the Studio
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Book a PT Trial
             </a>
           </Button>
           
@@ -47,9 +47,13 @@ export const FinalCTA = () => {
             className="border-border hover:bg-secondary text-foreground font-semibold" 
             asChild
           >
-            <a href="https://wa.me/919515469444?text=Hi!%20I%20want%20to%20know%20more%20about%20Fisique" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              WhatsApp Us
+            <a 
+              href="https://maps.app.goo.gl/GoiqDpnditiJBRmJ9" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <MapPin className="w-4 h-4 mr-2" />
+              Visit the Studio
             </a>
           </Button>
         </div>

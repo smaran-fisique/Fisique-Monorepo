@@ -1,13 +1,14 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { ProblemSection } from "@/components/ProblemSection";
-import { WhatIsFisiqueSection } from "@/components/WhatIsFisiqueSection";
-import { TrainingOptionsSection } from "@/components/TrainingOptionsSection";
+import { AboutSection } from "@/components/AboutSection";
+import { CoreOfferingsSection } from "@/components/CoreOfferingsSection";
 import { StudioProvidesSection } from "@/components/StudioProvidesSection";
-import { WhatWeDontDoSection } from "@/components/WhatWeDontDoSection";
+import { MembershipPlansSection } from "@/components/MembershipPlansSection";
+import { TrainingOptionsSubSection } from "@/components/TrainingOptionsSubSection";
 import { WhoIsForSection } from "@/components/WhoIsForSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
+import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { Helmet } from "react-helmet-async";
 import { useSEO } from "@/hooks/useSEO";
 
@@ -26,15 +27,16 @@ const Index = () => {
         <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
       </Helmet>
+      <LocalBusinessSchema />
       
       <Header />
       <main>
         <Hero />
-        <ProblemSection />
-        <WhatIsFisiqueSection />
-        <TrainingOptionsSection />
+        <AboutSection />
+        <CoreOfferingsSection />
         <StudioProvidesSection />
-        <WhatWeDontDoSection />
+        <MembershipPlansSection />
+        <TrainingOptionsSubSection />
         <WhoIsForSection />
         <FinalCTA />
       </main>

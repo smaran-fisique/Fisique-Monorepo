@@ -29,6 +29,7 @@ import Terms from "./pages/legal/Terms";
 import Privacy from "./pages/legal/Privacy";
 import Refund from "./pages/legal/Refund";
 import Shipping from "./pages/legal/Shipping";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +45,11 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog-posts" element={<Blog />} />
+              <Route path="/blog-posts/" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey" element={<Contact />} />
+              <Route path="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" element={<Contact />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/refund" element={<Refund />} />

@@ -67,28 +67,38 @@ export const Header = () => {
             </a>
 
             {/* Desktop nav */}
-            <div className="hidden md:flex items-center gap-3">
-              <Button 
-                asChild 
-                variant="ghost" 
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
+            <div className="hidden md:flex items-center gap-1">
+              <a 
+                href="#about-us" 
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <a 
-                  href="https://member.fisique.fitness" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Member Login
-                </a>
-              </Button>
+                About
+              </a>
+              <a 
+                href="#services" 
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Services
+              </a>
+              <a 
+                href="#membership" 
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Membership
+              </a>
+              <a 
+                href="/blog-posts/" 
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Posts
+              </a>
               
               <Button 
                 asChild 
                 size="sm"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                className="ml-2 bg-accent hover:bg-accent/90 text-accent-foreground"
               >
-                <a href="tel:+917671959610">
+                <a href="tel:+919515847444">
                   <Phone className="w-4 h-4 mr-2" />
                   Call Us
                 </a>
@@ -123,20 +133,39 @@ export const Header = () => {
       >
         <div className="container-custom px-4 py-6 space-y-4">
           <a 
-            href="https://member.fisique.fitness" 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href="#about-us" 
             className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setMenuOpen(false)}
           >
-            Member Login
+            About
+          </a>
+          <a 
+            href="#services" 
+            className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Services
+          </a>
+          <a 
+            href="#membership" 
+            className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Membership
+          </a>
+          <a 
+            href="/blog-posts/" 
+            className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Posts
           </a>
           
           <Button 
             asChild 
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
           >
-            <a href="tel:+917671959610" onClick={() => setMenuOpen(false)}>
+            <a href="tel:+919515847444" onClick={() => setMenuOpen(false)}>
               <Phone className="w-4 h-4 mr-2" />
               Call Us
             </a>
