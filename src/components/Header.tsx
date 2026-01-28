@@ -87,6 +87,12 @@ export const Header = () => {
                 Membership
               </a>
               <a 
+                href="#offers" 
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Offers
+              </a>
+              <a 
                 href="/blog-posts/" 
                 className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
@@ -152,6 +158,13 @@ export const Header = () => {
             onClick={() => setMenuOpen(false)}
           >
             Membership
+          </a>
+          <a 
+            href="#offers" 
+            className="block py-3 text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            Offers
           </a>
           <a 
             href="/blog-posts/" 
