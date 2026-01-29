@@ -19,8 +19,8 @@ export const OfferBanner = () => {
   const [offer, setOffer] = useState<Offer | null>(null);
   const [visible, setVisible] = useState(false);
 
-  // Only show on homepage (not on /offers, /admin, etc.)
-  const isHomepage = location.pathname === '/';
+  // Hide on /offers and /admin pages
+  const isExcludedPage = location.pathname.startsWith('/offers') || location.pathname.startsWith('/admin');
 
   useEffect(() => {
     fetchActiveOffer();
@@ -28,7 +28,7 @@ export const OfferBanner = () => {
 
   // Add/remove body class and CSS variable when visibility changes
   useEffect(() => {
-    const shouldShow = visible && isHomepage;
+    const shouldShow = visible && !isExcludedPage;
     if (shouldShow) {
       document.body.classList.add('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', `${BANNER_HEIGHT}px`);
@@ -40,7 +40,7 @@ export const OfferBanner = () => {
       document.body.classList.remove('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', '0px');
     };
-  }, [visible, isHomepage]);
+  }, [visible, isExcludedPage]);
 
   const fetchActiveOffer = async () => {
     try {
@@ -80,7 +80,7 @@ export const OfferBanner = () => {
     setVisible(false);
   };
 
-  if (!visible || !offer || !isHomepage) return null;
+  if (!visible || !offer || isExcludedPage) return null;
 
   return (
     <div 
@@ -90,7 +90,6 @@ export const OfferBanner = () => {
       <div className="container mx-auto px-4 h-full flex items-center justify-between gap-3">
         <div className="flex-1 text-xs md:text-sm truncate">
           <strong>{offer.title}</strong>
-          {offer.description && <span className="ml-2 hidden sm:inline">{offer.description}</span>}
         </div>
         <div className="flex items-center gap-2">
           <Button
