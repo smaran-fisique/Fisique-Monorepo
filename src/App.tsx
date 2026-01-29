@@ -8,6 +8,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ScrollToTop } from "./components/ScrollToTop";
+import { GoogleAnalytics } from "./components/GoogleAnalytics";
 
 // Eagerly load the main page for best LCP
 import Index from "./pages/Index";
@@ -66,6 +67,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
+          <GoogleAnalytics />
           <AuthProvider>
             <Suspense fallback={<PageLoader />}>
               <Routes>
