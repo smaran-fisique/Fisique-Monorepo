@@ -31,14 +31,15 @@ export async function verifyAuth(req: Request, requireAdmin = false): Promise<Au
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
   
-  // Use service role key for proper auth validation
-  const supabase = createClient(supabaseUrl, supabaseServiceKey, {
-    global: { headers: { Authorization: authHeader } }
-  });
-
-  const { data: { user }, error } = await supabase.auth.getUser();
+  // Use service role key for admin operations
+  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  
+  // Extract the JWT token and validate it
+  const token = authHeader.replace('Bearer ', '');
+  const { data: { user }, error } = await supabase.auth.getUser(token);
   
   if (error || !user) {
+    console.error('Auth validation failed:', error?.message);
     return {
       user: null,
       supabase: null,
