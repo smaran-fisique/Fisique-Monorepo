@@ -45,6 +45,9 @@ const PersonalTrainingKokapet = lazy(() => import("./pages/PersonalTrainingKokap
 const GymMembershipKokapet = lazy(() => import("./pages/GymMembershipKokapet"));
 const GymFinancialDistrict = lazy(() => import("./pages/GymFinancialDistrict"));
 const GymNarsingi = lazy(() => import("./pages/GymNarsingi"));
+const FreelanceTrainerKokapet = lazy(() => import("./pages/FreelanceTrainerKokapet"));
+const FreelanceTrainerNarsingi = lazy(() => import("./pages/FreelanceTrainerNarsingi"));
+const FreelanceTrainerFinancialDistrict = lazy(() => import("./pages/FreelanceTrainerFinancialDistrict"));
 const OffersIndex = lazy(() => import("./pages/offers/OffersIndex"));
 const IPhoneOffer = lazy(() => import("./pages/offers/IPhoneOffer"));
 
@@ -98,6 +101,9 @@ const App = () => (
                 <Route path="/gym-membership-kokapet" element={<GymMembershipKokapet />} />
                 <Route path="/gym-financial-district" element={<GymFinancialDistrict />} />
                 <Route path="/gym-narsingi" element={<GymNarsingi />} />
+                <Route path="/freelance-trainer-kokapet" element={<FreelanceTrainerKokapet />} />
+                <Route path="/freelance-trainer-narsingi" element={<FreelanceTrainerNarsingi />} />
+                <Route path="/freelance-trainer-financial-district" element={<FreelanceTrainerFinancialDistrict />} />
                 <Route path="/offers" element={<OffersIndex />} />
                 <Route path="/offers/" element={<OffersIndex />} />
                 <Route path="/offers/iphone" element={<IPhoneOffer />} />
