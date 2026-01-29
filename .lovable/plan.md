@@ -1,86 +1,170 @@
 
 
-## Fix AI Crawler Access Issues
+# SEO Competitive Game Plan for Fisique Fitness
 
-### Problem Summary
-Three issues are preventing AI crawlers (Perplexity, ChatGPT, Gemini) from properly indexing the site:
+## Current State Analysis
 
-1. **Static files being intercepted** - `llms.txt` and `llms-full.txt` are returning Sedo parking pages instead of actual content
-2. **Wrong domain in robots.txt** - Sitemap URL points to `fisique.fitness` instead of `fisiquefitness.com`
-3. **Wrong domain in sitemap.xml** - All 22 URLs reference `fisique.fitness` instead of the live domain
+Based on the Google search results, here's where you stand vs competitors:
+
+| Metric | Fisique | HOT Gym | Cult.fit | Gold's Gym |
+|--------|---------|---------|----------|------------|
+| Indexed Landing Pages | 3 | 8+ | 15+ | 5+ |
+| Price Rich Snippets | No | No | No | Yes |
+| Location Variations | 1 (Kokapet) | 3+ | 10+ | 3+ |
+| Blog Posts | 15 | Unknown | Many | Few |
+| FAQ Schema | Yes | Unknown | Yes | Unknown |
 
 ---
 
-### Step 1: Update robots.txt with correct domain
+## The 4-Pillar Game Plan
 
-**File:** `public/robots.txt`
+### Pillar 1: Location Expansion Pages (High Impact)
+**Create landing pages for adjacent neighborhoods where your potential clients live/work:**
 
-Change the sitemap reference from:
+1. `/gym-narsingi` - "Premium Gym Near Narsingi"
+2. `/gym-financial-district` - "Gym in Financial District, Hyderabad"
+3. `/gym-gachibowli` - "Best Gym Near Gachibowli"
+4. `/gym-gandipet` - "Fitness Studio Near Gandipet"
+5. `/personal-trainer-hyderabad` - Broader city-level keyword capture
+
+Each page will:
+- Target location-specific keywords
+- Include unique content about commute times, nearby landmarks
+- Have its own FAQ schema with location-specific questions
+- Include Google Maps embed with directions from that area
+
+---
+
+### Pillar 2: Price Rich Snippets (Quick Win)
+**Add Product/Offer schema to get price ranges showing in search results**
+
+Create a new `ServiceSchema` component that includes:
+```text
++----------------------------------+
+| Service Schema Structure         |
++----------------------------------+
+| - Personal Training              |
+|   └─ AggregateOffer              |
+|      ├─ lowPrice: "15000"        |
+|      └─ highPrice: "50000"       |
++----------------------------------+
+| - Gym Membership                 |
+|   └─ AggregateOffer              |
+|      ├─ lowPrice: "3000"         |
+|      └─ highPrice: "30000"       |
++----------------------------------+
 ```
-Sitemap: https://fisique.fitness/sitemap.xml
+
+This will trigger Google's price range display like Gold's Gym shows.
+
+---
+
+### Pillar 3: Service-Specific Deep Pages
+**Create dedicated pages for high-intent service keywords:**
+
+1. `/sauna-gym-kokapet` - Unique differentiator, no competitor has this
+2. `/90-day-transformation-program` - Your signature offering
+3. `/nutrition-coaching-kokapet` - Capture diet/nutrition searches
+4. `/strength-training-kokapet` - Specific modality page
+5. `/weight-loss-gym-kokapet` - Goal-oriented landing page
+6. `/women-fitness-kokapet` - Demographic targeting (Cult does this)
+
+---
+
+### Pillar 4: Enhanced Schema Implementation
+
+**Current schemas you have:**
+- LocalBusinessSchema
+- FAQSchema
+- BreadcrumbSchema
+- OrganizationSchema
+- WebSiteSchema
+- BlogPostSchema
+
+**Schemas to add:**
+
+1. **Service Schema** with pricing
+2. **GymMembership Product Schema** with AggregateOffer
+3. **Course Schema** for 90-day transformation (as an educational program)
+4. **Review snippets** with individual review schema
+5. **Video Schema** (if you have any gym tour/testimonial videos)
+
+---
+
+## Implementation Priority
+
+| Priority | Task | Impact | Effort |
+|----------|------|--------|--------|
+| P0 | Add Service/Product Schema with pricing | High | Low |
+| P1 | Create Financial District landing page | High | Medium |
+| P1 | Create Narsingi landing page | High | Medium |
+| P2 | Create Sauna Gym page | Medium | Medium |
+| P2 | Create 90-Day Transformation page | Medium | Medium |
+| P3 | Create remaining location pages | Medium | High |
+| P3 | Add Video Schema (if videos exist) | Low | Low |
+
+---
+
+## Technical Implementation Details
+
+### New Files to Create:
+```text
+src/pages/
+├── GymNarsingi.tsx
+├── GymFinancialDistrict.tsx
+├── GymGachibowli.tsx
+├── GymGandipet.tsx
+├── SaunaGymKokapet.tsx
+├── TransformationProgram.tsx
+├── NutritionCoachingKokapet.tsx
+└── WeightLossGymKokapet.tsx
+
+src/components/
+├── ServiceSchema.tsx (NEW - with pricing)
+├── ProductSchema.tsx (NEW - for memberships)
+└── CourseSchema.tsx (NEW - for 90-day program)
 ```
-to:
-```
-Sitemap: https://fisiquefitness.com/sitemap.xml
-```
+
+### Sitemap Updates:
+Add all new pages to `public/sitemap.xml`
+
+### Route Updates:
+Add routes to `src/App.tsx`
 
 ---
 
-### Step 2: Update sitemap.xml with correct domain
+## Expected Outcomes
 
-**File:** `public/sitemap.xml`
+**Within 2-4 weeks:**
+- Price ranges appearing in search results
+- More indexed pages competing for location keywords
 
-Replace all 22 instances of `https://fisique.fitness/` with `https://fisiquefitness.com/`
+**Within 1-3 months:**
+- Improved rankings for "gym near [location]" queries
+- Capture traffic from Financial District IT professionals
+- Dominate "sauna gym" searches (unique positioning)
 
-This includes:
-- Homepage
-- Kokapet Gym page
-- Personal Training page
-- Gym Membership page
-- Blog listing and all 15 blog posts
-- Contact page
-- Legal page
-
----
-
-### Step 3: Update llms.txt with correct domain
-
-**File:** `public/llms.txt`
-
-Update all URL references from `fisique.fitness` to `fisiquefitness.com`:
-- Homepage link
-- Kokapet Gym link
-- Personal Training link
-- Gym Membership link
-- Blog link
-- Contact link
+**Within 3-6 months:**
+- Compete with Cult.fit on page count
+- Own premium/boutique gym positioning in Kokapet area
 
 ---
 
-### Step 4: Update llms-full.txt with correct domain
+## Quick Wins You Can Do Today
 
-**File:** `public/llms-full.txt`
-
-Update all URL references from `fisique.fitness` to `fisiquefitness.com` in:
-- Website Structure section (6 main page URLs)
-- Related Subdomains section (if applicable)
+1. Add price ranges to structured data
+2. Update LocalBusinessSchema with more specific service offerings
+3. Add individual Review schema entries (not just aggregate)
 
 ---
 
-### Step 5: Republish and verify
+## Content Strategy for New Pages
 
-After publishing:
-1. Wait 5-10 minutes for CDN propagation
-2. Test `https://fisiquefitness.com/llms.txt` directly in browser
-3. Test with Perplexity by asking it to describe the site
-4. If still showing Sedo, there may be DNS-level caching that needs 24-48 hours to clear
-
----
-
-### Why This Should Fix It
-
-The Sedo parking page appearing for `llms.txt` suggests the old domain (`fisique.fitness`) may still have some DNS routing issues. By ensuring all references use `fisiquefitness.com` consistently, AI crawlers will:
-- Find the correct sitemap location
-- Follow valid URLs that resolve to Lovable
-- Access the AI-specific context files properly
+Each location page should include:
+- H1: "[Service] Near [Location]" pattern
+- Driving distance and time from that location
+- Why professionals from that area choose Fisique
+- Google Maps directions from that specific area
+- Location-specific testimonials if available
+- Unique FAQ questions about that location
 
