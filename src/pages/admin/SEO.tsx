@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, Edit, Search } from 'lucide-react';
+import { Loader2, Plus, Edit, Search, Trash2, ExternalLink } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface SEOMeta {
   id: string;
@@ -19,17 +20,53 @@ interface SEOMeta {
   canonical_url: string | null;
 }
 
+// Common pages for quick selection
+const COMMON_PAGES = [
+  { path: '/', label: 'Homepage' },
+  { path: '/blog', label: 'Blog' },
+  { path: '/kokapet-gym', label: 'Kokapet Gym' },
+  { path: '/personal-training-kokapet', label: 'Personal Training Kokapet' },
+  { path: '/gym-membership-kokapet', label: 'Gym Membership Kokapet' },
+  { path: '/gym-financial-district', label: 'Gym Financial District' },
+  { path: '/gym-narsingi', label: 'Gym Narsingi' },
+  { path: '/offers', label: 'Offers' },
+  { path: '/terms', label: 'Terms' },
+  { path: '/privacy', label: 'Privacy' },
+  { path: '/refund', label: 'Refund' },
+  { path: '/shipping', label: 'Shipping' },
+];
+
 export default function SEO() {
   const [seoMetas, setSeoMetas] = useState<SEOMeta[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<SEOMeta | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Form state for live character counts
+  const [formTitle, setFormTitle] = useState('');
+  const [formDescription, setFormDescription] = useState('');
+  const [formPath, setFormPath] = useState('');
+  
   const { user } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
     fetchSEO();
   }, []);
+
+  // Reset form when editing changes
+  useEffect(() => {
+    if (editing) {
+      setFormTitle(editing.title);
+      setFormDescription(editing.description);
+      setFormPath(editing.page_path);
+    } else {
+      setFormTitle('');
+      setFormDescription('');
+      setFormPath('');
+    }
+  }, [editing, dialogOpen]);
 
   const fetchSEO = async () => {
     try {
@@ -56,9 +93,9 @@ export default function SEO() {
     const formData = new FormData(e.currentTarget);
 
     const seoData = {
-      page_path: formData.get('page_path') as string,
-      title: formData.get('title') as string,
-      description: formData.get('description') as string,
+      page_path: formPath,
+      title: formTitle,
+      description: formDescription,
       keywords: formData.get('keywords') as string || null,
       og_image: formData.get('og_image') as string || null,
       canonical_url: formData.get('canonical_url') as string || null,
@@ -96,6 +133,36 @@ export default function SEO() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    if (!confirm('Delete this SEO entry?')) return;
+
+    try {
+      const { error } = await supabase.from('seo_meta').delete().eq('id', id);
+      if (error) throw error;
+      toast({ title: 'Success', description: 'SEO entry deleted' });
+      fetchSEO();
+    } catch (error: any) {
+      toast({ variant: 'destructive', title: 'Error', description: error.message });
+    }
+  };
+
+  const filteredMetas = seoMetas.filter(meta => 
+    meta.page_path.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    meta.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const getTitleColor = (length: number) => {
+    if (length === 0) return 'text-muted-foreground';
+    if (length <= 60) return 'text-green-500';
+    return 'text-red-500';
+  };
+
+  const getDescriptionColor = (length: number) => {
+    if (length === 0) return 'text-muted-foreground';
+    if (length <= 160) return 'text-green-500';
+    return 'text-red-500';
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -109,69 +176,116 @@ export default function SEO() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">SEO Management</h1>
-          <p className="text-muted-foreground">Optimize your pages for search engines</p>
+          <p className="text-muted-foreground">Page-level SEO control for every route</p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setEditing(null); }}>
           <DialogTrigger asChild>
             <Button onClick={() => setEditing(null)}>
               <Plus className="w-4 h-4 mr-2" />
-              Add SEO Meta
+              Add Page SEO
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>{editing ? 'Edit' : 'Add'} SEO Meta</DialogTitle>
+              <DialogTitle>{editing ? 'Edit' : 'Add'} Page SEO</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSave} className="space-y-4">
+            <form onSubmit={handleSave} className="space-y-5">
+              {/* Page Path */}
               <div className="space-y-2">
                 <Label htmlFor="page_path">Page Path</Label>
-                <Input 
-                  id="page_path" 
-                  name="page_path" 
-                  placeholder="/about" 
-                  defaultValue={editing?.page_path}
-                  required 
-                />
+                <div className="flex gap-2">
+                  <Input 
+                    id="page_path" 
+                    name="page_path" 
+                    placeholder="/your-page-path" 
+                    value={formPath}
+                    onChange={(e) => setFormPath(e.target.value)}
+                    required 
+                    className="flex-1"
+                  />
+                  <Select onValueChange={(value) => setFormPath(value)}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Quick select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COMMON_PAGES.map((page) => (
+                        <SelectItem key={page.path} value={page.path}>
+                          {page.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <p className="text-xs text-muted-foreground">e.g., /blog, /kokapet-gym, /blog/post-slug</p>
               </div>
+
+              {/* Meta Title */}
               <div className="space-y-2">
-                <Label htmlFor="title">Meta Title (max 60 chars)</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="title">Meta Title</Label>
+                  <span className={`text-xs ${getTitleColor(formTitle.length)}`}>
+                    {formTitle.length}/60 characters
+                  </span>
+                </div>
                 <Input 
                   id="title" 
                   name="title" 
-                  maxLength={60}
-                  defaultValue={editing?.title}
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
                   required 
                 />
+                {formTitle.length > 60 && (
+                  <p className="text-xs text-red-500">Title exceeds recommended length. May be truncated in search results.</p>
+                )}
               </div>
+
+              {/* Meta Description */}
               <div className="space-y-2">
-                <Label htmlFor="description">Meta Description (max 160 chars)</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="description">Meta Description</Label>
+                  <span className={`text-xs ${getDescriptionColor(formDescription.length)}`}>
+                    {formDescription.length}/160 characters
+                  </span>
+                </div>
                 <Textarea 
                   id="description" 
                   name="description" 
-                  maxLength={160}
-                  defaultValue={editing?.description}
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
                   required 
+                  rows={3}
                 />
+                {formDescription.length > 160 && (
+                  <p className="text-xs text-red-500">Description exceeds recommended length. May be truncated in search results.</p>
+                )}
               </div>
+
+              {/* Keywords */}
               <div className="space-y-2">
-                <Label htmlFor="keywords">Keywords (comma-separated)</Label>
+                <Label htmlFor="keywords">Focus Keywords (comma-separated)</Label>
                 <Input 
                   id="keywords" 
                   name="keywords" 
-                  placeholder="fitness, gym, training"
+                  placeholder="gym kokapet, personal training, fitness hyderabad"
                   defaultValue={editing?.keywords || ''}
                 />
+                <p className="text-xs text-muted-foreground">Primary keywords for this page</p>
               </div>
+
+              {/* OG Image */}
               <div className="space-y-2">
-                <Label htmlFor="og_image">OG Image URL</Label>
+                <Label htmlFor="og_image">Social Share Image (OG Image)</Label>
                 <Input 
                   id="og_image" 
                   name="og_image" 
                   type="url"
-                  placeholder="https://example.com/image.jpg"
+                  placeholder="https://..."
                   defaultValue={editing?.og_image || ''}
                 />
+                <p className="text-xs text-muted-foreground">1200x630px recommended. Used when sharing on Facebook, LinkedIn, Twitter.</p>
               </div>
+
+              {/* Canonical URL */}
               <div className="space-y-2">
                 <Label htmlFor="canonical_url">Canonical URL</Label>
                 <Input 
@@ -181,55 +295,124 @@ export default function SEO() {
                   placeholder="https://fisique.fitness/page"
                   defaultValue={editing?.canonical_url || ''}
                 />
+                <p className="text-xs text-muted-foreground">Use only if this page duplicates content from another URL</p>
               </div>
-              <Button type="submit" className="w-full">Save SEO Meta</Button>
+
+              {/* Live Preview */}
+              <div className="bg-muted/50 border border-border rounded-lg p-4">
+                <p className="text-xs font-medium text-muted-foreground mb-3">SEARCH RESULT PREVIEW</p>
+                <div className="bg-background border border-border rounded p-3">
+                  <p className="text-blue-600 text-lg truncate">
+                    {formTitle || 'Your Page Title Here'}
+                  </p>
+                  <p className="text-green-700 text-xs mt-1">
+                    https://fisique.fitness{formPath || '/page'}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                    {formDescription || 'Your meta description appears here. Make it compelling to encourage clicks.'}
+                  </p>
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full">Save SEO Settings</Button>
             </form>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="bg-card border border-border rounded-lg divide-y divide-border">
-        {seoMetas.map((meta) => (
-          <div key={meta.id} className="p-4">
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <h3 className="font-mono text-sm font-medium">{meta.page_path}</h3>
-                <p className="text-lg font-semibold mt-1">{meta.title}</p>
-                <p className="text-sm text-muted-foreground mt-1">{meta.description}</p>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => { setEditing(meta); setDialogOpen(true); }}
-              >
-                <Edit className="w-4 h-4" />
-              </Button>
-            </div>
-            {meta.keywords && (
-              <p className="text-xs text-muted-foreground mt-2">
-                Keywords: {meta.keywords}
-              </p>
-            )}
-          </div>
-        ))}
+      {/* Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Input 
+          placeholder="Search pages..." 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="pl-10"
+        />
       </div>
 
-      <div className="bg-muted/50 border border-border rounded-lg p-6">
-        <div className="flex items-start gap-3">
-          <Search className="w-5 h-5 text-muted-foreground mt-0.5" />
-          <div>
-            <h3 className="font-semibold mb-2">SEO Preview</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              Your pages will appear like this in search results. Keep titles under 60 characters and descriptions under 160 characters for best results.
+      {/* SEO Entries List */}
+      <div className="bg-card border border-border rounded-lg divide-y divide-border">
+        {filteredMetas.length === 0 ? (
+          <div className="p-12 text-center">
+            <Search className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+            <p className="text-muted-foreground mb-4">
+              {searchQuery ? 'No pages match your search' : 'No SEO entries yet'}
             </p>
-            <div className="bg-background border border-border rounded p-3">
-              <p className="text-blue-600 text-lg">Your Page Title Here</p>
-              <p className="text-green-700 text-xs mt-1">https://fisique.fitness/page</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Your meta description appears here. Make it compelling to encourage clicks from search results.
-              </p>
-            </div>
+            {!searchQuery && (
+              <Button onClick={() => setDialogOpen(true)}>Add your first page</Button>
+            )}
           </div>
+        ) : (
+          filteredMetas.map((meta) => (
+            <div key={meta.id} className="p-4 hover:bg-accent/30 transition-colors">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <code className="text-xs bg-muted px-2 py-0.5 rounded font-mono">{meta.page_path}</code>
+                    <a 
+                      href={`https://fisique.fitness${meta.page_path}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                  <p className="font-semibold truncate">{meta.title}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{meta.description}</p>
+                  <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                    <span className={meta.title.length <= 60 ? 'text-green-500' : 'text-red-500'}>
+                      Title: {meta.title.length}/60
+                    </span>
+                    <span className={meta.description.length <= 160 ? 'text-green-500' : 'text-red-500'}>
+                      Desc: {meta.description.length}/160
+                    </span>
+                    {meta.og_image && <span className="text-green-500">✓ OG Image</span>}
+                    {meta.canonical_url && <span className="text-blue-500">✓ Canonical</span>}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => { setEditing(meta); setDialogOpen(true); }}
+                  >
+                    <Edit className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDelete(meta.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Tips Section */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="bg-muted/50 border border-border rounded-lg p-4">
+          <h3 className="font-semibold mb-2">Title Tips</h3>
+          <ul className="text-sm text-muted-foreground space-y-1">
+            <li>• Keep under 60 characters</li>
+            <li>• Include primary keyword near the start</li>
+            <li>• Make it compelling and unique</li>
+            <li>• Include brand name at the end</li>
+          </ul>
+        </div>
+        <div className="bg-muted/50 border border-border rounded-lg p-4">
+          <h3 className="font-semibold mb-2">Description Tips</h3>
+          <ul className="text-sm text-muted-foreground space-y-1">
+            <li>• Keep under 160 characters</li>
+            <li>• Include a clear call-to-action</li>
+            <li>• Summarize page content accurately</li>
+            <li>• Use active voice</li>
+          </ul>
         </div>
       </div>
     </div>

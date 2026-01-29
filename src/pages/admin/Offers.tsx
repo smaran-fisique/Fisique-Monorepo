@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Loader2, Edit, Trash2 } from 'lucide-react';
+import { Plus, Loader2, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 interface Offer {
@@ -19,6 +19,7 @@ interface Offer {
   start_date: string;
   end_date: string;
   is_active: boolean;
+  image_url: string | null;
 }
 
 export default function Offers() {
@@ -26,12 +27,21 @@ export default function Offers() {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingOffer, setEditingOffer] = useState<Offer | null>(null);
+  const [imageUrl, setImageUrl] = useState('');
   const { user } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
     fetchOffers();
   }, []);
+
+  useEffect(() => {
+    if (editingOffer) {
+      setImageUrl(editingOffer.image_url || '');
+    } else {
+      setImageUrl('');
+    }
+  }, [editingOffer, dialogOpen]);
 
   const fetchOffers = async () => {
     try {
@@ -65,6 +75,7 @@ export default function Offers() {
       start_date: formData.get('start_date') as string,
       end_date: formData.get('end_date') as string,
       is_active: formData.get('is_active') === 'on',
+      image_url: imageUrl || null,
       created_by: user?.id,
     };
 
@@ -125,16 +136,16 @@ export default function Offers() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Offers</h1>
-          <p className="text-muted-foreground">Manage promotional banners</p>
+          <p className="text-muted-foreground">Manage promotional banners and offer cards</p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setEditingOffer(null); }}>
           <DialogTrigger asChild>
             <Button onClick={() => setEditingOffer(null)}>
               <Plus className="w-4 h-4 mr-2" />
               New Offer
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editingOffer ? 'Edit' : 'New'} Offer</DialogTitle>
             </DialogHeader>
@@ -145,8 +156,37 @@ export default function Offers() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <Textarea id="description" name="description" defaultValue={editingOffer?.description || ''} />
+                <Textarea id="description" name="description" defaultValue={editingOffer?.description || ''} rows={3} />
               </div>
+              
+              {/* Image URL */}
+              <div className="space-y-2">
+                <Label htmlFor="image_url">Card Image URL</Label>
+                <Input 
+                  id="image_url" 
+                  name="image_url" 
+                  type="url"
+                  placeholder="https://..."
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Upload images via Media Library first, then paste the URL here
+                </p>
+                {imageUrl && (
+                  <div className="mt-2 border border-border rounded-lg overflow-hidden">
+                    <img 
+                      src={imageUrl} 
+                      alt="Preview" 
+                      className="w-full h-32 object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="cta_text">CTA Text</Label>
@@ -198,23 +238,39 @@ export default function Offers() {
         ) : (
           <div className="divide-y divide-border">
             {offers.map((offer) => (
-              <div key={offer.id} className="p-4 flex items-start justify-between hover:bg-accent/50 transition-colors">
-                <div className="flex-1">
+              <div key={offer.id} className="p-4 flex items-start gap-4 hover:bg-accent/50 transition-colors">
+                {/* Image Preview */}
+                <div className="w-20 h-20 flex-shrink-0 bg-muted rounded-lg overflow-hidden flex items-center justify-center">
+                  {offer.image_url ? (
+                    <img 
+                      src={offer.image_url} 
+                      alt={offer.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                  )}
+                </div>
+                
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold">{offer.title}</h3>
-                    <span className={`px-2 py-0.5 rounded-full text-xs ${
+                    <h3 className="font-semibold truncate">{offer.title}</h3>
+                    <span className={`px-2 py-0.5 rounded-full text-xs flex-shrink-0 ${
                       offer.is_active ? 'bg-green-500/10 text-green-500' : 'bg-gray-500/10 text-gray-500'
                     }`}>
                       {offer.is_active ? 'Active' : 'Inactive'}
                     </span>
                   </div>
-                  {offer.description && <p className="text-sm text-muted-foreground mb-2">{offer.description}</p>}
+                  {offer.description && (
+                    <p className="text-sm text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
+                  )}
                   <div className="flex items-center gap-4 text-xs text-muted-foreground">
                     <span>From: {new Date(offer.start_date).toLocaleDateString()}</span>
                     <span>To: {new Date(offer.end_date).toLocaleDateString()}</span>
+                    {offer.image_url && <span className="text-green-500">✓ Has image</span>}
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-shrink-0">
                   <Button 
                     variant="outline" 
                     size="sm" 

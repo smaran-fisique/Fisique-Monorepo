@@ -24,7 +24,6 @@ const navigation = [
   { name: 'Categories & Tags', href: '/admin/categories', icon: Tag },
   { name: 'Analytics', href: '/admin/analytics', icon: BarChart },
   { name: 'Offers', href: '/admin/offers', icon: Megaphone },
-  { name: 'Content', href: '/admin/content', icon: FileText },
   { name: 'SEO', href: '/admin/seo', icon: FileText },
   { name: 'Media', href: '/admin/media', icon: Image },
   { name: 'API Keys', href: '/admin/api-keys', icon: Key },

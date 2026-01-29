@@ -295,6 +295,7 @@ export type Database = {
           description: string | null
           end_date: string
           id: string
+          image_url: string | null
           is_active: boolean | null
           start_date: string
           title: string
@@ -308,6 +309,7 @@ export type Database = {
           description?: string | null
           end_date: string
           id?: string
+          image_url?: string | null
           is_active?: boolean | null
           start_date: string
           title: string
@@ -321,6 +323,7 @@ export type Database = {
           description?: string | null
           end_date?: string
           id?: string
+          image_url?: string | null
           is_active?: boolean | null
           start_date?: string
           title?: string
