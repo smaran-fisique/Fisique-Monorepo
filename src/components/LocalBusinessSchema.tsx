@@ -93,44 +93,14 @@ export const LocalBusinessSchema = () => {
     "sameAs": [
       "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
     ],
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Fitness Services",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Personal Training",
-            "description": "One-on-one coaching with customized nutrition plans and 90-day transformation programs"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Gym Membership",
-            "description": "Premium equipment access with flexible 1, 3, 6, and 12-month plans"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Sauna Recovery",
-            "description": "On-site sauna for post-workout muscle recovery and wellness"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Nutrition Counseling",
-            "description": "Personalized diet plans and meal guidance"
-          }
-        }
-      ]
-    },
+    "knowsAbout": [
+      "Personal Training",
+      "Strength Training",
+      "Nutrition Counseling",
+      "Sauna Therapy",
+      "Body Transformation",
+      "Fitness Coaching"
+    ],
     "areaServed": [
       {
         "@type": "City",
