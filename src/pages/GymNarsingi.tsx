@@ -4,43 +4,66 @@ import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 import { FAQSection } from "@/components/FAQSection";
-import { FAQSchema, defaultFAQs } from "@/components/FAQSchema";
+import { FAQSchema } from "@/components/FAQSchema";
 import { ServiceSchema } from "@/components/ServiceSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
-import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock } from "lucide-react";
+import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock, Car, Home } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
 
-const KokapetGym = () => {
+const narsingiFAQs = [
+  {
+    question: "How far is Fisique Fitness from Narsingi?",
+    answer: "Fisique Fitness is just 3-5 minutes from Narsingi. We're located in Kokapet, above Pulla Reddy Sweets in Avant Cedar—an easy drive via the main road connecting Narsingi to Kokapet."
+  },
+  {
+    question: "What makes this gym different from others near Narsingi?",
+    answer: "Unlike crowded commercial gyms, Fisique is a boutique personal training studio. We offer 1:1 coaching, limited membership for personalized attention, private sauna, and certified trainers who create customized programs for your goals."
+  },
+  {
+    question: "Do you offer morning and evening slots?",
+    answer: "Yes! We're open 5:30 AM to 10 PM, Monday to Saturday. We have slots that fit any schedule—early morning for those who prefer to workout before work, or evening for after-work sessions."
+  },
+  {
+    question: "Is there parking available?",
+    answer: "Yes, Avant Cedar building has dedicated parking space for members. The gym is on the 4th floor with easy elevator access."
+  },
+  {
+    question: "What services are available for Narsingi residents?",
+    answer: "We offer personal training packages (including our signature 90-day transformation), gym memberships, nutrition counseling, and sauna recovery. All services are designed for busy professionals and residents who want real results."
+  }
+];
+
+const GymNarsingi = () => {
   const breadcrumbItems = [
     { name: 'Home', url: 'https://fisique.fitness/' },
-    { name: 'Kokapet Gym' }
+    { name: 'Gym Near Narsingi' }
   ];
 
   return (
     <>
       <Helmet>
-        <title>Premium Personal Gym Kokapet | Fisique Fitness Hyderabad</title>
+        <title>Best Gym Near Narsingi Hyderabad | Fisique Fitness Kokapet</title>
         <meta
           name="description"
-          content="Discover 1:1 personal training + private sauna recovery at Fisique Fitness Kokapet. Located above Pulla Reddy Sweets, Avant Cedar. 4.9★ rated. Book free trial."
+          content="Premium personal training gym just 3 mins from Narsingi, Hyderabad. 1:1 coaching, private sauna, flexible hours. 4.9★ rated. Book your free trial today."
         />
         <meta
           name="keywords"
-          content="gym kokapet, personal gym kokapet, fitness center kokapet, gym near me kokapet, personal training hyderabad, sauna gym kokapet"
+          content="gym near narsingi, fitness center narsingi hyderabad, personal trainer near narsingi, gym kokapet narsingi, best gym narsingi area"
         />
-        <link rel="canonical" href="https://fisique.fitness/kokapet-gym" />
-        <meta property="og:title" content="Premium Personal Gym Kokapet | Fisique Fitness" />
+        <link rel="canonical" href="https://fisique.fitness/gym-narsingi" />
+        <meta property="og:title" content="Best Gym Near Narsingi Hyderabad | Fisique Fitness" />
         <meta
           property="og:description"
-          content="Kokapet's premier personal training studio with sauna recovery. 4.9★ rated."
+          content="Premium personal training gym just 3 mins from Narsingi. 1:1 coaching and private sauna."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisique.fitness/kokapet-gym" />
+        <meta property="og:url" content="https://fisique.fitness/gym-narsingi" />
       </Helmet>
       <LocalBusinessSchema />
       <ServiceSchema />
-      <FAQSchema faqs={defaultFAQs} />
+      <FAQSchema faqs={narsingiFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />
 
       <Header />
@@ -51,21 +74,21 @@ const KokapetGym = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
           <div className="container-custom relative">
             <div className="max-w-4xl">
-              {/* Trust Badge */}
-              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6">
-                <Star className="w-4 h-4 fill-accent text-accent" />
-                <span className="text-sm font-medium text-accent">4.9★ Rating on Google</span>
-                <span className="text-muted-foreground text-sm">• 91+ Reviews</span>
+              {/* Location Badge */}
+              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
+                <Car className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-primary">Just 3 mins from Narsingi</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                Premium Personal Gym{" "}
-                <span className="text-primary">Kokapet</span>
+                Premium Gym Near{" "}
+                <span className="text-primary">Narsingi</span>
               </h1>
               
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-                Experience 1:1 personal training with certified coaches, private sauna recovery, 
-                and customized nutrition plans—all in Kokapet's most exclusive fitness studio.
+                Your neighborhood's best-kept fitness secret. Experience boutique personal training 
+                with certified coaches, private sauna recovery, and a community that supports your goals—all 
+                just minutes from home.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -74,7 +97,7 @@ const KokapetGym = () => {
                   className="bg-accent hover:bg-accent/90 text-accent-foreground"
                   asChild
                 >
-                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20a%20free%20trial%20at%20Fisique%20Kokapet">
+                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%20live%20in%20Narsingi%20and%20I%27m%20interested%20in%20a%20free%20trial">
                     <Phone className="w-5 h-5 mr-2" />
                     Book Free Trial
                   </a>
@@ -86,92 +109,99 @@ const KokapetGym = () => {
                     rel="noopener noreferrer"
                   >
                     <MapPin className="w-5 h-5 mr-2" />
-                    Get Directions
+                    Get Directions from Narsingi
                   </a>
                 </Button>
               </div>
 
-              {/* Location Info */}
-              <div className="flex items-start gap-3 p-4 bg-card/50 border border-border/50 rounded-xl">
-                <MapPin className="w-5 h-5 text-primary mt-0.5" />
-                <div>
-                  <p className="font-medium text-foreground">
-                    4th Floor, Above Pulla Reddy Sweets, Avant Cedar
-                  </p>
-                  <p className="text-muted-foreground">
-                    Kokapet, Hyderabad • Near Financial District
-                  </p>
+              {/* Trust Badges */}
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
+                  <Star className="w-4 h-4 fill-accent text-accent" />
+                  <span className="text-sm font-medium">4.9★ on Google</span>
+                </div>
+                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
+                  <Home className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium">Trusted by Narsingi Residents</span>
+                </div>
+                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
+                  <Clock className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium">5:30 AM - 10 PM</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* About Kokapet Location */}
+        {/* Why Narsingi Residents Choose Us */}
         <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-                  Kokapet's Premier Personal Training Studio
+                  Why Narsingi Residents Choose Fisique
                 </h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>
-                    Located in the heart of Kokapet, Fisique Fitness isn't your typical gym. 
-                    We're a boutique personal training studio designed for busy professionals 
-                    who want real results without the crowded gym experience.
+                    Living in Narsingi means you're part of one of Hyderabad's fastest-growing 
+                    residential areas. But finding a quality gym nearby that isn't overcrowded 
+                    or impersonal can be challenging.
                   </p>
                   <p>
-                    Our 4th-floor location above Pulla Reddy Sweets in Avant Cedar offers 
-                    a serene environment away from the noise, where you can focus entirely 
-                    on your fitness journey. With easy access from Financial District, 
-                    Narsingi, and Gandipet, we're perfectly positioned for Kokapet residents 
-                    and professionals working in the area.
+                    Fisique Fitness in Kokapet is just a 3-minute drive from Narsingi, offering 
+                    everything big gyms can't: personal attention, no waiting for equipment, 
+                    and trainers who actually know your name and your goals.
                   </p>
                   <p>
-                    What sets us apart is our commitment to personalized attention. Unlike 
-                    commercial gyms with hundreds of members, we maintain limited membership 
-                    to ensure every client receives one-on-one coaching from certified trainers. 
-                    Whether you're looking to lose weight, build strength, improve mobility, 
-                    or enhance your overall wellness, our holistic approach combines customized 
-                    training programs with nutrition guidance and sauna recovery.
+                    Many Narsingi families and professionals have made us their home gym. 
+                    They appreciate our boutique atmosphere, the convenience of our location, 
+                    and the real results our personalized approach delivers.
                   </p>
-                  <p>
-                    Our trainers specialize in working with busy professionals who need 
-                    flexible scheduling and efficient workouts. We understand that your time 
-                    is valuable, which is why every session is optimized for maximum results.
-                  </p>
+                </div>
+
+                {/* Commute Info */}
+                <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                    <Car className="w-5 h-5 text-primary" />
+                    Easy Access from Narsingi
+                  </h3>
+                  <ul className="space-y-2 text-muted-foreground">
+                    <li>• <strong>From Narsingi Main Road:</strong> 3 mins via Kokapet Junction</li>
+                    <li>• <strong>From Narsingi X Roads:</strong> 5 mins via Outer Ring Road</li>
+                    <li>• <strong>From Puppalaguda:</strong> 6 mins via Narsingi Road</li>
+                    <li>• <strong>From Neknampur:</strong> 7 mins direct route</li>
+                  </ul>
                 </div>
               </div>
               
               {/* Features Grid */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-6 bg-card/50 border border-border/50 rounded-xl">
-                  <Dumbbell className="w-8 h-8 text-primary mb-4" />
-                  <h3 className="font-semibold mb-2">Premium Equipment</h3>
+                  <Users className="w-8 h-8 text-primary mb-4" />
+                  <h3 className="font-semibold mb-2">Personal Attention</h3>
                   <p className="text-sm text-muted-foreground">
-                    Top-tier strength training and cardio equipment
+                    1:1 training with coaches who track your progress and adjust your program.
                   </p>
                 </div>
                 <div className="p-6 bg-card/50 border border-border/50 rounded-xl">
-                  <Users className="w-8 h-8 text-primary mb-4" />
-                  <h3 className="font-semibold mb-2">1:1 Training</h3>
+                  <Home className="w-8 h-8 text-primary mb-4" />
+                  <h3 className="font-semibold mb-2">Family-Friendly</h3>
                   <p className="text-sm text-muted-foreground">
-                    Personal attention from certified coaches
+                    Safe, welcoming environment for all fitness levels and age groups.
                   </p>
                 </div>
                 <div className="p-6 bg-card/50 border border-border/50 rounded-xl">
                   <Thermometer className="w-8 h-8 text-primary mb-4" />
                   <h3 className="font-semibold mb-2">Sauna Recovery</h3>
                   <p className="text-sm text-muted-foreground">
-                    On-site sauna for post-workout recovery
+                    On-site sauna for muscle recovery and relaxation after your workout.
                   </p>
                 </div>
                 <div className="p-6 bg-card/50 border border-border/50 rounded-xl">
-                  <Clock className="w-8 h-8 text-primary mb-4" />
-                  <h3 className="font-semibold mb-2">Flexible Hours</h3>
+                  <Dumbbell className="w-8 h-8 text-primary mb-4" />
+                  <h3 className="font-semibold mb-2">Premium Equipment</h3>
                   <p className="text-sm text-muted-foreground">
-                    5:30 AM - 10 PM, Mon-Sat
+                    Top-tier equipment that's always available—no waiting, no crowds.
                   </p>
                 </div>
               </div>
@@ -179,14 +209,14 @@ const KokapetGym = () => {
           </div>
         </section>
 
-        {/* Services Overview */}
+        {/* Services Section */}
         <section className="py-16 sm:py-20 bg-muted/30 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
-              Our Services in Kokapet
+              Services for Narsingi Residents
             </h2>
             <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
-              Comprehensive fitness solutions tailored to your goals
+              Comprehensive fitness solutions close to home
             </p>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -201,12 +231,12 @@ const KokapetGym = () => {
                   Personal Training
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  1:1 coaching with customized programs, nutrition guidance, and progress tracking. 
-                  Our signature 90-day transformation programs deliver real results.
+                  Transform your body with our 90-day programs. 1:1 coaching, nutrition 
+                  guidance, and accountability to help you reach your goals.
                 </p>
-                <span className="text-primary font-medium">
-                  Learn more →
-                </span>
+                <div className="text-sm text-primary font-medium">
+                  From ₹15,000/month →
+                </div>
               </a>
 
               <a
@@ -220,12 +250,12 @@ const KokapetGym = () => {
                   Gym Membership
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  Access premium equipment in an uncrowded, boutique environment. 
-                  Flexible 1, 3, 6, and 12-month plans available.
+                  Access premium equipment in a boutique setting. Perfect for 
+                  self-motivated individuals who want a quality workout space.
                 </p>
-                <span className="text-primary font-medium">
-                  View plans →
-                </span>
+                <div className="text-sm text-primary font-medium">
+                  From ₹3,000/month →
+                </div>
               </a>
 
               <div className="p-8 bg-card border border-border/50 rounded-2xl">
@@ -233,15 +263,15 @@ const KokapetGym = () => {
                   <Thermometer className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">
-                  Sauna Recovery
+                  Sauna & Recovery
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  Included with PT packages or as an add-on. Sauna therapy aids muscle recovery, 
-                  reduces stress, and enhances overall wellness.
+                  Complete your fitness routine with sauna therapy. Great for 
+                  muscle recovery, stress relief, and overall wellness.
                 </p>
-                <span className="text-muted-foreground">
-                  Included with PT
-                </span>
+                <div className="text-sm text-muted-foreground">
+                  Included with PT packages
+                </div>
               </div>
             </div>
           </div>
@@ -252,19 +282,20 @@ const KokapetGym = () => {
 
         {/* FAQ Section */}
         <FAQSection 
-          title="Questions About Our Kokapet Gym?"
-          subtitle="Find answers about membership, training, and our facilities"
+          title="Questions from Narsingi Residents"
+          subtitle="Everything you need to know about joining Fisique"
+          faqs={narsingiFAQs}
           includeSchema={false}
         />
 
-        {/* Google Maps Embed */}
+        {/* Google Maps */}
         <section className="py-16 sm:py-20 border-t border-border px-4">
           <div className="container-custom">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
-              Find Us in Kokapet
+              Just 3 Minutes from Narsingi
             </h2>
             <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
-              Conveniently located above Pulla Reddy Sweets in Avant Cedar
+              Located in Kokapet, above Pulla Reddy Sweets in Avant Cedar
             </p>
 
             <div className="aspect-video rounded-2xl overflow-hidden border border-border">
@@ -276,7 +307,7 @@ const KokapetGym = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Fisique Fitness Kokapet Location"
+                title="Fisique Fitness - Near Narsingi"
               />
             </div>
           </div>
@@ -286,11 +317,11 @@ const KokapetGym = () => {
         <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
           <div className="container-custom text-center">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Ready to Start Your Fitness Journey in Kokapet?
+              Start Your Fitness Journey Today
             </h2>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Book a free consultation and experience what makes Fisique Fitness 
-              Kokapet's most trusted personal training studio.
+              Join your Narsingi neighbors who've already discovered Fisique Fitness. 
+              Book a free trial and see why we're the area's most trusted gym.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -298,9 +329,9 @@ const KokapetGym = () => {
                 className="bg-accent hover:bg-accent/90 text-accent-foreground"
                 asChild
               >
-                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20a%20free%20consultation%20at%20Fisique%20Kokapet">
+                <a href="https://wa.me/919515469444?text=Hi%2C%20I%20live%20in%20Narsingi%20and%20want%20to%20book%20a%20free%20trial">
                   <Phone className="w-5 h-5 mr-2" />
-                  Book Free Consultation
+                  Book Free Trial
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
@@ -319,4 +350,4 @@ const KokapetGym = () => {
   );
 };
 
-export default KokapetGym;
+export default GymNarsingi;
