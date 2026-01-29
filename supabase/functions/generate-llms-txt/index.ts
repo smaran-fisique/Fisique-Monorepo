@@ -168,10 +168,10 @@ A: No, Sundays are for self-training only. Trainers are available Monday-Saturda
 
 ## Website Links
 - Homepage: ${BASE_URL}
-- Blog: ${BASE_URL}/blog
+- Blog: ${BASE_URL}/blog-posts/
 - Personal Training: ${BASE_URL}/personal-training-kokapet
 - Gym Membership: ${BASE_URL}/gym-membership-kokapet
-- Contact: ${BASE_URL}/contact
+- Contact: ${BASE_URL}/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/
 
 ---
 Last updated: ${new Date().toISOString().split('T')[0]}
