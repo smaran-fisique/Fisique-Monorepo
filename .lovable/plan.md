@@ -1,192 +1,297 @@
 
+# Advanced SEO Admin Panel with Automated Updates
 
-# Move Offers from Subdomain to Subdirectory
-
-## Overview
-
-This plan migrates the offers landing page system from `offers.fisique.fitness` subdomain to `fisique.fitness/offers` subdirectory for better SEO consolidation. This follows Google's recommendation that subdirectories pass more SEO authority than subdomains.
-
----
+## Summary
+Upgrade the SEO admin system with full admin controls for structured data, robots.txt, llms.txt, AND automated cron jobs that periodically regenerate dynamic content (sitemap, review counts in JSON-LD, etc.) to keep everything fresh without manual updates.
 
 ## Current State
 
-**Subdomain Site (offers.fisique.fitness/drawfis repo):**
-- Single offer page at `/iphone` → displays iPhone draw promotion
-- Uses animated iPhone mockup with scroll-triggered sections
-- Features countdown timer (Feb 28, 2026 deadline)
-- Sticky CTA button linking to WhatsApp
-- Has analytics tracking for section views and CTA clicks
+| Component | Status | Update Method |
+|-----------|--------|---------------|
+| sitemap.xml | Static file | Manual edits |
+| robots.txt | Static file | Manual edits |
+| llms.txt / llms-full.txt | Static files | Manual edits |
+| JSON-LD schemas | React components | Hardcoded values |
+| Review count/rating | Hardcoded (91 reviews, 4.9★) | Manual updates |
 
-**Main Site (this project):**
-- Already has `offers` table in database
-- Has admin panel to manage offers at `/admin/offers`
-- Has `OfferBanner` component (top-of-page promotional banner)
-- Missing: dedicated offer landing pages at `/offers/*`
+**Problem**: When you publish a new blog post, the sitemap doesn't update. When you get new Google reviews, the schema still shows old counts.
 
 ---
 
-## What We're Building
-
-| Route | Purpose |
-|-------|---------|
-| `/offers` | Offers listing page (future-proofed for multiple offers) |
-| `/offers/iphone` | iPhone draw landing page (replicated from subdomain) |
-
----
-
-## Implementation Steps
-
-### Phase 1: Dependencies & Configuration
-
-1. **Install framer-motion** (required for AnimatedSection component)
-2. **Add Fisique brand colors to Tailwind config**
-   - `fisique-dark`: Used for dark backgrounds in offer pages
-
-### Phase 2: Create Offer Components
-
-Create 5 new components in `src/components/offers/`:
-
-| Component | Description |
-|-----------|-------------|
-| `AnimatedIPhone.tsx` | 3D iPhone mockup with scroll-based transforms |
-| `AnimatedSection.tsx` | Fade-in section wrapper using framer-motion |
-| `CountdownTimer.tsx` | Live countdown to Feb 28, 2026 |
-| `StickyCTA.tsx` | Mobile sticky bottom CTA button |
-| `OfferAnalytics.ts` | GA4 event tracking for offers |
-
-### Phase 3: Create Offer Pages
-
-1. **`src/pages/offers/OffersIndex.tsx`**
-   - Lists all active offers with cards
-   - Links to individual offer pages
-   - SEO-optimized with proper meta tags
-
-2. **`src/pages/offers/IPhoneOffer.tsx`**
-   - Full replication of offers.fisique.fitness/iphone
-   - 5-section scroll experience:
-     - Hero: "3 Months with Fisique" headline
-     - How It Works: 3-step process
-     - The Reframe: "Not about the iPhone" messaging
-     - Scarcity: Countdown timer
-     - Loss Aversion: "What happens if you leave"
-   - WhatsApp CTA: `https://bit.ly/wa-offer-fisique`
-   - Responsive: iPhone mockup visible on desktop, content scrolls inside phone on mobile
-
-### Phase 4: Routing & SEO
-
-1. **Update `src/App.tsx`**
-   - Add route `/offers` → OffersIndex
-   - Add route `/offers/iphone` → IPhoneOffer
-   - Add route `/offers/:slug` (dynamic, future-proofed)
-
-2. **Update `public/sitemap.xml`**
-   - Add `/offers` and `/offers/iphone` URLs
-
-3. **Update navigation**
-   - Change "Offers" link in Header from `offers.fisique.fitness` to `/offers`
-   - Update Footer if it links to offers subdomain
-
-4. **Add JSON-LD Schema**
-   - `OfferSchema` component for structured data
-   - Links offer to main organization
-
-### Phase 5: Redirects (Post-deployment)
-
-Configure 301 redirects at DNS/CDN level:
-- `offers.fisique.fitness/iphone` → `fisique.fitness/offers/iphone`
-- `offers.fisique.fitness/*` → `fisique.fitness/offers`
-
----
-
-## Files to Create
+## Solution Architecture
 
 ```text
-src/
-├── components/
-│   └── offers/
-│       ├── AnimatedIPhone.tsx
-│       ├── AnimatedSection.tsx
-│       ├── CountdownTimer.tsx
-│       ├── StickyCTA.tsx
-│       └── OfferAnalytics.ts
-├── pages/
-│   └── offers/
-│       ├── OffersIndex.tsx
-│       └── IPhoneOffer.tsx
++------------------+     +-------------------+     +------------------+
+|   Admin Panel    |     |   Supabase DB     |     |   Edge Functions |
+|   (Manual Edit)  | --> |   (Source of      | <-- |   (Cron Jobs)    |
+|                  |     |    Truth)         |     |                  |
++------------------+     +-------------------+     +------------------+
+                                |
+                                v
+                         +----------------+
+                         |  Public Files  |
+                         |  (Generated)   |
+                         +----------------+
 ```
 
-## Files to Modify
-
-| File | Changes |
-|------|---------|
-| `package.json` | Add framer-motion dependency |
-| `tailwind.config.ts` | Add fisique-dark color |
-| `src/index.css` | Add fisique CSS variables and glow animation |
-| `src/App.tsx` | Add /offers routes |
-| `public/sitemap.xml` | Add new URLs |
-| `src/components/Header.tsx` | Update Offers nav link |
+### How It Works
+1. **Admin edits** SEO data in the admin panel (stored in database)
+2. **Cron job runs** every 6 hours (or on-demand)
+3. **Edge function generates** fresh sitemap.xml, llms.txt from database
+4. **Files are served** to search engines and AI crawlers with latest data
 
 ---
 
-## Technical Considerations
+## Database Changes
 
-### CSS Additions Needed
+### 1. Extend `seo_meta` Table
+Add columns for page-level controls:
 
-Add to index.css:
-```css
---fisique-dark: 220 14% 6%;  /* Very dark background for offers */
+| Column | Type | Purpose |
+|--------|------|---------|
+| `robots_directive` | text | "index, follow" or "noindex, nofollow" |
+| `schema_type` | text | Page type for auto-schema (Article, FAQPage, etc.) |
+| `priority` | numeric(2,1) | Sitemap priority (0.0 - 1.0) |
+| `changefreq` | text | Sitemap changefreq (daily, weekly, monthly) |
+| `include_in_sitemap` | boolean | Toggle on/off from sitemap |
 
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.5; }
-}
+### 2. Create `site_files` Table
+Store generated/editable global files:
 
-@keyframes scroll-indicator {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+| Column | Type | Purpose |
+|--------|------|---------|
+| `id` | uuid | Primary key |
+| `file_key` | text | 'robots_txt', 'llms_txt', 'llms_full_txt', 'sitemap_xml' |
+| `content` | text | File contents (can be edited in admin or auto-generated) |
+| `auto_generate` | boolean | If true, cron job regenerates; if false, manual only |
+| `last_generated` | timestamp | When last auto-generated |
+| `updated_at` | timestamp | Last update time |
+| `updated_by` | uuid | Who made last manual edit |
+
+---
+
+## Edge Functions for Automation
+
+### 1. `generate-sitemap` (Cron: Every 6 hours)
+Auto-generates sitemap.xml from:
+- All pages in `seo_meta` table where `include_in_sitemap = true`
+- All published blog posts from `blog_posts` table
+- Static pages with their priorities and changefreq
+
+```text
+Output: Fresh sitemap.xml stored in site_files table
+```
+
+### 2. `generate-llms-txt` (Cron: Daily)
+Auto-generates llms.txt and llms-full.txt from:
+- Business info from `site_settings` table
+- FAQ content from database
+- Service descriptions
+- Latest blog post titles
+
+```text
+Output: Updated llms.txt and llms-full.txt in site_files table
+```
+
+### 3. `sync-review-stats` (Cron: Daily)
+Fetches latest Google review count/rating and updates:
+- `site_settings` table with current stats
+- These values are then used in JSON-LD schemas
+
+```text
+Output: Updated review_count and avg_rating in site_settings
+```
+
+### 4. `serve-seo-file` (Public endpoint)
+Serves dynamic files based on request:
+- GET `/api/sitemap.xml` - returns latest sitemap
+- GET `/api/llms.txt` - returns latest llms.txt
+- GET `/api/llms-full.txt` - returns latest llms-full.txt
+
+This allows robots.txt to point to dynamic sitemap URL.
+
+---
+
+## Admin UI Changes
+
+### Phase 1: Enhanced SEO Page
+Add to existing SEO form:
+
+**New Fields:**
+- Robots Directive dropdown (index/noindex + follow/nofollow)
+- Sitemap Priority slider (0.0 - 1.0)
+- Change Frequency dropdown (always, hourly, daily, weekly, monthly, yearly, never)
+- Include in Sitemap toggle
+
+**New Tab: "Schema Preview"**
+- Shows generated JSON-LD for the page
+- Links to Google Rich Results Test
+
+### Phase 2: Global SEO Page (New)
+New admin page at `/admin/global-seo`:
+
+**Sections:**
+
+1. **Sitemap Manager**
+   - View all URLs currently in sitemap
+   - Toggle pages on/off
+   - See last generation time
+   - "Regenerate Now" button
+
+2. **Robots.txt Editor**
+   - Code editor with syntax highlighting
+   - Toggle auto-generate on/off
+   - Preview mode
+   - "Save & Apply" button
+
+3. **LLMs.txt Editor**
+   - Markdown editor with preview
+   - Toggle auto-generate on/off
+   - Edit llms.txt and llms-full.txt tabs
+
+4. **Schema Settings**
+   - Edit global Organization schema values
+   - Update review count/rating manually
+   - "Sync from Google" button
+
+---
+
+## Dynamic JSON-LD Updates
+
+### Current Problem
+The LocalBusinessSchema has hardcoded values:
+```javascript
+"aggregateRating": {
+  "ratingValue": "4.9",  // Hardcoded!
+  "reviewCount": "91",    // Hardcoded!
 }
 ```
 
-### Animations
+### Solution
+Create a hook that fetches live stats:
 
-The offer page uses these animation patterns:
-- Scroll-snap sections for mobile
-- CSS 3D transforms for iPhone mockup (desktop)
-- Framer Motion for section fade-ins
+```text
+useSiteStats() hook
+- Fetches review_count, avg_rating from site_settings
+- Updates automatically when cron syncs new values
+- Used by LocalBusinessSchema component
+```
 
-### Analytics Integration
-
-Reuse existing Google Analytics setup. Events tracked:
-- `section_view`: When user scrolls to new section
-- `cta_click`: When user clicks any CTA button
-- `scroll_milestone`: At 25%, 50%, 75%, 100% scroll depth
-
----
-
-## SEO Benefits
-
-1. **Domain Authority Consolidation**
-   - All link equity flows to fisique.fitness
-   - No split signals between subdomain and main site
-
-2. **Internal Linking**
-   - Offers pages can link to gym/PT pages
-   - Main site can naturally link to offers
-
-3. **Crawl Efficiency**
-   - Single robots.txt for all content
-   - Unified sitemap
-
-4. **Schema Markup**
-   - Offers linked to main LocalBusiness entity
-   - Better rich snippet eligibility
+**Updated Schema Flow:**
+1. Cron job syncs Google review stats daily
+2. Stats stored in `site_settings` table
+3. `useSiteStats` hook fetches on page load
+4. JSON-LD renders with live data
 
 ---
 
-## After Implementation
+## Cron Schedule Summary
 
-1. Submit updated sitemap to Google Search Console
-2. Request indexing for new /offers pages
-3. Monitor 301 redirects from subdomain
-4. Decommission subdomain after 3-6 months of stable redirects
+| Job | Frequency | What It Updates |
+|-----|-----------|-----------------|
+| `generate-sitemap` | Every 6 hours | sitemap.xml with new blog posts, pages |
+| `generate-llms-txt` | Daily | llms.txt and llms-full.txt |
+| `sync-review-stats` | Daily | Review count and rating in schemas |
 
+---
+
+## File Serving Strategy
+
+### Option A: Edge Function Serving (Recommended)
+- Create public edge function endpoints
+- Update robots.txt to point to: `Sitemap: https://fisique.fitness/api/sitemap.xml`
+- Edge function reads from `site_files` table and serves
+
+**Pros:** Always fresh, no file deployment needed
+**Cons:** Slight latency vs static file
+
+### Option B: Static File with Webhook
+- Keep files in `/public` folder
+- Cron job generates content and triggers Lovable rebuild
+- Files deployed as static assets
+
+**Pros:** Fastest serving
+**Cons:** Requires deployment trigger
+
+**Recommendation:** Option A - Edge function serving is simpler and files update instantly.
+
+---
+
+## Implementation Order
+
+### Phase 1: Database & Core (Day 1)
+1. Add columns to `seo_meta` table
+2. Create `site_files` table
+3. Create `generate-sitemap` edge function
+4. Create `serve-seo-file` edge function
+
+### Phase 2: Admin UI (Day 1-2)
+5. Add sitemap fields to SEO form
+6. Create Global SEO admin page
+7. Add sitemap viewer with toggle controls
+
+### Phase 3: Cron Jobs (Day 2)
+8. Set up pg_cron for sitemap generation
+9. Create `sync-review-stats` function
+10. Create `generate-llms-txt` function
+
+### Phase 4: Dynamic Schemas (Day 2-3)
+11. Create `useSiteStats` hook
+12. Update LocalBusinessSchema to use live data
+13. Add schema preview to admin
+
+---
+
+## Files to Create/Modify
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `supabase/functions/generate-sitemap/index.ts` | Create | Auto-generate sitemap |
+| `supabase/functions/generate-llms-txt/index.ts` | Create | Auto-generate llms files |
+| `supabase/functions/sync-review-stats/index.ts` | Create | Sync Google review stats |
+| `supabase/functions/serve-seo-file/index.ts` | Create | Serve dynamic files |
+| `src/pages/admin/SEO.tsx` | Modify | Add sitemap controls |
+| `src/pages/admin/GlobalSEO.tsx` | Create | New admin page |
+| `src/hooks/useSiteStats.tsx` | Create | Fetch live stats |
+| `src/components/LocalBusinessSchema.tsx` | Modify | Use dynamic stats |
+| `src/layouts/AdminLayout.tsx` | Modify | Add nav item |
+| Database migration | Create | Add tables and columns |
+
+---
+
+## Expected Outcomes
+
+After implementation:
+
+| Before | After |
+|--------|-------|
+| Manual sitemap updates | Auto-updates every 6 hours |
+| Hardcoded review counts | Live sync from Google daily |
+| Static llms.txt | Auto-regenerated with new content |
+| No admin control for robots | Full robots.txt editor |
+| No sitemap visibility | Full sitemap management UI |
+| Manual schema updates | Dynamic JSON-LD from database |
+
+---
+
+## Technical Notes
+
+### Cron Job Setup
+Using Supabase pg_cron + pg_net:
+- pg_cron schedules the job
+- pg_net makes HTTP call to edge function
+- Edge function generates content and stores in database
+
+### File Serving
+The `serve-seo-file` function will:
+1. Check `file_key` parameter
+2. Fetch content from `site_files` table
+3. Return with appropriate Content-Type header
+4. Cache for 1 hour (CDN-friendly)
+
+### Fallback Strategy
+If database is unavailable:
+- Keep current static files as fallback
+- Edge function returns static content if DB query fails
+
+This gives you a fully automated, admin-controllable SEO system that keeps everything fresh without manual intervention.
