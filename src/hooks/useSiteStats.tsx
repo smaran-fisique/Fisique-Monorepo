@@ -7,7 +7,7 @@ interface SiteStats {
 }
 
 const defaultStats: SiteStats = {
-  reviewCount: '91',
+  reviewCount: '77',
   avgRating: '4.9',
 };
 
