@@ -77,7 +77,7 @@ export const Footer = () => {
             <Link to="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" className="hover:text-accent transition-colors">
               Contact
             </Link>
-            <a href="https://offers.fisique.fitness" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+            <a href="/offers" className="hover:text-accent transition-colors">
               Offers
             </a>
             <Link to="/legal#terms" className="hover:text-accent transition-colors">

@@ -43,6 +43,8 @@ const PersonalTrainingKokapet = lazy(() => import("./pages/PersonalTrainingKokap
 const GymMembershipKokapet = lazy(() => import("./pages/GymMembershipKokapet"));
 const GymFinancialDistrict = lazy(() => import("./pages/GymFinancialDistrict"));
 const GymNarsingi = lazy(() => import("./pages/GymNarsingi"));
+const OffersIndex = lazy(() => import("./pages/offers/OffersIndex"));
+const IPhoneOffer = lazy(() => import("./pages/offers/IPhoneOffer"));
 
 // Minimal loading fallback
 const PageLoader = () => (
@@ -93,6 +95,9 @@ const App = () => (
                 <Route path="/gym-membership-kokapet" element={<GymMembershipKokapet />} />
                 <Route path="/gym-financial-district" element={<GymFinancialDistrict />} />
                 <Route path="/gym-narsingi" element={<GymNarsingi />} />
+                <Route path="/offers" element={<OffersIndex />} />
+                <Route path="/offers/" element={<OffersIndex />} />
+                <Route path="/offers/iphone" element={<IPhoneOffer />} />
                 <Route path="/admin/login" element={<Login />} />
                 
                 {/* Protected Admin Routes */}
