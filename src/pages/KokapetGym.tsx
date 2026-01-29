@@ -171,7 +171,7 @@ const KokapetGym = () => {
                   <Clock className="w-8 h-8 text-primary mb-4" />
                   <h3 className="font-semibold mb-2">Flexible Hours</h3>
                   <p className="text-sm text-muted-foreground">
-                    5:30 AM - 10 PM, Mon-Sat
+                    Mon-Sat: 5:30 AM - 10 PM, Sun: 7 AM - 12 PM (Self-train)
                   </p>
                 </div>
               </div>

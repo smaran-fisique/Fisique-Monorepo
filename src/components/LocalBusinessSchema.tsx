@@ -34,6 +34,13 @@ export const LocalBusinessSchema = () => {
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
         "opens": "05:30",
         "closes": "22:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Sunday"],
+        "opens": "07:00",
+        "closes": "12:00",
+        "description": "Self-training only, no personal trainers on site"
       }
     ],
     "amenityFeature": [

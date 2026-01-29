@@ -122,7 +122,11 @@ const GymFinancialDistrict = () => {
                 </div>
                 <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
                   <Clock className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium">5:30 AM - 10 PM</span>
+                  <span className="text-sm font-medium">Mon-Sat: 5:30 AM - 10 PM</span>
+                </div>
+                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
+                  <Clock className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium">Sun: 7 AM - 12 PM (Self-train)</span>
                 </div>
                 <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
                   <Building2 className="w-4 h-4 text-primary" />
@@ -187,7 +191,7 @@ const GymFinancialDistrict = () => {
                   <Clock className="w-8 h-8 text-primary mb-4" />
                   <h3 className="font-semibold mb-2">IT-Friendly Hours</h3>
                   <p className="text-sm text-muted-foreground">
-                    5:30 AM for early birds, 10 PM for late workers. We flex with your schedule.
+                    Mon-Sat 5:30 AM - 10 PM. Sundays 7 AM - 12 PM (self-train only).
                   </p>
                 </div>
                 <div className="p-6 bg-card/50 border border-border/50 rounded-xl">
