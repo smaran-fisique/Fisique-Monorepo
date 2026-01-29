@@ -13,7 +13,8 @@ import {
   LogOut,
   Menu,
   X,
-  Key
+  Key,
+  Globe
 } from 'lucide-react';
 import { useState } from 'react';
 import fisiquelogo from '@/assets/fisique-logo.webp';
@@ -25,6 +26,7 @@ const navigation = [
   { name: 'Analytics', href: '/admin/analytics', icon: BarChart },
   { name: 'Offers', href: '/admin/offers', icon: Megaphone },
   { name: 'SEO', href: '/admin/seo', icon: FileText },
+  { name: 'Global SEO', href: '/admin/global-seo', icon: Globe },
   { name: 'Media', href: '/admin/media', icon: Image },
   { name: 'API Keys', href: '/admin/api-keys', icon: Key },
   { name: 'Users', href: '/admin/users', icon: Users },

@@ -30,6 +30,7 @@ const Offers = lazy(() => import("./pages/admin/Offers"));
 const Media = lazy(() => import("./pages/admin/Media"));
 const Users = lazy(() => import("./pages/admin/Users"));
 const SEO = lazy(() => import("./pages/admin/SEO"));
+const GlobalSEO = lazy(() => import("./pages/admin/GlobalSEO"));
 const ApiKeys = lazy(() => import("./pages/admin/ApiKeys"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
@@ -115,6 +116,7 @@ const App = () => (
                     <Route path="/admin/offers" element={<Offers />} />
                     
                     <Route path="/admin/seo" element={<SEO />} />
+                    <Route path="/admin/global-seo" element={<GlobalSEO />} />
                     <Route path="/admin/media" element={<Media />} />
                     <Route path="/admin/api-keys" element={<ApiKeys />} />
                     <Route path="/admin/users" element={<Users />} />

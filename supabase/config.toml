@@ -23,3 +23,15 @@ verify_jwt = false
 
 [functions.migrate-blog-posts]
 verify_jwt = false
+
+[functions.generate-sitemap]
+verify_jwt = false
+
+[functions.serve-seo-file]
+verify_jwt = false
+
+[functions.sync-review-stats]
+verify_jwt = false
+
+[functions.generate-llms-txt]
+verify_jwt = false
