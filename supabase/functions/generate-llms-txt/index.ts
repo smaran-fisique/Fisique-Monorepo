@@ -161,7 +161,7 @@ A: We primarily serve Kokapet, Financial District, Narsingi, Gandipet, and Gachi
 A: Yes, we offer a consultation and trial session for new members.
 
 **Q: Is parking available?**
-A: Yes, the building has dedicated parking space.
+A: Yes, the building has common parking available for all visitors.
 
 **Q: Are trainers available on Sundays?**
 A: No, Sundays are for self-training only. Trainers are available Monday-Saturday.
