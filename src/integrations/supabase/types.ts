@@ -361,34 +361,79 @@ export type Database = {
       seo_meta: {
         Row: {
           canonical_url: string | null
+          changefreq: string | null
           description: string
           id: string
+          include_in_sitemap: boolean | null
           keywords: string | null
           og_image: string | null
           page_path: string
+          priority: number | null
+          robots_directive: string | null
+          schema_type: string | null
           title: string
           updated_at: string | null
           updated_by: string | null
         }
         Insert: {
           canonical_url?: string | null
+          changefreq?: string | null
           description: string
           id?: string
+          include_in_sitemap?: boolean | null
           keywords?: string | null
           og_image?: string | null
           page_path: string
+          priority?: number | null
+          robots_directive?: string | null
+          schema_type?: string | null
           title: string
           updated_at?: string | null
           updated_by?: string | null
         }
         Update: {
           canonical_url?: string | null
+          changefreq?: string | null
           description?: string
           id?: string
+          include_in_sitemap?: boolean | null
           keywords?: string | null
           og_image?: string | null
           page_path?: string
+          priority?: number | null
+          robots_directive?: string | null
+          schema_type?: string | null
           title?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      site_files: {
+        Row: {
+          auto_generate: boolean | null
+          content: string
+          file_key: string
+          id: string
+          last_generated: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          auto_generate?: boolean | null
+          content?: string
+          file_key: string
+          id?: string
+          last_generated?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          auto_generate?: boolean | null
+          content?: string
+          file_key?: string
+          id?: string
+          last_generated?: string | null
           updated_at?: string | null
           updated_by?: string | null
         }

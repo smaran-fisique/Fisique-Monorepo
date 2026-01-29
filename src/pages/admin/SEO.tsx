@@ -9,6 +9,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Plus, Edit, Search, Trash2, ExternalLink } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Slider } from '@/components/ui/slider';
 
 interface SEOMeta {
   id: string;
@@ -18,6 +20,11 @@ interface SEOMeta {
   keywords: string | null;
   og_image: string | null;
   canonical_url: string | null;
+  robots_directive: string;
+  schema_type: string | null;
+  priority: number;
+  changefreq: string;
+  include_in_sitemap: boolean;
 }
 
 // Common pages for quick selection
@@ -36,6 +43,33 @@ const COMMON_PAGES = [
   { path: '/shipping', label: 'Shipping' },
 ];
 
+const ROBOTS_DIRECTIVES = [
+  { value: 'index, follow', label: 'Index, Follow (Default)' },
+  { value: 'index, nofollow', label: 'Index, No Follow' },
+  { value: 'noindex, follow', label: 'No Index, Follow' },
+  { value: 'noindex, nofollow', label: 'No Index, No Follow' },
+];
+
+const CHANGEFREQ_OPTIONS = [
+  { value: 'always', label: 'Always' },
+  { value: 'hourly', label: 'Hourly' },
+  { value: 'daily', label: 'Daily' },
+  { value: 'weekly', label: 'Weekly' },
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'yearly', label: 'Yearly' },
+  { value: 'never', label: 'Never' },
+];
+
+const SCHEMA_TYPES = [
+  { value: '', label: 'None (Auto-detect)' },
+  { value: 'Article', label: 'Article' },
+  { value: 'FAQPage', label: 'FAQ Page' },
+  { value: 'Service', label: 'Service' },
+  { value: 'Product', label: 'Product' },
+  { value: 'LocalBusiness', label: 'Local Business' },
+  { value: 'WebPage', label: 'Web Page' },
+];
+
 export default function SEO() {
   const [seoMetas, setSeoMetas] = useState<SEOMeta[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,6 +81,11 @@ export default function SEO() {
   const [formTitle, setFormTitle] = useState('');
   const [formDescription, setFormDescription] = useState('');
   const [formPath, setFormPath] = useState('');
+  const [formRobots, setFormRobots] = useState('index, follow');
+  const [formSchemaType, setFormSchemaType] = useState('');
+  const [formPriority, setFormPriority] = useState(0.5);
+  const [formChangefreq, setFormChangefreq] = useState('weekly');
+  const [formIncludeInSitemap, setFormIncludeInSitemap] = useState(true);
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -61,10 +100,20 @@ export default function SEO() {
       setFormTitle(editing.title);
       setFormDescription(editing.description);
       setFormPath(editing.page_path);
+      setFormRobots(editing.robots_directive || 'index, follow');
+      setFormSchemaType(editing.schema_type || '');
+      setFormPriority(editing.priority ?? 0.5);
+      setFormChangefreq(editing.changefreq || 'weekly');
+      setFormIncludeInSitemap(editing.include_in_sitemap ?? true);
     } else {
       setFormTitle('');
       setFormDescription('');
       setFormPath('');
+      setFormRobots('index, follow');
+      setFormSchemaType('');
+      setFormPriority(0.5);
+      setFormChangefreq('weekly');
+      setFormIncludeInSitemap(true);
     }
   }, [editing, dialogOpen]);
 
@@ -99,6 +148,11 @@ export default function SEO() {
       keywords: formData.get('keywords') as string || null,
       og_image: formData.get('og_image') as string || null,
       canonical_url: formData.get('canonical_url') as string || null,
+      robots_directive: formRobots,
+      schema_type: formSchemaType || null,
+      priority: formPriority,
+      changefreq: formChangefreq,
+      include_in_sitemap: formIncludeInSitemap,
       updated_by: user?.id,
     };
 
@@ -314,6 +368,94 @@ export default function SEO() {
                 </div>
               </div>
 
+              {/* Sitemap & Crawling Section */}
+              <div className="border border-border rounded-lg p-4 space-y-4">
+                <h3 className="font-semibold text-sm">Sitemap & Crawling</h3>
+                
+                {/* Robots Directive */}
+                <div className="space-y-2">
+                  <Label>Robots Directive</Label>
+                  <Select value={formRobots} onValueChange={setFormRobots}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select robots directive" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ROBOTS_DIRECTIVES.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">Controls how search engines index this page</p>
+                </div>
+
+                {/* Include in Sitemap */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label>Include in Sitemap</Label>
+                    <p className="text-xs text-muted-foreground">Add this page to sitemap.xml</p>
+                  </div>
+                  <Switch
+                    checked={formIncludeInSitemap}
+                    onCheckedChange={setFormIncludeInSitemap}
+                  />
+                </div>
+
+                {/* Priority Slider */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label>Sitemap Priority</Label>
+                    <span className="text-sm font-mono">{formPriority.toFixed(1)}</span>
+                  </div>
+                  <Slider
+                    value={[formPriority]}
+                    onValueChange={([value]) => setFormPriority(value)}
+                    min={0}
+                    max={1}
+                    step={0.1}
+                    className="w-full"
+                  />
+                  <p className="text-xs text-muted-foreground">1.0 = highest priority, 0.0 = lowest</p>
+                </div>
+
+                {/* Change Frequency */}
+                <div className="space-y-2">
+                  <Label>Change Frequency</Label>
+                  <Select value={formChangefreq} onValueChange={setFormChangefreq}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select change frequency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CHANGEFREQ_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">How often this page is likely to change</p>
+                </div>
+
+                {/* Schema Type */}
+                <div className="space-y-2">
+                  <Label>Page Schema Type</Label>
+                  <Select value={formSchemaType} onValueChange={setFormSchemaType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Auto-detect" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {SCHEMA_TYPES.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">Structured data type for this page</p>
+                </div>
+              </div>
+
               <Button type="submit" className="w-full">Save SEO Settings</Button>
             </form>
           </DialogContent>
@@ -361,16 +503,22 @@ export default function SEO() {
                   </div>
                   <p className="font-semibold truncate">{meta.title}</p>
                   <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{meta.description}</p>
-                  <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                    <span className={meta.title.length <= 60 ? 'text-green-500' : 'text-red-500'}>
-                      Title: {meta.title.length}/60
-                    </span>
-                    <span className={meta.description.length <= 160 ? 'text-green-500' : 'text-red-500'}>
-                      Desc: {meta.description.length}/160
-                    </span>
-                    {meta.og_image && <span className="text-green-500">✓ OG Image</span>}
-                    {meta.canonical_url && <span className="text-blue-500">✓ Canonical</span>}
-                  </div>
+                    <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                      <span className={meta.title.length <= 60 ? 'text-primary' : 'text-destructive'}>
+                        Title: {meta.title.length}/60
+                      </span>
+                      <span className={meta.description.length <= 160 ? 'text-primary' : 'text-destructive'}>
+                        Desc: {meta.description.length}/160
+                      </span>
+                      {meta.og_image && <span className="text-primary">✓ OG Image</span>}
+                      {meta.canonical_url && <span className="text-blue-500">✓ Canonical</span>}
+                      <span className={meta.include_in_sitemap ? 'text-primary' : 'text-muted-foreground'}>
+                        {meta.include_in_sitemap ? '✓ Sitemap' : '✗ Sitemap'}
+                      </span>
+                      <span className="text-muted-foreground">
+                        Priority: {meta.priority}
+                      </span>
+                    </div>
                 </div>
                 <div className="flex gap-2">
                   <Button

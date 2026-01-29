@@ -1,6 +1,9 @@
 import { Helmet } from "react-helmet-async";
+import { useSiteStats } from "@/hooks/useSiteStats";
 
 export const LocalBusinessSchema = () => {
+  const { stats } = useSiteStats();
+
   const schema = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "HealthClub", "SportsActivityLocation"],
@@ -82,8 +85,8 @@ export const LocalBusinessSchema = () => {
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "91",
+      "ratingValue": stats.avgRating,
+      "reviewCount": stats.reviewCount,
       "bestRating": "5",
       "worstRating": "1"
     },
