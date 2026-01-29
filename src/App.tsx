@@ -26,7 +26,7 @@ const BlogEditor = lazy(() => import("./pages/admin/blog/BlogEditor"));
 const Categories = lazy(() => import("./pages/admin/Categories"));
 const Analytics = lazy(() => import("./pages/admin/Analytics"));
 const Offers = lazy(() => import("./pages/admin/Offers"));
-const Content = lazy(() => import("./pages/admin/Content"));
+
 const Media = lazy(() => import("./pages/admin/Media"));
 const Users = lazy(() => import("./pages/admin/Users"));
 const SEO = lazy(() => import("./pages/admin/SEO"));
@@ -113,7 +113,7 @@ const App = () => (
                     <Route path="/admin/categories" element={<Categories />} />
                     <Route path="/admin/analytics" element={<Analytics />} />
                     <Route path="/admin/offers" element={<Offers />} />
-                    <Route path="/admin/content" element={<Content />} />
+                    
                     <Route path="/admin/seo" element={<SEO />} />
                     <Route path="/admin/media" element={<Media />} />
                     <Route path="/admin/api-keys" element={<ApiKeys />} />
