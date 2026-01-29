@@ -126,7 +126,11 @@ const GymNarsingi = () => {
                 </div>
                 <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
                   <Clock className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium">5:30 AM - 10 PM</span>
+                  <span className="text-sm font-medium">Mon-Sat: 5:30 AM - 10 PM</span>
+                </div>
+                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2">
+                  <Clock className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium">Sun: 7 AM - 12 PM (Self-train)</span>
                 </div>
               </div>
             </div>
