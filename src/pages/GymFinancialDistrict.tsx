@@ -10,6 +10,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock, Car, Building2 } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { useSEO } from "@/hooks/useSEO";
 
 const financialDistrictFAQs = [
   {
@@ -35,6 +36,8 @@ const financialDistrictFAQs = [
 ];
 
 const GymFinancialDistrict = () => {
+  const { seo } = useSEO('/gym-financial-district');
+  
   const breadcrumbItems = [
     { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Gym Near Financial District' }
@@ -43,23 +46,15 @@ const GymFinancialDistrict = () => {
   return (
     <>
       <Helmet>
-        <title>Best Gym Near Financial District Hyderabad | Fisique Fitness Kokapet</title>
-        <meta
-          name="description"
-          content="Premium gym just 5 mins from Financial District Hyderabad. 1:1 personal training, private sauna, flexible hours for IT professionals. 4.9★ rated. Book free trial."
-        />
-        <meta
-          name="keywords"
-          content="gym near financial district hyderabad, fitness center financial district, gym for IT professionals hyderabad, personal training financial district, gym kokapet near financial district"
-        />
-        <link rel="canonical" href="https://fisique.fitness/gym-financial-district" />
-        <meta property="og:title" content="Best Gym Near Financial District Hyderabad | Fisique Fitness" />
-        <meta
-          property="og:description"
-          content="Premium personal training gym just 5 mins from Financial District. Perfect for IT professionals."
-        />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/gym-financial-district"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fisique.fitness/gym-financial-district" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <LocalBusinessSchema />
       <ServiceSchema />

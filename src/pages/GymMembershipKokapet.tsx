@@ -9,8 +9,11 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Dumbbell, Users, Clock, Thermometer, X } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { useSEO } from "@/hooks/useSEO";
 
 const GymMembershipKokapet = () => {
+  const { seo } = useSEO('/gym-membership-kokapet');
+  
   const breadcrumbItems = [
     { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Gym Membership Kokapet' }
@@ -73,23 +76,15 @@ const GymMembershipKokapet = () => {
   return (
     <>
       <Helmet>
-        <title>Gym Membership Kokapet | Flexible Plans | Fisique Fitness</title>
-        <meta
-          name="description"
-          content="Premium gym membership in Kokapet with flexible 1, 3, 6, and 12-month plans. Boutique environment, premium equipment, optional sauna. No crowds."
-        />
-        <meta
-          name="keywords"
-          content="gym membership kokapet, fitness membership kokapet, gym plans kokapet, gym subscription hyderabad, boutique gym kokapet"
-        />
-        <link rel="canonical" href="https://fisique.fitness/gym-membership-kokapet" />
-        <meta property="og:title" content="Gym Membership Kokapet | Fisique Fitness" />
-        <meta
-          property="og:description"
-          content="Flexible gym membership plans in Kokapet. Premium equipment, boutique environment, no crowds."
-        />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/gym-membership-kokapet"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fisique.fitness/gym-membership-kokapet" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <LocalBusinessSchema />
       <FAQSchema faqs={membershipFAQs} />

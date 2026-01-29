@@ -1,13 +1,18 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
+import { useSEO } from "@/hooks/useSEO";
 
 const Shipping = () => {
+  const { seo } = useSEO('/shipping');
+  
   return (
     <>
       <Helmet>
-        <title>Shipping & Exchange Policy - Fisique Fitness</title>
-        <meta name="description" content="Shipping and Exchange Policy for Fisique Fitness" />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/shipping"} />
       </Helmet>
       
       <Header />

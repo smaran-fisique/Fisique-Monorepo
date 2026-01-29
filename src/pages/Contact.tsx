@@ -8,8 +8,10 @@ import { MapPin, Phone, Mail, MessageCircle, Clock, Send } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
+import { useSEO } from "@/hooks/useSEO";
 
 const Contact = () => {
+  const { seo } = useSEO('/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey');
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -31,13 +33,15 @@ const Contact = () => {
   return (
     <>
       <Helmet>
-        <title>Contact - Fisique Fitness - Kokapet's Most Holistic Gym</title>
-        <meta name="description" content="Contact Fisique Fitness in Kokapet, Hyderabad. Visit us at Avant Cedar or reach out via phone and WhatsApp for personal training inquiries." />
-        <link rel="canonical" href="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
-        <meta property="og:title" content="Contact - Fisique Fitness" />
-        <meta property="og:description" content="Contact Fisique Fitness in Kokapet, Hyderabad for personal training inquiries." />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" />
+        <meta property="og:url" content="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <LocalBusinessSchema />
       <BreadcrumbSchema items={breadcrumbItems} />

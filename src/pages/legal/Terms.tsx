@@ -1,13 +1,18 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet-async";
+import { useSEO } from "@/hooks/useSEO";
 
 const Terms = () => {
+  const { seo } = useSEO('/terms');
+  
   return (
     <>
       <Helmet>
-        <title>Terms & Conditions - Fisique Fitness</title>
-        <meta name="description" content="Terms and Conditions for Fisique Fitness services" />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/terms"} />
       </Helmet>
       
       <Header />
