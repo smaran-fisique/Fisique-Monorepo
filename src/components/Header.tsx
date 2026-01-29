@@ -49,9 +49,10 @@ export const Header = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
           scrolled ? "bg-background/95 backdrop-blur-md shadow-lg" : "bg-transparent"
         }`}
+        style={{ top: 'var(--offer-banner-height, 0px)' }}
       >
         <div className="container-custom px-4">
           <nav className="flex items-center justify-between min-h-[70px]">
@@ -139,9 +140,10 @@ export const Header = () => {
 
       {/* Mobile menu panel */}
       <div
-        className={`fixed top-[70px] left-0 right-0 z-50 bg-background border-b border-border md:hidden transition-all duration-300 ${
+        className={`fixed left-0 right-0 z-50 bg-background border-b border-border md:hidden transition-all duration-300 ${
           menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
         }`}
+        style={{ top: 'calc(var(--offer-banner-height, 0px) + 70px)' }}
       >
         <div className="container-custom px-4 py-6 space-y-4">
           <a 

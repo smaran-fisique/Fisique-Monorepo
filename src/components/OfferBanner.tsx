@@ -11,6 +11,8 @@ interface Offer {
   cta_link: string;
 }
 
+const BANNER_HEIGHT = 44; // px - keep in sync with CSS
+
 export const OfferBanner = () => {
   const [offer, setOffer] = useState<Offer | null>(null);
   const [visible, setVisible] = useState(false);
@@ -18,6 +20,21 @@ export const OfferBanner = () => {
   useEffect(() => {
     fetchActiveOffer();
   }, []);
+
+  // Add/remove body class and CSS variable when visibility changes
+  useEffect(() => {
+    if (visible) {
+      document.body.classList.add('has-offer-banner');
+      document.documentElement.style.setProperty('--offer-banner-height', `${BANNER_HEIGHT}px`);
+    } else {
+      document.body.classList.remove('has-offer-banner');
+      document.documentElement.style.setProperty('--offer-banner-height', '0px');
+    }
+    return () => {
+      document.body.classList.remove('has-offer-banner');
+      document.documentElement.style.setProperty('--offer-banner-height', '0px');
+    };
+  }, [visible]);
 
   const fetchActiveOffer = async () => {
     try {
@@ -60,17 +77,21 @@ export const OfferBanner = () => {
   if (!visible || !offer) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-primary-foreground shadow-lg">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <div className="flex-1 text-sm md:text-base">
+    <div 
+      className="fixed top-0 left-0 right-0 z-[60] bg-primary text-primary-foreground shadow-sm"
+      style={{ height: BANNER_HEIGHT }}
+    >
+      <div className="container mx-auto px-4 h-full flex items-center justify-between gap-3">
+        <div className="flex-1 text-xs md:text-sm truncate">
           <strong>{offer.title}</strong>
-          {offer.description && <span className="ml-2">{offer.description}</span>}
+          {offer.description && <span className="ml-2 hidden sm:inline">{offer.description}</span>}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Button
             asChild
             variant="secondary"
             size="sm"
+            className="h-7 text-xs px-3"
           >
             <a href={offer.cta_link} target="_blank" rel="noopener noreferrer">
               {offer.cta_text}
@@ -81,7 +102,7 @@ export const OfferBanner = () => {
             className="hover:bg-primary-foreground/20 p-1 rounded transition-colors"
             aria-label="Dismiss offer"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
