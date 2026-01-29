@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
@@ -14,8 +15,12 @@ interface Offer {
 const BANNER_HEIGHT = 44; // px - keep in sync with CSS
 
 export const OfferBanner = () => {
+  const location = useLocation();
   const [offer, setOffer] = useState<Offer | null>(null);
   const [visible, setVisible] = useState(false);
+
+  // Only show on homepage (not on /offers, /admin, etc.)
+  const isHomepage = location.pathname === '/';
 
   useEffect(() => {
     fetchActiveOffer();
@@ -23,7 +28,8 @@ export const OfferBanner = () => {
 
   // Add/remove body class and CSS variable when visibility changes
   useEffect(() => {
-    if (visible) {
+    const shouldShow = visible && isHomepage;
+    if (shouldShow) {
       document.body.classList.add('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', `${BANNER_HEIGHT}px`);
     } else {
@@ -34,7 +40,7 @@ export const OfferBanner = () => {
       document.body.classList.remove('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', '0px');
     };
-  }, [visible]);
+  }, [visible, isHomepage]);
 
   const fetchActiveOffer = async () => {
     try {
@@ -74,7 +80,7 @@ export const OfferBanner = () => {
     setVisible(false);
   };
 
-  if (!visible || !offer) return null;
+  if (!visible || !offer || !isHomepage) return null;
 
   return (
     <div 
