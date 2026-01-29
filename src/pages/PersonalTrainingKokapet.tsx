@@ -9,8 +9,11 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Target, Apple, Dumbbell, Thermometer, TrendingUp, Calendar } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { useSEO } from "@/hooks/useSEO";
 
 const PersonalTrainingKokapet = () => {
+  const { seo } = useSEO('/personal-training-kokapet');
+  
   const breadcrumbItems = [
     { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Personal Training Kokapet' }
@@ -28,23 +31,15 @@ const PersonalTrainingKokapet = () => {
   return (
     <>
       <Helmet>
-        <title>Personal Training Kokapet | 90-Day Transformation Plans | Fisique</title>
-        <meta
-          name="description"
-          content="Expert personal training in Kokapet with 90-day transformation programs. 1:1 coaching, nutrition plans, sauna recovery. Free trial at Fisique Fitness."
-        />
-        <meta
-          name="keywords"
-          content="personal training kokapet, personal trainer kokapet, fitness coach kokapet, 1:1 training hyderabad, transformation program kokapet"
-        />
-        <link rel="canonical" href="https://fisique.fitness/personal-training-kokapet" />
-        <meta property="og:title" content="Personal Training Kokapet | Fisique Fitness" />
-        <meta
-          property="og:description"
-          content="Transform your body with expert personal training in Kokapet. 90-day programs, nutrition coaching, sauna recovery."
-        />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/personal-training-kokapet"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fisique.fitness/personal-training-kokapet" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <LocalBusinessSchema />
       <FAQSchema faqs={personalTrainingFAQs} />

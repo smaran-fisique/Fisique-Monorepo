@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2, Search } from 'lucide-react';
 import { BlogListSchema } from '@/components/BlogListSchema';
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
+import { useSEO } from '@/hooks/useSEO';
 
 interface BlogPost {
   id: string;
@@ -21,6 +22,7 @@ interface BlogPost {
 }
 
 export default function Blog() {
+  const { seo } = useSEO('/blog');
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -58,13 +60,15 @@ export default function Blog() {
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
-        <title>Fitness Blog | Fisique Fitness - Kokapet, Hyderabad</title>
-        <meta name="description" content="Tips, guides, and inspiration for your fitness journey. Expert advice on personal training, nutrition, and wellness from Fisique Fitness in Kokapet." />
-        <link rel="canonical" href="https://fisique.fitness/blog-posts/" />
-        <meta property="og:title" content="Fitness Blog | Fisique Fitness" />
-        <meta property="og:description" content="Tips, guides, and inspiration for your fitness journey from Kokapet's premium personal training studio." />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/blog"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://fisique.fitness/blog-posts/" />
+        <meta property="og:url" content="https://fisique.fitness/blog" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <BlogListSchema posts={posts} />
       <BreadcrumbSchema items={breadcrumbItems} />

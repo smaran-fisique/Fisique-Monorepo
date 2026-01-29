@@ -10,8 +10,11 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { useSEO } from "@/hooks/useSEO";
 
 const KokapetGym = () => {
+  const { seo } = useSEO('/kokapet-gym');
+  
   const breadcrumbItems = [
     { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Kokapet Gym' }
@@ -20,23 +23,15 @@ const KokapetGym = () => {
   return (
     <>
       <Helmet>
-        <title>Premium Personal Gym Kokapet | Fisique Fitness Hyderabad</title>
-        <meta
-          name="description"
-          content="Discover 1:1 personal training + private sauna recovery at Fisique Fitness Kokapet. Located above Pulla Reddy Sweets, Avant Cedar. 4.9★ rated. Book free trial."
-        />
-        <meta
-          name="keywords"
-          content="gym kokapet, personal gym kokapet, fitness center kokapet, gym near me kokapet, personal training hyderabad, sauna gym kokapet"
-        />
-        <link rel="canonical" href="https://fisique.fitness/kokapet-gym" />
-        <meta property="og:title" content="Premium Personal Gym Kokapet | Fisique Fitness" />
-        <meta
-          property="og:description"
-          content="Kokapet's premier personal training studio with sauna recovery. 4.9★ rated."
-        />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/kokapet-gym"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fisique.fitness/kokapet-gym" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <LocalBusinessSchema />
       <ServiceSchema />

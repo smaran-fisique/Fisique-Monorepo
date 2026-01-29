@@ -10,6 +10,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock, Car, Home } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { useSEO } from "@/hooks/useSEO";
 
 const narsingiFAQs = [
   {
@@ -35,6 +36,8 @@ const narsingiFAQs = [
 ];
 
 const GymNarsingi = () => {
+  const { seo } = useSEO('/gym-narsingi');
+  
   const breadcrumbItems = [
     { name: 'Home', url: 'https://fisique.fitness/' },
     { name: 'Gym Near Narsingi' }
@@ -43,23 +46,15 @@ const GymNarsingi = () => {
   return (
     <>
       <Helmet>
-        <title>Best Gym Near Narsingi Hyderabad | Fisique Fitness Kokapet</title>
-        <meta
-          name="description"
-          content="Premium personal training gym just 3 mins from Narsingi, Hyderabad. 1:1 coaching, private sauna, flexible hours. 4.9★ rated. Book your free trial today."
-        />
-        <meta
-          name="keywords"
-          content="gym near narsingi, fitness center narsingi hyderabad, personal trainer near narsingi, gym kokapet narsingi, best gym narsingi area"
-        />
-        <link rel="canonical" href="https://fisique.fitness/gym-narsingi" />
-        <meta property="og:title" content="Best Gym Near Narsingi Hyderabad | Fisique Fitness" />
-        <meta
-          property="og:description"
-          content="Premium personal training gym just 3 mins from Narsingi. 1:1 coaching and private sauna."
-        />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        {seo.keywords && <meta name="keywords" content={seo.keywords} />}
+        <link rel="canonical" href={seo.canonicalUrl || "https://fisique.fitness/gym-narsingi"} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://fisique.fitness/gym-narsingi" />
+        {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
       <LocalBusinessSchema />
       <ServiceSchema />
