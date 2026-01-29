@@ -1,170 +1,192 @@
 
 
-# SEO Competitive Game Plan for Fisique Fitness
+# Move Offers from Subdomain to Subdirectory
 
-## Current State Analysis
+## Overview
 
-Based on the Google search results, here's where you stand vs competitors:
-
-| Metric | Fisique | HOT Gym | Cult.fit | Gold's Gym |
-|--------|---------|---------|----------|------------|
-| Indexed Landing Pages | 3 | 8+ | 15+ | 5+ |
-| Price Rich Snippets | No | No | No | Yes |
-| Location Variations | 1 (Kokapet) | 3+ | 10+ | 3+ |
-| Blog Posts | 15 | Unknown | Many | Few |
-| FAQ Schema | Yes | Unknown | Yes | Unknown |
+This plan migrates the offers landing page system from `offers.fisique.fitness` subdomain to `fisique.fitness/offers` subdirectory for better SEO consolidation. This follows Google's recommendation that subdirectories pass more SEO authority than subdomains.
 
 ---
 
-## The 4-Pillar Game Plan
+## Current State
 
-### Pillar 1: Location Expansion Pages (High Impact)
-**Create landing pages for adjacent neighborhoods where your potential clients live/work:**
+**Subdomain Site (offers.fisique.fitness/drawfis repo):**
+- Single offer page at `/iphone` → displays iPhone draw promotion
+- Uses animated iPhone mockup with scroll-triggered sections
+- Features countdown timer (Feb 28, 2026 deadline)
+- Sticky CTA button linking to WhatsApp
+- Has analytics tracking for section views and CTA clicks
 
-1. `/gym-narsingi` - "Premium Gym Near Narsingi"
-2. `/gym-financial-district` - "Gym in Financial District, Hyderabad"
-3. `/gym-gachibowli` - "Best Gym Near Gachibowli"
-4. `/gym-gandipet` - "Fitness Studio Near Gandipet"
-5. `/personal-trainer-hyderabad` - Broader city-level keyword capture
-
-Each page will:
-- Target location-specific keywords
-- Include unique content about commute times, nearby landmarks
-- Have its own FAQ schema with location-specific questions
-- Include Google Maps embed with directions from that area
+**Main Site (this project):**
+- Already has `offers` table in database
+- Has admin panel to manage offers at `/admin/offers`
+- Has `OfferBanner` component (top-of-page promotional banner)
+- Missing: dedicated offer landing pages at `/offers/*`
 
 ---
 
-### Pillar 2: Price Rich Snippets (Quick Win)
-**Add Product/Offer schema to get price ranges showing in search results**
+## What We're Building
 
-Create a new `ServiceSchema` component that includes:
+| Route | Purpose |
+|-------|---------|
+| `/offers` | Offers listing page (future-proofed for multiple offers) |
+| `/offers/iphone` | iPhone draw landing page (replicated from subdomain) |
+
+---
+
+## Implementation Steps
+
+### Phase 1: Dependencies & Configuration
+
+1. **Install framer-motion** (required for AnimatedSection component)
+2. **Add Fisique brand colors to Tailwind config**
+   - `fisique-dark`: Used for dark backgrounds in offer pages
+
+### Phase 2: Create Offer Components
+
+Create 5 new components in `src/components/offers/`:
+
+| Component | Description |
+|-----------|-------------|
+| `AnimatedIPhone.tsx` | 3D iPhone mockup with scroll-based transforms |
+| `AnimatedSection.tsx` | Fade-in section wrapper using framer-motion |
+| `CountdownTimer.tsx` | Live countdown to Feb 28, 2026 |
+| `StickyCTA.tsx` | Mobile sticky bottom CTA button |
+| `OfferAnalytics.ts` | GA4 event tracking for offers |
+
+### Phase 3: Create Offer Pages
+
+1. **`src/pages/offers/OffersIndex.tsx`**
+   - Lists all active offers with cards
+   - Links to individual offer pages
+   - SEO-optimized with proper meta tags
+
+2. **`src/pages/offers/IPhoneOffer.tsx`**
+   - Full replication of offers.fisique.fitness/iphone
+   - 5-section scroll experience:
+     - Hero: "3 Months with Fisique" headline
+     - How It Works: 3-step process
+     - The Reframe: "Not about the iPhone" messaging
+     - Scarcity: Countdown timer
+     - Loss Aversion: "What happens if you leave"
+   - WhatsApp CTA: `https://bit.ly/wa-offer-fisique`
+   - Responsive: iPhone mockup visible on desktop, content scrolls inside phone on mobile
+
+### Phase 4: Routing & SEO
+
+1. **Update `src/App.tsx`**
+   - Add route `/offers` → OffersIndex
+   - Add route `/offers/iphone` → IPhoneOffer
+   - Add route `/offers/:slug` (dynamic, future-proofed)
+
+2. **Update `public/sitemap.xml`**
+   - Add `/offers` and `/offers/iphone` URLs
+
+3. **Update navigation**
+   - Change "Offers" link in Header from `offers.fisique.fitness` to `/offers`
+   - Update Footer if it links to offers subdomain
+
+4. **Add JSON-LD Schema**
+   - `OfferSchema` component for structured data
+   - Links offer to main organization
+
+### Phase 5: Redirects (Post-deployment)
+
+Configure 301 redirects at DNS/CDN level:
+- `offers.fisique.fitness/iphone` → `fisique.fitness/offers/iphone`
+- `offers.fisique.fitness/*` → `fisique.fitness/offers`
+
+---
+
+## Files to Create
+
 ```text
-+----------------------------------+
-| Service Schema Structure         |
-+----------------------------------+
-| - Personal Training              |
-|   └─ AggregateOffer              |
-|      ├─ lowPrice: "15000"        |
-|      └─ highPrice: "50000"       |
-+----------------------------------+
-| - Gym Membership                 |
-|   └─ AggregateOffer              |
-|      ├─ lowPrice: "3000"         |
-|      └─ highPrice: "30000"       |
-+----------------------------------+
+src/
+├── components/
+│   └── offers/
+│       ├── AnimatedIPhone.tsx
+│       ├── AnimatedSection.tsx
+│       ├── CountdownTimer.tsx
+│       ├── StickyCTA.tsx
+│       └── OfferAnalytics.ts
+├── pages/
+│   └── offers/
+│       ├── OffersIndex.tsx
+│       └── IPhoneOffer.tsx
 ```
 
-This will trigger Google's price range display like Gold's Gym shows.
+## Files to Modify
+
+| File | Changes |
+|------|---------|
+| `package.json` | Add framer-motion dependency |
+| `tailwind.config.ts` | Add fisique-dark color |
+| `src/index.css` | Add fisique CSS variables and glow animation |
+| `src/App.tsx` | Add /offers routes |
+| `public/sitemap.xml` | Add new URLs |
+| `src/components/Header.tsx` | Update Offers nav link |
 
 ---
 
-### Pillar 3: Service-Specific Deep Pages
-**Create dedicated pages for high-intent service keywords:**
+## Technical Considerations
 
-1. `/sauna-gym-kokapet` - Unique differentiator, no competitor has this
-2. `/90-day-transformation-program` - Your signature offering
-3. `/nutrition-coaching-kokapet` - Capture diet/nutrition searches
-4. `/strength-training-kokapet` - Specific modality page
-5. `/weight-loss-gym-kokapet` - Goal-oriented landing page
-6. `/women-fitness-kokapet` - Demographic targeting (Cult does this)
+### CSS Additions Needed
 
----
+Add to index.css:
+```css
+--fisique-dark: 220 14% 6%;  /* Very dark background for offers */
 
-### Pillar 4: Enhanced Schema Implementation
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+}
 
-**Current schemas you have:**
-- LocalBusinessSchema
-- FAQSchema
-- BreadcrumbSchema
-- OrganizationSchema
-- WebSiteSchema
-- BlogPostSchema
-
-**Schemas to add:**
-
-1. **Service Schema** with pricing
-2. **GymMembership Product Schema** with AggregateOffer
-3. **Course Schema** for 90-day transformation (as an educational program)
-4. **Review snippets** with individual review schema
-5. **Video Schema** (if you have any gym tour/testimonial videos)
-
----
-
-## Implementation Priority
-
-| Priority | Task | Impact | Effort |
-|----------|------|--------|--------|
-| P0 | Add Service/Product Schema with pricing | High | Low |
-| P1 | Create Financial District landing page | High | Medium |
-| P1 | Create Narsingi landing page | High | Medium |
-| P2 | Create Sauna Gym page | Medium | Medium |
-| P2 | Create 90-Day Transformation page | Medium | Medium |
-| P3 | Create remaining location pages | Medium | High |
-| P3 | Add Video Schema (if videos exist) | Low | Low |
-
----
-
-## Technical Implementation Details
-
-### New Files to Create:
-```text
-src/pages/
-├── GymNarsingi.tsx
-├── GymFinancialDistrict.tsx
-├── GymGachibowli.tsx
-├── GymGandipet.tsx
-├── SaunaGymKokapet.tsx
-├── TransformationProgram.tsx
-├── NutritionCoachingKokapet.tsx
-└── WeightLossGymKokapet.tsx
-
-src/components/
-├── ServiceSchema.tsx (NEW - with pricing)
-├── ProductSchema.tsx (NEW - for memberships)
-└── CourseSchema.tsx (NEW - for 90-day program)
+@keyframes scroll-indicator {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
 ```
 
-### Sitemap Updates:
-Add all new pages to `public/sitemap.xml`
+### Animations
 
-### Route Updates:
-Add routes to `src/App.tsx`
+The offer page uses these animation patterns:
+- Scroll-snap sections for mobile
+- CSS 3D transforms for iPhone mockup (desktop)
+- Framer Motion for section fade-ins
 
----
+### Analytics Integration
 
-## Expected Outcomes
-
-**Within 2-4 weeks:**
-- Price ranges appearing in search results
-- More indexed pages competing for location keywords
-
-**Within 1-3 months:**
-- Improved rankings for "gym near [location]" queries
-- Capture traffic from Financial District IT professionals
-- Dominate "sauna gym" searches (unique positioning)
-
-**Within 3-6 months:**
-- Compete with Cult.fit on page count
-- Own premium/boutique gym positioning in Kokapet area
+Reuse existing Google Analytics setup. Events tracked:
+- `section_view`: When user scrolls to new section
+- `cta_click`: When user clicks any CTA button
+- `scroll_milestone`: At 25%, 50%, 75%, 100% scroll depth
 
 ---
 
-## Quick Wins You Can Do Today
+## SEO Benefits
 
-1. Add price ranges to structured data
-2. Update LocalBusinessSchema with more specific service offerings
-3. Add individual Review schema entries (not just aggregate)
+1. **Domain Authority Consolidation**
+   - All link equity flows to fisique.fitness
+   - No split signals between subdomain and main site
+
+2. **Internal Linking**
+   - Offers pages can link to gym/PT pages
+   - Main site can naturally link to offers
+
+3. **Crawl Efficiency**
+   - Single robots.txt for all content
+   - Unified sitemap
+
+4. **Schema Markup**
+   - Offers linked to main LocalBusiness entity
+   - Better rich snippet eligibility
 
 ---
 
-## Content Strategy for New Pages
+## After Implementation
 
-Each location page should include:
-- H1: "[Service] Near [Location]" pattern
-- Driving distance and time from that location
-- Why professionals from that area choose Fisique
-- Google Maps directions from that specific area
-- Location-specific testimonials if available
-- Unique FAQ questions about that location
+1. Submit updated sitemap to Google Search Console
+2. Request indexing for new /offers pages
+3. Monitor 301 redirects from subdomain
+4. Decommission subdomain after 3-6 months of stable redirects
 
