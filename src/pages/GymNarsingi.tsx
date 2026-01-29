@@ -235,7 +235,7 @@ const GymNarsingi = () => {
                   guidance, and accountability to help you reach your goals.
                 </p>
                 <div className="text-sm text-primary font-medium">
-                  From ₹15,000/month →
+                  From ₹15,000–22,000/month →
                 </div>
               </a>
 
@@ -254,7 +254,7 @@ const GymNarsingi = () => {
                   self-motivated individuals who want a quality workout space.
                 </p>
                 <div className="text-sm text-primary font-medium">
-                  From ₹3,000/month →
+                  From ₹5,000/month →
                 </div>
               </a>
 

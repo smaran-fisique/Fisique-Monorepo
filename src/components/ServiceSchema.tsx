@@ -42,7 +42,7 @@ export const ServiceSchema = ({
               "@type": "AggregateOffer",
               "priceCurrency": "INR",
               "lowPrice": "45000",
-              "highPrice": "90000",
+              "highPrice": "65000",
               "offerCount": "3"
             }
           },
@@ -56,7 +56,7 @@ export const ServiceSchema = ({
               "@type": "AggregateOffer",
               "priceCurrency": "INR",
               "lowPrice": "15000",
-              "highPrice": "25000",
+              "highPrice": "22000",
               "offerCount": "2"
             }
           }
@@ -88,7 +88,7 @@ export const ServiceSchema = ({
               "@type": "Service",
               "name": "Monthly Gym Membership"
             },
-            "price": "3000",
+            "price": "5000",
             "priceCurrency": "INR"
           },
           {
@@ -97,7 +97,7 @@ export const ServiceSchema = ({
               "@type": "Service",
               "name": "Quarterly Gym Membership"
             },
-            "price": "8000",
+            "price": "14000",
             "priceCurrency": "INR"
           },
           {
@@ -106,7 +106,7 @@ export const ServiceSchema = ({
               "@type": "Service",
               "name": "Half-Yearly Gym Membership"
             },
-            "price": "15000",
+            "price": "20000",
             "priceCurrency": "INR"
           },
           {

@@ -235,7 +235,7 @@ const GymFinancialDistrict = () => {
                   structured, efficient workouts that deliver visible results.
                 </p>
                 <div className="text-sm text-primary font-medium">
-                  From ₹15,000/month →
+                  From ₹15,000–22,000/month →
                 </div>
               </a>
 
@@ -254,7 +254,7 @@ const GymFinancialDistrict = () => {
                   no waiting—just focused workouts when you need them.
                 </p>
                 <div className="text-sm text-primary font-medium">
-                  From ₹3,000/month →
+                  From ₹5,000/month →
                 </div>
               </a>
 
