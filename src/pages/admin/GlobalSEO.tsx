@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ReviewImportModal } from '@/components/admin/ReviewImportModal';
 import { 
   Loader2, 
   RefreshCw, 
@@ -15,7 +16,8 @@ import {
   Map, 
   ExternalLink,
   CheckCircle,
-  Clock
+  Clock,
+  Upload
 } from 'lucide-react';
 
 interface SiteFile {
@@ -40,6 +42,7 @@ export default function GlobalSEO() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [regenerating, setRegenerating] = useState<string | null>(null);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -415,6 +418,13 @@ export default function GlobalSEO() {
             <div className="flex gap-2">
               <Button
                 variant="outline"
+                onClick={() => setImportModalOpen(true)}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Import from Apify
+              </Button>
+              <Button
+                variant="outline"
                 onClick={() => handleRegenerate('reviews')}
                 disabled={regenerating === 'reviews'}
               >
@@ -474,6 +484,12 @@ export default function GlobalSEO() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <ReviewImportModal 
+        open={importModalOpen} 
+        onOpenChange={setImportModalOpen}
+        onImportComplete={fetchData}
+      />
     </div>
   );
 }
