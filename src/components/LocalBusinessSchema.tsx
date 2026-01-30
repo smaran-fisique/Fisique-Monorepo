@@ -1,6 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { useSiteStats } from "@/hooks/useSiteStats";
 
+/**
+ * LocalBusinessSchema - Single source for aggregate ratings
+ * This is the ONLY schema that should contain aggregateRating
+ * to prevent "multiple aggregate ratings" errors in Google Search Console
+ */
 export const LocalBusinessSchema = () => {
   const { stats } = useSiteStats();
 
@@ -14,6 +19,9 @@ export const LocalBusinessSchema = () => {
     "url": "https://fisique.fitness",
     "telephone": ["+91-9515469444", "+91-7671959610"],
     "email": "hello@fisique.fitness",
+    "image": [
+      "https://fisique.fitness/fisique-logo.webp"
+    ],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "4th Floor, Above Pulla Reddy Sweets, Avant Cedar",
@@ -27,7 +35,6 @@ export const LocalBusinessSchema = () => {
       "latitude": "17.3871",
       "longitude": "78.3401"
     },
-    "image": "https://fisique.fitness/fisique-logo.webp",
     "priceRange": "₹₹₹",
     "currenciesAccepted": "INR",
     "paymentAccepted": "Cash, Credit Card, UPI, Bank Transfer",
