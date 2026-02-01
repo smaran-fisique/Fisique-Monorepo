@@ -11,26 +11,22 @@ const IPHONE_OFFER_ID = "bfe67087-50ed-4977-99be-f000628608ec"; // From network 
 
 const useLeaderboard = () => {
   return useQuery({
-    queryKey: ['iphone-leaderboard'],
+    queryKey: ["iphone-leaderboard"],
     queryFn: async () => {
       // First try to get the iPhone offer by slug
       let offerId = IPHONE_OFFER_ID;
-      
-      const { data: offer } = await supabase
-        .from('offers')
-        .select('id')
-        .eq('slug', 'iphone')
-        .single();
-      
+
+      const { data: offer } = await supabase.from("offers").select("id").eq("slug", "iphone").single();
+
       if (offer) {
         offerId = offer.id;
       }
 
       const { data, error } = await supabase
-        .from('offer_entrants')
-        .select('id, name, created_at')
-        .eq('offer_id', offerId)
-        .order('created_at', { ascending: true });
+        .from("offer_entrants")
+        .select("id, name, created_at")
+        .eq("offer_id", offerId)
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
       return data || [];
@@ -45,10 +41,10 @@ const IPhoneLeaderboard = () => {
   return (
     <>
       <Helmet>
-        <title>iPhone 16 Draw Leaderboard | Fisique Fitness Kokapet</title>
+        <title>iPhone Draw Leaderboard | Fisique Fitness Kokapet</title>
         <meta
           name="description"
-          content="See who's in the running to win an iPhone 16 at Fisique Fitness Kokapet. Join our 3-month training program to enter the draw!"
+          content="See who's in the running to win an iPhone at Fisique Fitness Kokapet. Join our 3-month training program to enter the draw!"
         />
         <link rel="canonical" href="https://fisique.fitness/offers/iphone/leaderboard" />
       </Helmet>
@@ -58,8 +54,8 @@ const IPhoneLeaderboard = () => {
       <main className="min-h-screen bg-background pt-24 pb-16">
         <div className="container-custom px-4">
           {/* Back Link */}
-          <Link 
-            to="/offers/iphone" 
+          <Link
+            to="/offers/iphone"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -72,11 +68,10 @@ const IPhoneLeaderboard = () => {
               <Trophy className="w-4 h-4" />
               iPhone 16 Draw
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Qualified Entrants
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Qualified Entrants</h1>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Everyone listed below has qualified for the iPhone 16 draw by enrolling in our 3-month personal training program.
+              Everyone listed below has qualified for the iPhone draw by enrolling in our 3-month personal training
+              program.
             </p>
           </div>
 
@@ -90,9 +85,7 @@ const IPhoneLeaderboard = () => {
               <p className="text-sm text-muted-foreground">Total Entrants</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-accent mb-2">
-                {probability}%
-              </div>
+              <div className="text-4xl font-bold text-accent mb-2">{probability}%</div>
               <p className="text-sm text-muted-foreground">Win Probability Each</p>
             </div>
           </div>
@@ -117,20 +110,11 @@ const IPhoneLeaderboard = () => {
                 </div>
                 <div className="divide-y divide-border">
                   {entrants.map((entrant, index) => (
-                    <div 
-                      key={entrant.id} 
-                      className="px-6 py-4 hover:bg-accent/5 transition-colors"
-                    >
+                    <div key={entrant.id} className="px-6 py-4 hover:bg-accent/5 transition-colors">
                       <div className="grid grid-cols-3 items-center">
-                        <span className="text-lg font-semibold text-accent">
-                          {index + 1}
-                        </span>
-                        <span className="font-medium text-foreground">
-                          {entrant.name}
-                        </span>
-                        <span className="text-right text-accent font-semibold">
-                          {probability}%
-                        </span>
+                        <span className="text-lg font-semibold text-accent">{index + 1}</span>
+                        <span className="font-medium text-foreground">{entrant.name}</span>
+                        <span className="text-right text-accent font-semibold">{probability}%</span>
                       </div>
                     </div>
                   ))}
