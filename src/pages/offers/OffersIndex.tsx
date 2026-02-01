@@ -7,10 +7,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
-// Map offer IDs to slugs (for now, using a simple approach)
-const getOfferSlug = (title: string) => {
-  if (title.toLowerCase().includes('iphone')) return 'iphone';
-  return title.toLowerCase().replace(/\s+/g, '-').slice(0, 20);
+// Get slug from database, fallback to generated one
+const getOfferSlug = (offer: { slug?: string | null; title: string }) => {
+  if (offer.slug) return offer.slug;
+  if (offer.title.toLowerCase().includes('iphone')) return 'iphone';
+  return offer.title.toLowerCase().replace(/\s+/g, '-').slice(0, 20);
 };
 
 const useOffers = () => {
@@ -76,7 +77,7 @@ const OffersIndex = () => {
               {offers.map((offer) => (
                 <Link
                   key={offer.id}
-                  to={`/offers/${getOfferSlug(offer.title)}`}
+                  to={`/offers/${getOfferSlug(offer)}`}
                   className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
                 >
                   <div className="flex items-start justify-between mb-4">
