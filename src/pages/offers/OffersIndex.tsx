@@ -74,38 +74,58 @@ const OffersIndex = () => {
           {/* Offers Grid */}
           {!isLoading && offers.length > 0 && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {offers.map((offer) => (
-                <Link
-                  key={offer.id}
-                  to={offer.cta_link.startsWith('http') ? offer.cta_link : `/offers/${getOfferSlug(offer)}`}
-                  className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                      <Gift className="w-6 h-6 text-accent" />
+              {offers.map((offer) => {
+                const isExternal = offer.cta_link.startsWith('http');
+                const href = isExternal ? offer.cta_link : `/offers/${getOfferSlug(offer)}`;
+                const CardContent = (
+                  <>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                        <Gift className="w-6 h-6 text-accent" />
+                      </div>
+                      <span className="px-3 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
+                        Active
+                      </span>
                     </div>
-                    <span className="px-3 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
-                      Active
-                    </span>
-                  </div>
 
-                  <h2 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
-                    {offer.title}
-                  </h2>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                    {offer.description}
-                  </p>
+                    <h2 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      {offer.title}
+                    </h2>
+                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                      {offer.description}
+                    </p>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      Ends: {format(new Date(offer.end_date), 'MMM d, yyyy')}
-                    </span>
-                    <span className="text-accent flex items-center gap-1 group-hover:gap-2 transition-all">
-                      {offer.cta_text} <ArrowRight className="w-4 h-4" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        Ends: {format(new Date(offer.end_date), 'MMM d, yyyy')}
+                      </span>
+                      <span className="text-accent flex items-center gap-1 group-hover:gap-2 transition-all">
+                        {offer.cta_text} <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </>
+                );
+
+                return isExternal ? (
+                  <a
+                    key={offer.id}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
+                  >
+                    {CardContent}
+                  </a>
+                ) : (
+                  <Link
+                    key={offer.id}
+                    to={href}
+                    className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
+                  >
+                    {CardContent}
+                  </Link>
+                );
+              })}
             </div>
           )}
 
