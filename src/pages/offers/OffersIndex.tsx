@@ -77,7 +77,7 @@ const OffersIndex = () => {
               {offers.map((offer) => (
                 <Link
                   key={offer.id}
-                  to={`/offers/${getOfferSlug(offer)}`}
+                  to={offer.cta_link.startsWith('http') ? offer.cta_link : `/offers/${getOfferSlug(offer)}`}
                   className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
                 >
                   <div className="flex items-start justify-between mb-4">
@@ -101,7 +101,7 @@ const OffersIndex = () => {
                       Ends: {format(new Date(offer.end_date), 'MMM d, yyyy')}
                     </span>
                     <span className="text-accent flex items-center gap-1 group-hover:gap-2 transition-all">
-                      View Offer <ArrowRight className="w-4 h-4" />
+                      {offer.cta_text} <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
                 </Link>
