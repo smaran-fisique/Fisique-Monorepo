@@ -239,43 +239,49 @@ export default function Offers() {
         ) : (
           <div className="divide-y divide-border">
             {offers.map((offer) => (
-              <div key={offer.id} className="p-4 flex items-start gap-4 hover:bg-accent/50 transition-colors">
-                {/* Image Preview */}
-                <div className="w-20 h-20 flex-shrink-0 bg-muted rounded-lg overflow-hidden flex items-center justify-center">
-                  {offer.image_url ? (
-                    <img 
-                      src={offer.image_url} 
-                      alt={offer.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <ImageIcon className="w-8 h-8 text-muted-foreground" />
-                  )}
-                </div>
-                
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold truncate">{offer.title}</h3>
-                    <span className={`px-2 py-0.5 rounded-full text-xs flex-shrink-0 ${
-                      offer.is_active ? 'bg-green-500/10 text-green-500' : 'bg-gray-500/10 text-gray-500'
-                    }`}>
-                      {offer.is_active ? 'Active' : 'Inactive'}
-                    </span>
+              <div key={offer.id} className="p-4 hover:bg-accent/50 transition-colors">
+                {/* Mobile: Stack layout, Desktop: Row layout */}
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                  {/* Image Preview - Hidden on mobile for cleaner layout */}
+                  <div className="hidden sm:flex w-20 h-20 flex-shrink-0 bg-muted rounded-lg overflow-hidden items-center justify-center">
+                    {offer.image_url ? (
+                      <img 
+                        src={offer.image_url} 
+                        alt={offer.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                    )}
                   </div>
-                  {offer.description && (
-                    <p className="text-sm text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
-                  )}
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span>From: {new Date(offer.start_date).toLocaleDateString()}</span>
-                    <span>To: {new Date(offer.end_date).toLocaleDateString()}</span>
-                    {offer.image_url && <span className="text-green-500">✓ Has image</span>}
+                  
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start sm:items-center gap-2 mb-1 flex-wrap">
+                      <h3 className="font-semibold">{offer.title}</h3>
+                      <span className={`px-2 py-0.5 rounded-full text-xs flex-shrink-0 ${
+                        offer.is_active ? 'bg-accent/20 text-accent' : 'bg-muted text-muted-foreground'
+                      }`}>
+                        {offer.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                    {offer.description && (
+                      <p className="text-sm text-muted-foreground mb-2 line-clamp-2">{offer.description}</p>
+                    )}
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      <span>From: {new Date(offer.start_date).toLocaleDateString()}</span>
+                      <span>To: {new Date(offer.end_date).toLocaleDateString()}</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex gap-2 flex-shrink-0">
+
+                {/* Action buttons - Full width on mobile */}
+                <div className="flex gap-2 mt-3 sm:mt-0 sm:justify-end">
                   <Button 
                     variant="outline" 
                     size="sm" 
                     asChild
+                    className="flex-1 sm:flex-none"
                   >
                     <Link to={`/admin/offers/${offer.id}/entrants`}>
                       <Users className="w-4 h-4 mr-1" />
@@ -286,11 +292,19 @@ export default function Offers() {
                     variant="outline" 
                     size="sm" 
                     onClick={() => { setEditingOffer(offer); setDialogOpen(true); }}
+                    className="flex-1 sm:flex-none"
                   >
-                    <Edit className="w-4 h-4" />
+                    <Edit className="w-4 h-4 sm:mr-0 mr-1" />
+                    <span className="sm:hidden">Edit</span>
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => handleDelete(offer.id)}>
-                    <Trash2 className="w-4 h-4" />
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => handleDelete(offer.id)}
+                    className="flex-1 sm:flex-none"
+                  >
+                    <Trash2 className="w-4 h-4 sm:mr-0 mr-1" />
+                    <span className="sm:hidden">Delete</span>
                   </Button>
                 </div>
               </div>
