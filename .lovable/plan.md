@@ -1,147 +1,140 @@
 
 
-## Dynamic Sitemap Edge Function
+## Offer Leaderboard Feature
 
-Create a new edge function that generates the sitemap XML in real-time when `/sitemap.xml` is requested, ensuring Google always gets the most up-to-date content.
-
----
-
-### Current Problem
-
-| Issue | Impact |
-|-------|--------|
-| Static `public/sitemap.xml` is outdated | Missing newest blog post and some pages |
-| Two-step process (generate → store → serve) | Adds latency and stale data risk |
-| Static file takes priority over edge function | Google crawls the old static file |
+Create a public leaderboard page for each offer (starting with `/offers/iphone/leaderboard`) and an admin interface to manually add/manage entrants who qualify for the draw.
 
 ---
 
-### Solution Architecture
+### What You'll Get
 
-Create a single edge function `sitemap` that:
-1. Generates the complete sitemap XML on-the-fly
-2. Returns valid XML with proper headers
-3. Includes all static pages, SEO meta pages, and blog posts
-4. Has built-in caching headers for performance
+1. **Public Leaderboard Page** (`/offers/iphone/leaderboard`)
+   - Displays all qualified entrants for the iPhone offer
+   - Shows each person's name and their probability of winning (100% / total entrants)
+   - Clean, on-brand design matching the Fisique Fitness aesthetic
+   - Auto-updates as new entrants are added
+
+2. **Admin Management** (within existing Offers page)
+   - "Manage Entrants" button on each offer card
+   - Add new entrant form: Name + optional Phone/Notes
+   - Delete entrants
+   - View current count and probabilities
+
+---
+
+### Database Design
+
+Create a new `offer_entrants` table:
+
+| Column | Type | Description |
+|--------|------|-------------|
+| id | uuid | Primary key |
+| offer_id | uuid | Foreign key to offers table |
+| name | text | Entrant's display name |
+| phone | text (optional) | Contact number |
+| notes | text (optional) | Admin notes (e.g., "3-month PT membership") |
+| created_at | timestamp | When they were added |
+| created_by | uuid | Admin who added them |
+
+**RLS Policies:**
+- Anyone can SELECT (public leaderboard)
+- Only admins can INSERT/UPDATE/DELETE
+
+---
+
+### File Changes
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `src/pages/offers/IPhoneLeaderboard.tsx` | Create | Public leaderboard page |
+| `src/pages/admin/OfferEntrants.tsx` | Create | Admin page to manage entrants |
+| `src/App.tsx` | Modify | Add routes for leaderboard and admin page |
+| `src/layouts/AdminLayout.tsx` | Modify | Add navigation link to entrants (optional, can use existing Offers page) |
+| `src/pages/admin/Offers.tsx` | Modify | Add "Manage Entrants" button per offer |
+
+---
+
+### User Interface Preview
+
+**Public Leaderboard (`/offers/iphone/leaderboard`):**
 
 ```text
-Request: /sitemap.xml
-         ↓
-    Edge Function (sitemap)
-         ↓
-    ┌────────────────────────────────────┐
-    │ 1. Define static pages             │
-    │ 2. Query seo_meta table            │
-    │ 3. Query published blog_posts      │
-    │ 4. Build XML dynamically           │
-    │ 5. Return with XML headers         │
-    └────────────────────────────────────┘
-         ↓
-    XML Response (with 1-hour cache)
++------------------------------------------+
+|  iPhone 16 Draw - Qualified Entrants     |
+|  7 people in the draw                    |
++------------------------------------------+
+|  #  Name              Win Probability    |
++------------------------------------------+
+|  1  Rahul K.          14.3%             |
+|  2  Priya S.          14.3%             |
+|  3  Amit M.           14.3%             |
+|  ...                                     |
++------------------------------------------+
+|  [Join the Draw - CTA Button]           |
++------------------------------------------+
 ```
 
----
+**Admin Panel (Offers page with entrant management):**
 
-### Implementation Details
-
-#### 1. New Edge Function: `supabase/functions/sitemap/index.ts`
-
-A single function that generates and returns the sitemap XML directly:
-
-```typescript
-// Key features:
-- Returns XML directly (not JSON)
-- Content-Type: application/xml
-- Cache-Control: public, max-age=3600 (1 hour)
-- Includes all routes from App.tsx
-- Queries blog_posts for dynamic content
-- Queries seo_meta for custom pages
-```
-
-**Static Pages to Include:**
-- `/` (priority 1.0)
-- `/blog` (priority 0.9)
-- `/kokapet-gym` (priority 0.9)
-- `/personal-training-kokapet` (priority 0.9)
-- `/gym-membership-kokapet` (priority 0.9)
-- `/gym-financial-district` (priority 0.8)
-- `/gym-narsingi` (priority 0.8)
-- `/freelance-trainer-kokapet` (priority 0.7)
-- `/freelance-trainer-narsingi` (priority 0.7)
-- `/freelance-trainer-financial-district` (priority 0.7)
-- `/offers` (priority 0.7)
-- `/offers/iphone` (priority 0.7)
-- `/contact` and `/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey` (priority 0.6)
-- `/legal`, `/terms`, `/privacy`, `/refund`, `/shipping` (priority 0.3)
-
-**Dynamic Content:**
-- All published blog posts from `blog_posts` table
-- Custom pages from `seo_meta` where `include_in_sitemap = true`
-
-#### 2. Delete Static File
-
-Remove `public/sitemap.xml` so the edge function takes over.
-
-#### 3. Update robots.txt
-
-Point to the edge function URL:
 ```text
-Sitemap: https://cwzeymrokgsvwytkrhim.supabase.co/functions/v1/sitemap
-```
-
-#### 4. Configuration
-
-Add to `supabase/config.toml`:
-```toml
-[functions.sitemap]
-verify_jwt = false
-```
-
----
-
-### Edge Function Response Headers
-
-The function will return proper headers for Google compatibility:
-
-```typescript
-return new Response(sitemapXml, {
-  headers: {
-    'Content-Type': 'application/xml; charset=utf-8',
-    'Cache-Control': 'public, max-age=3600', // 1 hour
-    'X-Robots-Tag': 'noindex', // Sitemap itself shouldn't be indexed
-  },
-});
++------------------------------------------+
+|  Win an iPhone! - Entrants (7)          |
++------------------------------------------+
+|  [+ Add Entrant]                        |
++------------------------------------------+
+|  Name       Phone         Actions        |
+|  Rahul K.   9876543210    [Delete]      |
+|  Priya S.   9123456780    [Delete]      |
++------------------------------------------+
 ```
 
 ---
 
-### Files to Create/Modify
+### Technical Details
 
-| File | Action |
-|------|--------|
-| `supabase/functions/sitemap/index.ts` | **Create** - New edge function |
-| `supabase/config.toml` | **Modify** - Add sitemap function config |
-| `public/sitemap.xml` | **Delete** - Remove static file |
-| `public/robots.txt` | **Modify** - Update sitemap URL |
+**Database Migration:**
+
+```sql
+CREATE TABLE offer_entrants (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  offer_id uuid NOT NULL REFERENCES offers(id) ON DELETE CASCADE,
+  name text NOT NULL,
+  phone text,
+  notes text,
+  created_at timestamptz DEFAULT now(),
+  created_by uuid
+);
+
+ALTER TABLE offer_entrants ENABLE ROW LEVEL SECURITY;
+
+-- Public can view entrants (for leaderboard)
+CREATE POLICY "Anyone can view offer entrants"
+  ON offer_entrants FOR SELECT
+  USING (true);
+
+-- Only admins can manage entrants
+CREATE POLICY "Admins can manage offer entrants"
+  ON offer_entrants FOR ALL
+  USING (has_role(auth.uid(), 'admin'))
+  WITH CHECK (has_role(auth.uid(), 'admin'));
+```
+
+**Probability Calculation:**
+- Frontend calculates: `100 / totalEntrants`
+- Displayed as percentage with 1 decimal place (e.g., "14.3%")
+- Updates in real-time as entrants are added/removed
+
+**Route Structure:**
+- `/offers/iphone/leaderboard` - Public leaderboard for iPhone offer
+- `/admin/offers/:offerId/entrants` - Admin management page (or inline in Offers page)
 
 ---
 
-### Technical Notes
+### Implementation Approach
 
-**Why this approach works:**
-- Edge functions are industry-standard for dynamic sitemaps
-- Google fully supports dynamically generated sitemaps
-- 1-hour cache reduces database load while keeping content fresh
-- Single function is simpler than generate + store + serve pattern
-
-**Performance:**
-- Cold start: ~50-100ms
-- Warm response: ~20-50ms
-- Database queries: 2 simple SELECT statements
-- Total response time: Under 200ms typical
-
-**Reliability:**
-- Fallback content if database fails
-- Proper error handling with 500 status
-- CORS headers for debugging
+1. **Create database table** - `offer_entrants` with proper RLS
+2. **Build admin interface** - Add entrant management to existing Offers admin page
+3. **Create public leaderboard** - New page component with SEO metadata
+4. **Add routing** - Register new routes in App.tsx
+5. **Link leaderboard** - Add button on iPhone offer page to view leaderboard
 
