@@ -7,8 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Loader2, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Plus, Loader2, Edit, Trash2, Image as ImageIcon, Users } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Link } from 'react-router-dom';
 
 interface Offer {
   id: string;
@@ -271,6 +272,16 @@ export default function Offers() {
                   </div>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    asChild
+                  >
+                    <Link to={`/admin/offers/${offer.id}/entrants`}>
+                      <Users className="w-4 h-4 mr-1" />
+                      Entrants
+                    </Link>
+                  </Button>
                   <Button 
                     variant="outline" 
                     size="sm" 
