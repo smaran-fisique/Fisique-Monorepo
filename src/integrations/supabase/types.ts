@@ -286,6 +286,44 @@ export type Database = {
         }
         Relationships: []
       }
+      offer_entrants: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          name: string
+          notes: string | null
+          offer_id: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          offer_id: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          offer_id?: string
+          phone?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offer_entrants_offer_id_fkey"
+            columns: ["offer_id"]
+            isOneToOne: false
+            referencedRelation: "offers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       offers: {
         Row: {
           created_at: string | null
