@@ -2,19 +2,38 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { ArrowRight, Gift } from "lucide-react";
+import { ArrowRight, Gift, Loader2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
 
-const offers = [
-  {
-    slug: "iphone",
-    title: "Win an iPhone 16",
-    description: "Train with us for 3 months and get a chance to win the latest iPhone 16. Limited time offer!",
-    endDate: "Feb 28, 2026",
-    badge: "Active",
-  },
-];
+// Map offer IDs to slugs (for now, using a simple approach)
+const getOfferSlug = (title: string) => {
+  if (title.toLowerCase().includes('iphone')) return 'iphone';
+  return title.toLowerCase().replace(/\s+/g, '-').slice(0, 20);
+};
+
+const useOffers = () => {
+  return useQuery({
+    queryKey: ['offers-list'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('offers')
+        .select('*')
+        .eq('is_active', true)
+        .lte('start_date', new Date().toISOString())
+        .gte('end_date', new Date().toISOString())
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    },
+  });
+};
 
 const OffersIndex = () => {
+  const { data: offers = [], isLoading } = useOffers();
+
   return (
     <>
       <Helmet>
@@ -44,42 +63,53 @@ const OffersIndex = () => {
             </p>
           </div>
 
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex justify-center py-16">
+              <Loader2 className="w-8 h-8 animate-spin text-accent" />
+            </div>
+          )}
+
           {/* Offers Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {offers.map((offer) => (
-              <Link
-                key={offer.slug}
-                to={`/offers/${offer.slug}`}
-                className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                    <Gift className="w-6 h-6 text-accent" />
+          {!isLoading && offers.length > 0 && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {offers.map((offer) => (
+                <Link
+                  key={offer.id}
+                  to={`/offers/${getOfferSlug(offer.title)}`}
+                  className="group premium-card rounded-2xl p-6 hover:border-accent/40 transition-all"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                      <Gift className="w-6 h-6 text-accent" />
+                    </div>
+                    <span className="px-3 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
+                      Active
+                    </span>
                   </div>
-                  <span className="px-3 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
-                    {offer.badge}
-                  </span>
-                </div>
 
-                <h2 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
-                  {offer.title}
-                </h2>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                  {offer.description}
-                </p>
+                  <h2 className="text-xl font-semibold text-foreground mb-2 group-hover:text-accent transition-colors">
+                    {offer.title}
+                  </h2>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                    {offer.description}
+                  </p>
 
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Ends: {offer.endDate}</span>
-                  <span className="text-accent flex items-center gap-1 group-hover:gap-2 transition-all">
-                    View Offer <ArrowRight className="w-4 h-4" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      Ends: {format(new Date(offer.end_date), 'MMM d, yyyy')}
+                    </span>
+                    <span className="text-accent flex items-center gap-1 group-hover:gap-2 transition-all">
+                      View Offer <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Empty state for when no offers */}
-          {offers.length === 0 && (
+          {!isLoading && offers.length === 0 && (
             <div className="text-center py-16">
               <Gift className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
               <h2 className="text-xl font-semibold text-foreground mb-2">No Active Offers</h2>
