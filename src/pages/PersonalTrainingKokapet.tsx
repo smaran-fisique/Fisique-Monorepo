@@ -41,7 +41,7 @@ const PersonalTrainingKokapet = () => {
         <meta property="og:url" content="https://fisique.fitness/personal-training-kokapet" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <FAQSchema faqs={personalTrainingFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />
 

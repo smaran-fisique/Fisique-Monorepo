@@ -33,7 +33,7 @@ const KokapetGym = () => {
         <meta property="og:url" content="https://fisique.fitness/kokapet-gym" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <ServiceSchema />
       <FAQSchema faqs={defaultFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />

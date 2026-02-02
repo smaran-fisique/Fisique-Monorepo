@@ -56,7 +56,7 @@ const GymNarsingi = () => {
         <meta property="og:url" content="https://fisique.fitness/gym-narsingi" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <ServiceSchema />
       <FAQSchema faqs={narsingiFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />

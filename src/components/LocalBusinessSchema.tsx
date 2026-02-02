@@ -5,8 +5,16 @@ import { useSiteStats } from "@/hooks/useSiteStats";
  * LocalBusinessSchema - Single source for aggregate ratings
  * This is the ONLY schema that should contain aggregateRating
  * to prevent "multiple aggregate ratings" errors in Google Search Console
+ * 
+ * IMPORTANT: Only the homepage should use includeRating={true} (default)
+ * All other pages should pass includeRating={false}
  */
-export const LocalBusinessSchema = () => {
+
+interface LocalBusinessSchemaProps {
+  includeRating?: boolean;
+}
+
+export const LocalBusinessSchema = ({ includeRating = true }: LocalBusinessSchemaProps) => {
   const { stats } = useSiteStats();
 
   const schema = {
@@ -90,13 +98,15 @@ export const LocalBusinessSchema = () => {
         "value": true
       }
     ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": stats.avgRating,
-      "reviewCount": stats.reviewCount,
-      "bestRating": "5",
-      "worstRating": "1"
-    },
+    ...(includeRating && {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": stats.avgRating,
+        "reviewCount": stats.reviewCount,
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }),
     "sameAs": [
       "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
     ],

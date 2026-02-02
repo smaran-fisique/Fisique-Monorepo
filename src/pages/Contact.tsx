@@ -43,7 +43,7 @@ const Contact = () => {
         <meta property="og:url" content="https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <BreadcrumbSchema items={breadcrumbItems} />
       
       <Header />

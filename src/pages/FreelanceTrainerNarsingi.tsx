@@ -56,7 +56,7 @@ const FreelanceTrainerNarsingi = () => {
         <meta property="og:url" content="https://fisique.fitness/freelance-trainer-narsingi" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <ServiceSchema />
       <FAQSchema faqs={freelanceNarsingiFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />

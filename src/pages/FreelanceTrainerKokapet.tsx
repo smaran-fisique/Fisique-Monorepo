@@ -56,7 +56,7 @@ const FreelanceTrainerKokapet = () => {
         <meta property="og:url" content="https://fisique.fitness/freelance-trainer-kokapet" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <ServiceSchema />
       <FAQSchema faqs={freelanceKokapetFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />
