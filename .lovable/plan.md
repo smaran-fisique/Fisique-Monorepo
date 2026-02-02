@@ -1,140 +1,92 @@
 
+# Fix: Multiple Aggregate Ratings Schema Error
 
-## Offer Leaderboard Feature
+## Problem Identified
 
-Create a public leaderboard page for each offer (starting with `/offers/iphone/leaderboard`) and an admin interface to manually add/manage entrants who qualify for the draw.
+Google Search Console is reporting "multiple aggregate ratings" errors because the `LocalBusinessSchema` component (which contains `aggregateRating`) is included on **11+ pages** across the site:
 
----
+- Index (homepage)
+- KokapetGym
+- PersonalTrainingKokapet
+- GymMembershipKokapet
+- GymFinancialDistrict
+- GymNarsingi
+- FreelanceTrainerKokapet
+- FreelanceTrainerNarsingi
+- FreelanceTrainerFinancialDistrict
+- Contact
+- And potentially others
 
-### What You'll Get
+When Google crawls these pages, it sees the same LocalBusiness entity with an aggregateRating repeated multiple times, which triggers the validation error.
 
-1. **Public Leaderboard Page** (`/offers/iphone/leaderboard`)
-   - Displays all qualified entrants for the iPhone offer
-   - Shows each person's name and their probability of winning (100% / total entrants)
-   - Clean, on-brand design matching the Fisique Fitness aesthetic
-   - Auto-updates as new entrants are added
+## Solution
 
-2. **Admin Management** (within existing Offers page)
-   - "Manage Entrants" button on each offer card
-   - Add new entrant form: Name + optional Phone/Notes
-   - Delete entrants
-   - View current count and probabilities
+Modify `LocalBusinessSchema` to accept an optional `includeRating` prop. Only the **homepage** should include the aggregate rating. All other pages will use the schema without the rating.
 
----
+### Changes Required
 
-### Database Design
+**1. Update `src/components/LocalBusinessSchema.tsx`**
+- Add optional `includeRating?: boolean` prop (defaults to `true`)
+- Conditionally include `aggregateRating` only when `includeRating` is `true`
 
-Create a new `offer_entrants` table:
+**2. Update all landing pages to pass `includeRating={false}`**
 
-| Column | Type | Description |
-|--------|------|-------------|
-| id | uuid | Primary key |
-| offer_id | uuid | Foreign key to offers table |
-| name | text | Entrant's display name |
-| phone | text (optional) | Contact number |
-| notes | text (optional) | Admin notes (e.g., "3-month PT membership") |
-| created_at | timestamp | When they were added |
-| created_by | uuid | Admin who added them |
+Files to update:
+- `src/pages/KokapetGym.tsx`
+- `src/pages/PersonalTrainingKokapet.tsx`
+- `src/pages/GymMembershipKokapet.tsx`
+- `src/pages/GymFinancialDistrict.tsx`
+- `src/pages/GymNarsingi.tsx`
+- `src/pages/FreelanceTrainerKokapet.tsx`
+- `src/pages/FreelanceTrainerNarsingi.tsx`
+- `src/pages/FreelanceTrainerFinancialDistrict.tsx`
+- `src/pages/Contact.tsx`
 
-**RLS Policies:**
-- Anyone can SELECT (public leaderboard)
-- Only admins can INSERT/UPDATE/DELETE
+**3. Keep homepage (`src/pages/Index.tsx`) unchanged**
+- It will continue to use `<LocalBusinessSchema />` which defaults to including the rating
 
----
+## Technical Details
 
-### File Changes
+```typescript
+// LocalBusinessSchema.tsx - Updated signature
+interface LocalBusinessSchemaProps {
+  includeRating?: boolean;
+}
 
-| File | Action | Purpose |
-|------|--------|---------|
-| `src/pages/offers/IPhoneLeaderboard.tsx` | Create | Public leaderboard page |
-| `src/pages/admin/OfferEntrants.tsx` | Create | Admin page to manage entrants |
-| `src/App.tsx` | Modify | Add routes for leaderboard and admin page |
-| `src/layouts/AdminLayout.tsx` | Modify | Add navigation link to entrants (optional, can use existing Offers page) |
-| `src/pages/admin/Offers.tsx` | Modify | Add "Manage Entrants" button per offer |
-
----
-
-### User Interface Preview
-
-**Public Leaderboard (`/offers/iphone/leaderboard`):**
-
-```text
-+------------------------------------------+
-|  iPhone 16 Draw - Qualified Entrants     |
-|  7 people in the draw                    |
-+------------------------------------------+
-|  #  Name              Win Probability    |
-+------------------------------------------+
-|  1  Rahul K.          14.3%             |
-|  2  Priya S.          14.3%             |
-|  3  Amit M.           14.3%             |
-|  ...                                     |
-+------------------------------------------+
-|  [Join the Draw - CTA Button]           |
-+------------------------------------------+
+export const LocalBusinessSchema = ({ includeRating = true }: LocalBusinessSchemaProps) => {
+  const { stats } = useSiteStats();
+  
+  const schema = {
+    // ... existing properties ...
+    // Only include aggregateRating when prop is true
+    ...(includeRating && {
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": stats.avgRating,
+        "reviewCount": stats.reviewCount,
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }),
+    // ... remaining properties ...
+  };
+  // ...
+};
 ```
 
-**Admin Panel (Offers page with entrant management):**
-
-```text
-+------------------------------------------+
-|  Win an iPhone! - Entrants (7)          |
-+------------------------------------------+
-|  [+ Add Entrant]                        |
-+------------------------------------------+
-|  Name       Phone         Actions        |
-|  Rahul K.   9876543210    [Delete]      |
-|  Priya S.   9123456780    [Delete]      |
-+------------------------------------------+
+```tsx
+// Usage in landing pages (not homepage)
+<LocalBusinessSchema includeRating={false} />
 ```
 
----
+## Result
 
-### Technical Details
+After this fix:
+- Only the homepage will have `aggregateRating` in structured data
+- Google will see a single source of truth for the aggregate rating
+- All other LocalBusiness schema instances will still provide business info (address, hours, etc.) without duplicating ratings
+- The "multiple aggregate ratings" error should be resolved in Google Search Console within a few days of re-crawling
 
-**Database Migration:**
+## Alternative Considered
 
-```sql
-CREATE TABLE offer_entrants (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  offer_id uuid NOT NULL REFERENCES offers(id) ON DELETE CASCADE,
-  name text NOT NULL,
-  phone text,
-  notes text,
-  created_at timestamptz DEFAULT now(),
-  created_by uuid
-);
-
-ALTER TABLE offer_entrants ENABLE ROW LEVEL SECURITY;
-
--- Public can view entrants (for leaderboard)
-CREATE POLICY "Anyone can view offer entrants"
-  ON offer_entrants FOR SELECT
-  USING (true);
-
--- Only admins can manage entrants
-CREATE POLICY "Admins can manage offer entrants"
-  ON offer_entrants FOR ALL
-  USING (has_role(auth.uid(), 'admin'))
-  WITH CHECK (has_role(auth.uid(), 'admin'));
-```
-
-**Probability Calculation:**
-- Frontend calculates: `100 / totalEntrants`
-- Displayed as percentage with 1 decimal place (e.g., "14.3%")
-- Updates in real-time as entrants are added/removed
-
-**Route Structure:**
-- `/offers/iphone/leaderboard` - Public leaderboard for iPhone offer
-- `/admin/offers/:offerId/entrants` - Admin management page (or inline in Offers page)
-
----
-
-### Implementation Approach
-
-1. **Create database table** - `offer_entrants` with proper RLS
-2. **Build admin interface** - Add entrant management to existing Offers admin page
-3. **Create public leaderboard** - New page component with SEO metadata
-4. **Add routing** - Register new routes in App.tsx
-5. **Link leaderboard** - Add button on iPhone offer page to view leaderboard
-
+Removing `LocalBusinessSchema` entirely from non-homepage pages was considered, but keeping it (without ratings) still provides SEO value through consistent NAP (Name, Address, Phone) structured data.
