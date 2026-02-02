@@ -56,7 +56,7 @@ const GymFinancialDistrict = () => {
         <meta property="og:url" content="https://fisique.fitness/gym-financial-district" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <ServiceSchema />
       <FAQSchema faqs={financialDistrictFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />

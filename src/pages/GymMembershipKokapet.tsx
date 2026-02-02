@@ -86,7 +86,7 @@ const GymMembershipKokapet = () => {
         <meta property="og:url" content="https://fisique.fitness/gym-membership-kokapet" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <FAQSchema faqs={membershipFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />
 

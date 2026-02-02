@@ -56,7 +56,7 @@ const FreelanceTrainerFinancialDistrict = () => {
         <meta property="og:url" content="https://fisique.fitness/freelance-trainer-financial-district" />
         {seo.ogImage && <meta property="og:image" content={seo.ogImage} />}
       </Helmet>
-      <LocalBusinessSchema />
+      <LocalBusinessSchema includeRating={false} />
       <ServiceSchema />
       <FAQSchema faqs={freelanceFDFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />
