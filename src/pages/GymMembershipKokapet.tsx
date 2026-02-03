@@ -9,6 +9,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Dumbbell, Users, Clock, Thermometer, X } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { BlogPreviewSection } from "@/components/BlogPreviewSection";
 import { useSEO } from "@/hooks/useSEO";
 
 const GymMembershipKokapet = () => {
@@ -311,6 +312,9 @@ const GymMembershipKokapet = () => {
 
         {/* Reviews */}
         <ReviewsSection />
+
+        {/* From Our Blog */}
+        <BlogPreviewSection />
 
         {/* FAQ */}
         <FAQSection

@@ -8,6 +8,7 @@ import { TrainingOptionsSubSection } from "@/components/TrainingOptionsSubSectio
 import { WhoIsForSection } from "@/components/WhoIsForSection";
 import { ReviewsSection } from "@/components/ReviewsSection";
 import { FAQSection } from "@/components/FAQSection";
+import { BlogPreviewSection } from "@/components/BlogPreviewSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
@@ -54,6 +55,7 @@ const Index = () => {
         <WhoIsForSection />
         <ReviewsSection />
         <FAQSection />
+        <BlogPreviewSection />
         <FinalCTA />
       </main>
       <Footer />
