@@ -5,14 +5,14 @@ const IPhoneOffer = () => {
   return (
     <>
       <Helmet>
-        <title>Win iPhone 16 | 3 Month Training Offer | Fisique Fitness Kokapet</title>
+        <title>Win an iPhone | 3 Month Training Offer | Fisique Fitness Kokapet</title>
         <meta
           name="description"
-          content="Join Fisique Fitness Kokapet for 3 months of personal training and get a chance to win an iPhone 16. Limited spots available. Offer ends Feb 28, 2026."
+          content="Join Fisique Fitness Kokapet for 3 months of personal training and get a chance to win an iPhone. Limited spots available. Offer ends Feb 28, 2026."
         />
         <link rel="canonical" href="https://fisique.fitness/offers/iphone" />
-        <meta property="og:title" content="Win iPhone 16 | Fisique Fitness Kokapet" />
-        <meta property="og:description" content="Train for 3 months and win an iPhone 16!" />
+        <meta property="og:title" content="Win an iPhone | Fisique Fitness Kokapet" />
+        <meta property="og:description" content="Train for 3 months and win an iPhone!" />
         <meta property="og:url" content="https://fisique.fitness/offers/iphone" />
         <meta property="og:type" content="website" />
       </Helmet>

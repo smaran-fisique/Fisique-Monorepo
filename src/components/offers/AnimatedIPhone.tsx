@@ -44,7 +44,7 @@ export const AnimatedIPhone = ({ scrollProgress }: AnimatedIPhoneProps) => {
             <div className="text-center px-6">
               <div className="text-5xl mb-4">🏆</div>
               <p className="text-lg font-semibold text-foreground">
-                iPhone 16
+                iPhone
               </p>
               <p className="text-sm text-muted-foreground mt-1">
                 Could be yours

@@ -66,7 +66,7 @@ const IPhoneLeaderboard = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full text-sm mb-6">
               <Trophy className="w-4 h-4" />
-              iPhone 16 Draw
+              iPhone Draw
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Qualified Entrants</h1>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
