@@ -26,33 +26,37 @@ export const OfferBanner = () => {
     fetchActiveOffer();
   }, []);
 
-  // Add/remove body class and CSS variable when visibility changes
+  // Add/remove body class, CSS variable, and padding when visibility changes
   useEffect(() => {
     const shouldShow = visible && !isExcludedPage;
     if (shouldShow) {
       document.body.classList.add('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', `${BANNER_HEIGHT}px`);
+      document.body.style.paddingTop = `${BANNER_HEIGHT}px`;
     } else {
       document.body.classList.remove('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', '0px');
+      document.body.style.paddingTop = '0px';
     }
     return () => {
       document.body.classList.remove('has-offer-banner');
       document.documentElement.style.setProperty('--offer-banner-height', '0px');
+      document.body.style.paddingTop = '0px';
     };
   }, [visible, isExcludedPage]);
 
   const fetchActiveOffer = async () => {
     try {
+      // Fetch offer that expires soonest (first expiring = most urgent)
       const { data, error } = await supabase
         .from('offers')
-        .select('id, title, description, cta_text, cta_link')
+        .select('id, title, description, cta_text, cta_link, end_date')
         .eq('is_active', true)
         .lte('start_date', new Date().toISOString())
         .gte('end_date', new Date().toISOString())
-        .order('created_at', { ascending: false })
+        .order('end_date', { ascending: true })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error || !data) return;
 
