@@ -9,6 +9,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Target, Apple, Dumbbell, Thermometer, TrendingUp, Calendar } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { BlogPreviewSection } from "@/components/BlogPreviewSection";
 import { useSEO } from "@/hooks/useSEO";
 
 const PersonalTrainingKokapet = () => {
@@ -253,6 +254,9 @@ const PersonalTrainingKokapet = () => {
 
         {/* Reviews */}
         <ReviewsSection />
+
+        {/* From Our Blog */}
+        <BlogPreviewSection />
 
         {/* FAQ */}
         <FAQSection

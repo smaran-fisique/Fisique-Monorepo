@@ -6,7 +6,7 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StickyBottomCTA } from '@/components/StickyBottomCTA';
 import { Input } from '@/components/ui/input';
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, Users, Dumbbell, MapPin } from 'lucide-react';
 import { BlogListSchema } from '@/components/BlogListSchema';
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
 import { useSEO } from '@/hooks/useSEO';
@@ -145,6 +145,57 @@ export default function Blog() {
               ))}
             </div>
           )}
+
+          {/* Explore Our Services */}
+          <section className="mt-16 pt-12 border-t border-border">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center mb-4">
+              Explore Our Services
+            </h2>
+            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
+              Ready to take the next step? Check out what Fisique Fitness offers
+            </p>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              <Link
+                to="/personal-training-kokapet"
+                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group"
+              >
+                <Users className="w-8 h-8 text-primary mb-4" />
+                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                  Personal Training
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  1:1 coaching with certified trainers for real results
+                </p>
+              </Link>
+              
+              <Link
+                to="/gym-membership-kokapet"
+                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group"
+              >
+                <Dumbbell className="w-8 h-8 text-primary mb-4" />
+                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                  Gym Membership
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Premium equipment in an uncrowded boutique environment
+                </p>
+              </Link>
+              
+              <Link
+                to="/kokapet-gym"
+                className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group"
+              >
+                <MapPin className="w-8 h-8 text-primary mb-4" />
+                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                  Our Kokapet Studio
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Discover Kokapet's most exclusive fitness facility
+                </p>
+              </Link>
+            </div>
+          </section>
         </div>
       </main>
 

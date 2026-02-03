@@ -4,7 +4,8 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MapPin, Phone, Mail, MessageCircle, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Mail, MessageCircle, Clock, Send, Users, Dumbbell, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { LocalBusinessSchema } from "@/components/LocalBusinessSchema";
 import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
@@ -212,6 +213,46 @@ const Contact = () => {
                   title="Fisique Fitness Location"
                   className="grayscale hover:grayscale-0 transition-all duration-500"
                 />
+              </div>
+
+              {/* Explore Services Section */}
+              <div className="mt-12 p-8 rounded-2xl bg-card border border-border/50">
+                <h2 className="text-2xl font-bold text-foreground text-center mb-4">
+                  Not Sure What You Need?
+                </h2>
+                <p className="text-muted-foreground text-center mb-6">
+                  Explore our services to find the perfect fit for your goals
+                </p>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <Link
+                    to="/personal-training-kokapet"
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                  >
+                    <Users className="w-5 h-5 text-primary" />
+                    <span className="font-medium group-hover:text-primary transition-colors">Personal Training</span>
+                  </Link>
+                  <Link
+                    to="/gym-membership-kokapet"
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                  >
+                    <Dumbbell className="w-5 h-5 text-primary" />
+                    <span className="font-medium group-hover:text-primary transition-colors">Gym Membership</span>
+                  </Link>
+                  <Link
+                    to="/kokapet-gym"
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                  >
+                    <MapPin className="w-5 h-5 text-primary" />
+                    <span className="font-medium group-hover:text-primary transition-colors">Our Studio</span>
+                  </Link>
+                  <Link
+                    to="/blog-posts/"
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
+                  >
+                    <BookOpen className="w-5 h-5 text-primary" />
+                    <span className="font-medium group-hover:text-primary transition-colors">Read Our Blog</span>
+                  </Link>
+                </div>
               </div>
               
             </div>

@@ -9,6 +9,7 @@ import { Loader2, ArrowLeft, Calendar } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { BlogPostSchema } from '@/components/BlogPostSchema';
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
+import { RelatedServicesSection } from '@/components/RelatedServicesSection';
 
 interface BlogPost {
   title: string;
@@ -151,6 +152,9 @@ export default function BlogPost() {
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </article>
+
+        {/* Related Services CTA */}
+        <RelatedServicesSection />
       </main>
 
       <Footer />

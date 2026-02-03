@@ -69,40 +69,71 @@ export const Footer = () => {
             </a>
           </div>
           
-          {/* Legal Links */}
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 pt-8 border-t border-border/50 text-sm text-muted-foreground">
-            <Link to="/blog-posts/" className="hover:text-accent transition-colors">
-              Blog
-            </Link>
-            <Link to="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" className="hover:text-accent transition-colors">
-              Contact
-            </Link>
-            <a href="/offers" className="hover:text-accent transition-colors">
-              Offers
-            </a>
-            <Link to="/legal#terms" className="hover:text-accent transition-colors">
-              Terms
-            </Link>
-            <Link to="/legal#privacy" className="hover:text-accent transition-colors">
-              Privacy
-            </Link>
-            <Link to="/legal#refund" className="hover:text-accent transition-colors">
-              Refund Policy
-            </Link>
-            <Link to="/legal#shipping" className="hover:text-accent transition-colors">
-              Shipping
-            </Link>
-            <Link to="/legal#emi" className="hover:text-accent transition-colors">
-              EMI Terms
-            </Link>
-            <a 
-              href="https://member.fisique.fitness" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-accent transition-colors"
-            >
-              Member Portal
-            </a>
+          {/* Quick Links - Services */}
+          <div className="pt-8 border-t border-border/50">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+              {/* Services */}
+              <div className="text-center md:text-left">
+                <h3 className="font-semibold text-foreground mb-3">Services</h3>
+                <div className="flex flex-col gap-2">
+                  <Link to="/personal-training-kokapet" className="text-muted-foreground hover:text-accent transition-colors">
+                    Personal Training
+                  </Link>
+                  <Link to="/gym-membership-kokapet" className="text-muted-foreground hover:text-accent transition-colors">
+                    Gym Membership
+                  </Link>
+                  <Link to="/kokapet-gym" className="text-muted-foreground hover:text-accent transition-colors">
+                    Our Studio
+                  </Link>
+                </div>
+              </div>
+              
+              {/* Resources */}
+              <div className="text-center md:text-left">
+                <h3 className="font-semibold text-foreground mb-3">Resources</h3>
+                <div className="flex flex-col gap-2">
+                  <Link to="/blog-posts/" className="text-muted-foreground hover:text-accent transition-colors">
+                    Blog
+                  </Link>
+                  <Link to="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" className="text-muted-foreground hover:text-accent transition-colors">
+                    Contact
+                  </Link>
+                  <Link to="/offers" className="text-muted-foreground hover:text-accent transition-colors">
+                    Offers
+                  </Link>
+                  <a 
+                    href="https://member.fisique.fitness" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-muted-foreground hover:text-accent transition-colors"
+                  >
+                    Member Portal
+                  </a>
+                </div>
+              </div>
+              
+              {/* Legal */}
+              <div className="text-center md:text-left">
+                <h3 className="font-semibold text-foreground mb-3">Legal</h3>
+                <div className="flex flex-col gap-2">
+                  <Link to="/legal#terms" className="text-muted-foreground hover:text-accent transition-colors">
+                    Terms of Service
+                  </Link>
+                  <Link to="/legal#privacy" className="text-muted-foreground hover:text-accent transition-colors">
+                    Privacy Policy
+                  </Link>
+                  <Link to="/legal#refund" className="text-muted-foreground hover:text-accent transition-colors">
+                    Refund Policy
+                  </Link>
+                  <Link to="/legal#shipping" className="text-muted-foreground hover:text-accent transition-colors">
+                    Shipping
+                  </Link>
+                  <Link to="/legal#emi" className="text-muted-foreground hover:text-accent transition-colors">
+                    EMI Terms
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* Copyright Notice */}

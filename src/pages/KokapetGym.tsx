@@ -10,6 +10,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { BlogPreviewSection } from "@/components/BlogPreviewSection";
 import { useSEO } from "@/hooks/useSEO";
 
 const KokapetGym = () => {
@@ -245,8 +246,11 @@ const KokapetGym = () => {
         {/* Reviews Section */}
         <ReviewsSection />
 
+        {/* From Our Blog */}
+        <BlogPreviewSection />
+
         {/* FAQ Section */}
-        <FAQSection 
+        <FAQSection
           title="Questions About Our Kokapet Gym?"
           subtitle="Find answers about membership, training, and our facilities"
           includeSchema={false}
