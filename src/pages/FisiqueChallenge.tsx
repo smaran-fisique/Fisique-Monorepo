@@ -94,15 +94,7 @@ const FisiqueChallenge = () => {
           <div className="premium-glow-orb w-[300px] h-[300px] top-1/3 -right-32 animate-glow-pulse" style={{ background: "hsl(186 100% 76% / 0.08)", animationDelay: "1.5s" }} />
 
           <div className="container-custom px-4 relative z-10">
-            {/* Eyebrow */}
-            <div className="flex justify-center mb-4">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-sm font-medium text-accent">
-                <Trophy className="w-4 h-4" />
-                Fisique Champions Challenge
-              </span>
-            </div>
-
-            {/* 1. Countdown Timer + Urgency Strip */}
+            {/* 1. Countdown Timer + Urgency Strip (above headline) */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-3">
                 <Clock className="w-3.5 h-3.5" />
@@ -116,7 +108,7 @@ const FisiqueChallenge = () => {
               </div>
             </div>
 
-            {/* 10. Adjusted Typography */}
+            {/* Headline */}
             <h1 className="text-center font-black leading-[0.95] tracking-tight text-[clamp(36px,7vw,72px)] mb-4">
               <span className="text-gradient">Champions</span> Challenge
             </h1>
@@ -125,47 +117,50 @@ const FisiqueChallenge = () => {
               Compete. Climb the leaderboard. Win premium rewards.
             </p>
 
-            {/* 4. How to win line */}
+            {/* How to win line */}
             <p className="text-center text-sm md:text-base text-accent/80 font-medium max-w-md mx-auto mb-14">
               Referrals + votes + verified shares = points. Highest points wins.
             </p>
 
-            {/* 3. Grand Prize - Enhanced */}
-            <div className="max-w-sm mx-auto mb-6">
-              <div className="premium-card rounded-2xl p-8 text-center border-accent/50 shadow-[0_0_60px_hsl(186_68%_45%/0.3)] relative overflow-hidden">
-                <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 50% 40%, hsl(186 68% 45% / 0.12), transparent 70%)" }} />
-                <div className="relative z-10">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/15 text-xs font-semibold text-accent uppercase tracking-widest mb-4">
-                    <Trophy className="w-3.5 h-3.5" />
-                    Grand Prize
-                  </span>
-                  <div className="relative w-40 h-40 mx-auto mb-4">
-                    <div className="absolute inset-0 rounded-full bg-accent/10 animate-glow-pulse blur-xl" />
-                    <img src={garminWatch} alt="Garmin Vivoactive 5" className="relative w-full h-full object-contain" />
+            {/* All 3 prizes in one row, 1st place larger */}
+            <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mb-8 items-end">
+              {/* 2nd Place - smaller */}
+              <div className="premium-card rounded-2xl p-4 text-center col-span-1">
+                <Award className="w-6 h-6 mx-auto mb-2 text-muted-foreground" />
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">2nd Place</p>
+                <p className="text-xs font-bold text-foreground tracking-wide leading-tight">₹10,000 Puma Voucher</p>
+                <p className="text-[10px] text-accent/70 font-medium mt-1">Worth ₹10,000</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Valid in-store + online</p>
+              </div>
+
+              {/* 1st Place - Grand Prize, larger, spans 2 cols */}
+              <div className="col-span-2">
+                <div className="premium-card rounded-2xl p-6 md:p-8 text-center border-accent/50 shadow-[0_0_60px_hsl(186_68%_45%/0.3)] relative overflow-hidden">
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 50% 40%, hsl(186 68% 45% / 0.12), transparent 70%)" }} />
+                  <div className="relative z-10">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/15 text-xs font-semibold text-accent uppercase tracking-widest mb-4">
+                      <Trophy className="w-3.5 h-3.5" />
+                      Grand Prize
+                    </span>
+                    <div className="relative w-36 h-36 md:w-40 md:h-40 mx-auto mb-4">
+                      <div className="absolute inset-0 rounded-full bg-accent/10 animate-glow-pulse blur-xl" />
+                      <img src={garminWatch} alt="Garmin Vivoactive 5" className="relative w-full h-full object-contain" />
+                    </div>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">1st Place</p>
+                    <p className="text-xl font-bold text-foreground tracking-wide">Garmin Vivoactive 5</p>
+                    <p className="text-sm text-accent font-semibold mt-1">Worth ₹25,000</p>
+                    <p className="text-xs text-muted-foreground mt-1">AMOLED + GPS + Body Battery</p>
                   </div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">1st Place</p>
-                  <p className="text-xl font-bold text-foreground tracking-wide">Garmin Vivoactive 5</p>
-                  <p className="text-sm text-accent font-semibold mt-1">Worth ₹22,999</p>
-                  <p className="text-xs text-muted-foreground mt-1">AMOLED + GPS + Body Battery</p>
                 </div>
               </div>
-            </div>
 
-            {/* 2nd & 3rd Place - Enhanced */}
-            <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto mb-8">
-              <div className="premium-card rounded-2xl p-5 text-center">
-                <Award className="w-7 h-7 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">2nd Place</p>
-                <p className="text-sm font-bold text-foreground tracking-wide">₹10,000 Puma Voucher</p>
-                <p className="text-xs text-accent/70 font-medium mt-1">Worth up to ₹10,000</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Valid in-store + online</p>
-              </div>
-              <div className="premium-card rounded-2xl p-5 text-center">
-                <Star className="w-7 h-7 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">3rd Place</p>
-                <p className="text-sm font-bold text-foreground tracking-wide">Bull Rage Gym Kit</p>
-                <p className="text-xs text-accent/70 font-medium mt-1">Worth ₹5,000</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Bag + accessories bundle</p>
+              {/* 3rd Place - smaller */}
+              <div className="premium-card rounded-2xl p-4 text-center col-span-1">
+                <Star className="w-6 h-6 mx-auto mb-2 text-muted-foreground" />
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">3rd Place</p>
+                <p className="text-xs font-bold text-foreground tracking-wide leading-tight">Bull Rage Gym Kit</p>
+                <p className="text-[10px] text-accent/70 font-medium mt-1">Worth ₹5,000</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Bag + accessories bundle</p>
               </div>
             </div>
 
