@@ -125,12 +125,12 @@ const FisiqueChallenge = () => {
             {/* All 3 prizes in one row, 1st place larger */}
             <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mb-8 items-end">
               {/* 2nd Place - smaller */}
-              <div className="premium-card rounded-2xl p-4 text-center col-span-1">
-                <Award className="w-6 h-6 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">2nd Place</p>
-                <p className="text-xs font-bold text-foreground tracking-wide leading-tight">₹10,000 Puma Voucher</p>
-                <p className="text-[10px] text-accent/70 font-medium mt-1">Worth ₹10,000</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Valid in-store + online</p>
+              <div className="premium-card rounded-2xl p-5 md:p-6 text-center col-span-1">
+                <Award className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
+                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">2nd Place</p>
+                <p className="text-sm font-bold text-foreground tracking-wide leading-tight">₹10,000 Puma Voucher</p>
+                <p className="text-xs text-accent/70 font-medium mt-1">Worth ₹10,000</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Valid in-store + online</p>
               </div>
 
               {/* 1st Place - Grand Prize, larger, spans 2 cols */}
@@ -155,12 +155,12 @@ const FisiqueChallenge = () => {
               </div>
 
               {/* 3rd Place - smaller */}
-              <div className="premium-card rounded-2xl p-4 text-center col-span-1">
-                <Star className="w-6 h-6 mx-auto mb-2 text-muted-foreground" />
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">3rd Place</p>
-                <p className="text-xs font-bold text-foreground tracking-wide leading-tight">Bull Rage Gym Kit</p>
-                <p className="text-[10px] text-accent/70 font-medium mt-1">Worth ₹5,000</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Bag + accessories bundle</p>
+              <div className="premium-card rounded-2xl p-5 md:p-6 text-center col-span-1">
+                <Star className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
+                <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">3rd Place</p>
+                <p className="text-sm font-bold text-foreground tracking-wide leading-tight">Bull Rage Gym Kit</p>
+                <p className="text-xs text-accent/70 font-medium mt-1">Worth ₹5,000</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Bag + accessories bundle</p>
               </div>
             </div>
 
