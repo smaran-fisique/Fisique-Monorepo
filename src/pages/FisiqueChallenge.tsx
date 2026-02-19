@@ -17,6 +17,7 @@ import {
   Zap,
   Target,
 } from "lucide-react";
+import garminWatch from "@/assets/garmin-vivoactive5.png";
 
 // Analytics helper
 const trackEvent = (eventName: string) => {
@@ -174,11 +175,17 @@ const FisiqueChallenge = () => {
                       : ""
                   }`}
                 >
-                  <p.icon
-                    className={`w-8 h-8 mx-auto mb-3 ${
-                      p.featured ? "text-accent" : "text-muted-foreground"
-                    }`}
-                  />
+                  {p.featured ? (
+                    <img
+                      src={garminWatch}
+                      alt="Garmin Vivoactive 5"
+                      className="w-20 h-20 mx-auto mb-3 object-contain"
+                    />
+                  ) : (
+                    <p.icon
+                      className="w-8 h-8 mx-auto mb-3 text-muted-foreground"
+                    />
+                  )}
                   <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
                     {p.place}
                   </p>
