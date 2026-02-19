@@ -179,7 +179,7 @@ const FisiqueChallenge = () => {
                     <img
                       src={garminWatch}
                       alt="Garmin Vivoactive 5"
-                      className="w-20 h-20 mx-auto mb-3 object-contain"
+                      className="w-20 h-20 mx-auto mb-3 object-contain mix-blend-lighten"
                     />
                   ) : (
                     <p.icon
