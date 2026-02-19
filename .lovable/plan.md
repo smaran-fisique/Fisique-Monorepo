@@ -1,133 +1,65 @@
 
 
-# Fisique Champions Challenge Landing Page
+# Hero Redesign: Grand Prize Showcase
 
-## Overview
+## Problem
+The current layout treats all 3 prizes equally in a flat 3-column grid. The 1st place Garmin watch image is tiny (80x80px), and the page lacks visual drama and hierarchy. It feels like a list, not a competition page.
 
-Build a high-conversion, viral landing page at `/fisique-challenge` that drives challenge participation, referrals, votes, and social sharing. The page follows the existing dark premium design system (Inter font, teal accent `hsl(186 68% 45%)`, dark backgrounds, `premium-card` patterns).
+## Solution
 
-No new database tables are needed -- the page links out to `/fisique-challenge/leaderboard` and `/fisique-challenge/vote` (to be built separately). Dynamic stats are optional and will gracefully fall back to hidden if no API exists.
+Completely restructure the hero prize layout into a **"podium" design** where the 1st place dominates the visual hierarchy.
 
----
+### New Prize Layout
 
-## Files to Create/Modify
+**1st Place -- Hero Card (full width, centered, large)**
+- Takes full width on mobile, spans center on desktop
+- Garmin watch image enlarged to 160x160px with a subtle teal glow ring behind it
+- Gold/accent gradient border
+- "Grand Prize" eyebrow label with a crown/trophy accent
+- Larger text sizing for the prize name
+- Subtle radial glow behind the card for depth
 
-| Action | File |
-|--------|------|
-| Create | `src/pages/FisiqueChallenge.tsx` |
-| Modify | `src/App.tsx` (add route) |
+**2nd and 3rd Place -- Smaller cards below**
+- Displayed side-by-side in a 2-column row beneath the grand prize
+- Standard `premium-card` styling, smaller padding
+- Visually subordinate to the 1st place card
 
----
+### Additional Visual Enhancements
 
-## Route Registration
-
-Add to `src/App.tsx`:
-- `/fisique-challenge` pointing to the new lazy-loaded `FisiqueChallenge` component
-- Also add placeholder routes for `/fisique-challenge/leaderboard` and `/fisique-challenge/vote` (can be built later, for now they can show a "Coming Soon" or redirect)
-
----
-
-## Page Component: `FisiqueChallenge.tsx`
-
-Single-file component using existing `Header`, `Footer`, `Button`, and design utilities. No new dependencies. Six sections as specified:
-
-### Section 1 -- Hero (Prize-first)
-
-- Eyebrow badge: "Fisique Champions Challenge" with Trophy icon
-- Headline: **"Fisique Champions Challenge"** using the existing `text-[clamp(48px,8vw,88px)]` scale
-- Subheadline: "Compete. Climb the leaderboard. Win premium rewards."
-- **3 Prize Cards** in a responsive grid (1 col mobile, 3 col desktop):
-
-| Card | Prize | Style |
-|------|-------|-------|
-| 1st Place (featured) | Garmin Vivoactive 5 | `premium-card` with accent border glow |
-| 2nd Place | Rs 10,000 Puma Voucher | `premium-card` standard |
-| 3rd Place | Bull Rage Gym Kit worth Rs 5,000 | `premium-card` standard |
-
-- Supporting text below prizes
-- Primary CTA: "View Leaderboard" -> `/fisique-challenge/leaderboard` (fires `challenge_leaderboard_click` GA event)
-- Secondary CTA: "Vote and Unlock Rs 1,000 Off" -> `/fisique-challenge/vote` (fires `challenge_vote_click` GA event)
-
-### Section 2 -- How It Works
-
-4 steps in a grid (2x2 mobile, 4-col desktop), each with a lucide icon, step number, title, and description:
-
-1. Join the challenge -- Earn +50 points instantly (UserPlus icon)
-2. Refer members -- Earn leaderboard points and Fisique Points (Users icon)
-3. Receive votes and share -- Climb faster (Heart icon)
-4. Top ranked win -- Premium rewards (Trophy icon)
-
-### Section 3 -- Leaderboard Preview
-
-- Headline: "Current Standings"
-- Table showing top 5 (Rank, Name, Points columns) using existing table styling
-- **Data source**: Attempts to fetch from a future API/table. Falls back to a "Leaderboard coming soon" state if unavailable
-- CTA: "View Full Leaderboard" -> `/fisique-challenge/leaderboard`
-
-### Section 4 -- Vote and Unlock Reward
-
-- Headline: "Support your friends. Unlock your reward."
-- Supporting text about Rs 1,000 off membership
-- Primary CTA: "Vote Now" -> `/fisique-challenge/vote` (fires `challenge_vote_click`)
-- Share buttons:
-  - **WhatsApp**: `https://wa.me/?text={encoded_message}` with the specified prefilled message
-  - **Copy Link**: Copies `https://fisique.fitness/fisique-challenge` to clipboard with toast feedback
-- Both fire `challenge_share_click` GA event
-
-### Section 5 -- Fisique Points Benefit
-
-- Headline: "Refer. Earn. Train Longer."
-- 3 stat cards showing: 1000 points per referral, 3500 points = 1 month membership, community growth theme
-- Uses `premium-card` styling
-
-### Section 6 -- Footer Positioning
-
-- Premium text block with challenge description
-- CTA: "Explore Fisique Fitness" -> `/` (homepage)
-- Followed by standard `<Footer />` component
+1. **Hero background**: Add the existing hero gym background image (faded at ~15% opacity) behind the hero section for atmosphere, matching the homepage pattern
+2. **Gradient overlay**: Add the gradient-to-background overlay on top for readability
+3. **Garmin glow effect**: A pulsing teal glow circle behind the watch image to make it feel premium and alive
+4. **Bolder headline**: Increase headline font clamp and add font-black weight (matching homepage hero)
+5. **CTA buttons**: Add the accent glow shadow to the primary button (matching homepage "Start Your Journey" button style)
 
 ---
 
-## SEO and Open Graph
+## Technical Details
 
-```html
-<title>Fisique Champions Challenge | Win a Garmin Vivoactive 5</title>
-<meta name="description" content="Compete, refer, and climb the leaderboard to win premium rewards at Fisique Fitness Kokapet." />
-<meta property="og:title" content="Win a Garmin Vivoactive 5 - Fisique Champions Challenge" />
-<meta property="og:description" content="Compete, refer, and climb the leaderboard to win premium rewards." />
-<meta property="og:image" content="/fisique-logo.webp" />
-<meta property="og:url" content="https://fisique.fitness/fisique-challenge" />
-<link rel="canonical" href="https://fisique.fitness/fisique-challenge" />
-```
+### File Changes
+Only `src/pages/FisiqueChallenge.tsx` is modified.
 
----
+### Hero Section Changes
 
-## Analytics Events
+**Prize layout restructure:**
+- Remove the single `grid-cols-3` loop
+- Render 1st place as a standalone large card with:
+  - `max-w-sm mx-auto` centering
+  - Image at `w-36 h-36` (144px)
+  - Teal glow ring: `shadow-[0_0_60px_hsl(186_68%_45%/0.3)]` on the card
+  - Accent border: `border-accent/50`
+  - "Grand Prize" badge above the image
+- Render 2nd and 3rd as a `grid-cols-2 max-w-lg mx-auto` row below
 
-All CTA buttons use `window.gtag` (same pattern as `OfferAnalytics.ts`):
+**Background image:**
+- Import `heroGym` from existing `@/assets/hero-gym-optimized.webp`
+- Absolute positioned behind hero content at low opacity (~15-20%)
+- Gradient overlay from background to transparent
 
-| Event Name | Trigger |
-|------------|---------|
-| `challenge_leaderboard_click` | View Leaderboard button |
-| `challenge_vote_click` | Vote Now / Vote CTA buttons |
-| `challenge_share_click` | WhatsApp share or Copy Link |
+**CTA button styling:**
+- Primary button gets `shadow-glow hover:shadow-glow-hover` classes (matching homepage)
 
----
-
-## Performance
-
-- No new dependencies or heavy libraries
-- Page is lazy-loaded via `React.lazy` in App.tsx
-- Uses only CSS animations (existing `premium-card` hover, no framer-motion)
-- All icons from lucide-react (already installed, tree-shaken)
-- Mobile-first responsive layout throughout
-
----
-
-## Technical Notes
-
-- WhatsApp share URL: `https://wa.me/?text=I'm%20competing%20in%20the%20Fisique%20Champions%20Challenge...`
-- Copy-to-clipboard uses `navigator.clipboard.writeText()` with sonner toast for feedback
-- Leaderboard preview section will attempt a Supabase query but gracefully degrade if no table exists yet
-- All internal links use React Router `Link` component
+**Headline:**
+- Change to `text-[clamp(40px,8vw,80px)] font-black` for more impact
+- Keep the gradient "Champions" word
 
