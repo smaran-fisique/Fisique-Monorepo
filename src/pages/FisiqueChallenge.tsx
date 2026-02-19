@@ -18,6 +18,7 @@ import {
   Target,
 } from "lucide-react";
 import garminWatch from "@/assets/garmin-vivoactive5.png";
+import heroGym from "@/assets/hero-gym-optimized.webp";
 
 // Analytics helper
 const trackEvent = (eventName: string) => {
@@ -132,7 +133,18 @@ const FisiqueChallenge = () => {
 
       <main className="min-h-screen">
         {/* ── SECTION 1: Hero ── */}
-        <section className="premium-section pt-28 pb-20 md:pt-36 md:pb-28">
+        <section className="premium-section pt-28 pb-20 md:pt-36 md:pb-28 relative">
+          {/* Background image */}
+          <div className="absolute inset-0">
+            <img
+              src={heroGym}
+              alt=""
+              className="w-full h-full object-cover opacity-15"
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
+          </div>
+
           {/* Background orbs */}
           <div
             className="premium-glow-orb w-[400px] h-[400px] -top-40 -left-40 animate-glow-pulse"
@@ -156,7 +168,7 @@ const FisiqueChallenge = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="text-center font-bold leading-[0.95] tracking-tight text-[clamp(36px,7vw,72px)] mb-4">
+            <h1 className="text-center font-black leading-[0.95] tracking-tight text-[clamp(40px,8vw,80px)] mb-4">
               <span className="text-gradient">Champions</span> Challenge
             </h1>
 
@@ -164,36 +176,59 @@ const FisiqueChallenge = () => {
               Compete. Climb the leaderboard. Win premium rewards.
             </p>
 
-            {/* Prize Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto mb-8">
-              {prizes.map((p) => (
+            {/* Grand Prize - 1st Place */}
+            <div className="max-w-sm mx-auto mb-6">
+              <div className="premium-card rounded-2xl p-8 text-center border-accent/50 shadow-[0_0_60px_hsl(186_68%_45%/0.3)] relative overflow-hidden">
+                {/* Radial glow behind card */}
                 <div
-                  key={p.place}
-                  className={`premium-card rounded-2xl p-6 text-center ${
-                    p.featured
-                      ? "border-accent/40 shadow-[0_0_30px_hsl(186_68%_45%/0.2)] md:scale-105"
-                      : ""
-                  }`}
-                >
-                  {p.featured ? (
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 50% 40%, hsl(186 68% 45% / 0.12), transparent 70%)",
+                  }}
+                />
+                <div className="relative z-10">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/15 text-xs font-semibold text-accent uppercase tracking-widest mb-4">
+                    <Trophy className="w-3.5 h-3.5" />
+                    Grand Prize
+                  </span>
+                  <div className="relative w-40 h-40 mx-auto mb-4">
+                    {/* Pulsing glow ring */}
+                    <div className="absolute inset-0 rounded-full bg-accent/10 animate-glow-pulse blur-xl" />
                     <img
                       src={garminWatch}
                       alt="Garmin Vivoactive 5"
-                      className="w-20 h-20 mx-auto mb-3 object-contain"
+                      className="relative w-full h-full object-contain"
                     />
-                  ) : (
-                    <p.icon
-                      className="w-8 h-8 mx-auto mb-3 text-muted-foreground"
-                    />
-                  )}
+                  </div>
                   <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
-                    {p.place}
+                    1st Place
                   </p>
-                  <p className="text-lg font-semibold text-foreground">
-                    {p.prize}
+                  <p className="text-xl font-bold text-foreground">
+                    Garmin Vivoactive 5
                   </p>
                 </div>
-              ))}
+              </div>
+            </div>
+
+            {/* 2nd & 3rd Place */}
+            <div className="grid grid-cols-2 gap-4 max-w-lg mx-auto mb-8">
+              {prizes
+                .filter((p) => !p.featured)
+                .map((p) => (
+                  <div
+                    key={p.place}
+                    className="premium-card rounded-2xl p-5 text-center"
+                  >
+                    <p.icon className="w-7 h-7 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                      {p.place}
+                    </p>
+                    <p className="text-sm font-semibold text-foreground">
+                      {p.prize}
+                    </p>
+                  </div>
+                ))}
             </div>
 
             <p className="text-center text-sm text-muted-foreground max-w-md mx-auto mb-8">
@@ -203,7 +238,12 @@ const FisiqueChallenge = () => {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button asChild size="lg" onClick={() => trackEvent("challenge_leaderboard_click")}>
+              <Button
+                asChild
+                size="lg"
+                className="shadow-glow hover:shadow-glow-hover transition-all"
+                onClick={() => trackEvent("challenge_leaderboard_click")}
+              >
                 <Link to="/fisique-challenge/leaderboard">
                   View Leaderboard
                   <ChevronRight className="w-4 h-4 ml-1" />
