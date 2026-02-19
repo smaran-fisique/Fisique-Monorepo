@@ -34,7 +34,7 @@ const WHATSAPP_MESSAGE = encodeURIComponent(
   "I'm competing in the Fisique Champions Challenge. Vote for me and help me win a Garmin Vivoactive 5. You also unlock Rs 1,000 off membership. Vote here: https://fisique.fitness/fisique-challenge"
 );
 
-const CHALLENGE_END_DATE = new Date("2026-02-28T23:59:00+05:30");
+const CHALLENGE_END_DATE = new Date("2026-03-31T23:59:00+05:30");
 
 const steps = [
   { icon: UserPlus, title: "Join the Challenge", desc: "Earn +50 points instantly" },
@@ -110,9 +110,9 @@ const FisiqueChallenge = () => {
               </div>
               <CountdownTimer targetDate={CHALLENGE_END_DATE} className="mb-3" />
               <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                <span>Season: Feb 2026</span>
+                <span>Season: Mar 2026</span>
                 <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
-                <span>Winners announced: Mar 1</span>
+                <span>Winners announced: Apr 1</span>
               </div>
             </div>
 
