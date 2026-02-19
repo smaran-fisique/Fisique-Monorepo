@@ -94,20 +94,6 @@ const FisiqueChallenge = () => {
           <div className="premium-glow-orb w-[300px] h-[300px] top-1/3 -right-32 animate-glow-pulse" style={{ background: "hsl(186 100% 76% / 0.08)", animationDelay: "1.5s" }} />
 
           <div className="container-custom px-4 relative z-10">
-            {/* 1. Countdown Timer + Urgency Strip (above headline) */}
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-3">
-                <Clock className="w-3.5 h-3.5" />
-                <span className="uppercase tracking-widest font-semibold">Ends in</span>
-              </div>
-              <CountdownTimer targetDate={CHALLENGE_END_DATE} className="mb-3" />
-              <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
-                <span>Season: Mar 2026</span>
-                <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
-                <span>Winners announced: Apr 1</span>
-              </div>
-            </div>
-
             {/* Headline */}
             <h1 className="text-center font-black leading-[0.95] tracking-tight text-[clamp(36px,7vw,72px)] mb-4">
               <span className="text-gradient">Champions</span> Challenge
@@ -117,7 +103,6 @@ const FisiqueChallenge = () => {
               Compete. Climb the leaderboard. Win premium rewards.
             </p>
 
-            {/* How to win line */}
             <p className="text-center text-sm md:text-base text-accent/80 font-medium max-w-md mx-auto mb-14">
               Referrals + votes + verified shares = points. Highest points wins.
             </p>
@@ -161,6 +146,20 @@ const FisiqueChallenge = () => {
                 <p className="text-sm font-bold text-foreground tracking-wide leading-tight">Bull Rage Gym Kit</p>
                 <p className="text-xs text-accent/70 font-medium mt-1">Worth ₹5,000</p>
                 <p className="text-xs text-muted-foreground mt-0.5">Bag + accessories bundle</p>
+              </div>
+            </div>
+
+            {/* Countdown Timer */}
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                <Clock className="w-3.5 h-3.5" />
+                <span className="uppercase tracking-widest font-semibold">Ends in</span>
+              </div>
+              <CountdownTimer targetDate={CHALLENGE_END_DATE} className="mb-3" />
+              <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                <span>Season: Mar 2026</span>
+                <span className="w-1 h-1 rounded-full bg-muted-foreground/50" />
+                <span>Winners announced: Apr 1</span>
               </div>
             </div>
 
