@@ -1,65 +1,133 @@
 
 
-# Hero Redesign: Grand Prize Showcase
+# Fisique Challenge Page -- 10 Upgrades
 
-## Problem
-The current layout treats all 3 prizes equally in a flat 3-column grid. The 1st place Garmin watch image is tiny (80x80px), and the page lacks visual drama and hierarchy. It feels like a list, not a competition page.
+## Overview
 
-## Solution
-
-Completely restructure the hero prize layout into a **"podium" design** where the 1st place dominates the visual hierarchy.
-
-### New Prize Layout
-
-**1st Place -- Hero Card (full width, centered, large)**
-- Takes full width on mobile, spans center on desktop
-- Garmin watch image enlarged to 160x160px with a subtle teal glow ring behind it
-- Gold/accent gradient border
-- "Grand Prize" eyebrow label with a crown/trophy accent
-- Larger text sizing for the prize name
-- Subtle radial glow behind the card for depth
-
-**2nd and 3rd Place -- Smaller cards below**
-- Displayed side-by-side in a 2-column row beneath the grand prize
-- Standard `premium-card` styling, smaller padding
-- Visually subordinate to the 1st place card
-
-### Additional Visual Enhancements
-
-1. **Hero background**: Add the existing hero gym background image (faded at ~15% opacity) behind the hero section for atmosphere, matching the homepage pattern
-2. **Gradient overlay**: Add the gradient-to-background overlay on top for readability
-3. **Garmin glow effect**: A pulsing teal glow circle behind the watch image to make it feel premium and alive
-4. **Bolder headline**: Increase headline font clamp and add font-black weight (matching homepage hero)
-5. **CTA buttons**: Add the accent glow shadow to the primary button (matching homepage "Start Your Journey" button style)
+A comprehensive upgrade to `src/pages/FisiqueChallenge.tsx` implementing all 10 improvements to maximize conversions, urgency, social proof, and virality. Only one file is modified.
 
 ---
 
-## Technical Details
+## Changes (all in `src/pages/FisiqueChallenge.tsx`)
 
-### File Changes
-Only `src/pages/FisiqueChallenge.tsx` is modified.
+### 1. Countdown Timer + Urgency Strip
 
-### Hero Section Changes
+Add a compact urgency strip directly below the eyebrow pill, before the headline:
 
-**Prize layout restructure:**
-- Remove the single `grid-cols-3` loop
-- Render 1st place as a standalone large card with:
-  - `max-w-sm mx-auto` centering
-  - Image at `w-36 h-36` (144px)
-  - Teal glow ring: `shadow-[0_0_60px_hsl(186_68%_45%/0.3)]` on the card
-  - Accent border: `border-accent/50`
-  - "Grand Prize" badge above the image
-- Render 2nd and 3rd as a `grid-cols-2 max-w-lg mx-auto` row below
+- Reuse the existing `CountdownTimer` component (from `src/components/offers/CountdownTimer.tsx`) targeting **Feb 28, 2026 23:59 IST**
+- Below the timer, show two meta lines:
+  - "Season: Feb 2026"
+  - "Winners announced: Mar 1"
+- Compact styling matching the dark premium design
 
-**Background image:**
-- Import `heroGym` from existing `@/assets/hero-gym-optimized.webp`
-- Absolute positioned behind hero content at low opacity (~15-20%)
-- Gradient overlay from background to transparent
+### 2. Social Proof Stats in the Hero
 
-**CTA button styling:**
-- Primary button gets `shadow-glow hover:shadow-glow-hover` classes (matching homepage)
+Replace the small paragraph text (line 234-237: "Earn points by referring...") with 3 inline stat chips:
 
-**Headline:**
-- Change to `text-[clamp(40px,8vw,80px)] font-black` for more impact
-- Keep the gradient "Champions" word
+| Stat | Value |
+|------|-------|
+| Participants | 67 |
+| Votes Cast | 1,842 |
+| Referrals This Month | 38 |
+
+Displayed as a horizontal row of pill-shaped badges with accent styling, placed directly under the prize cards.
+
+### 3. Premium Prize Cards with Details
+
+Upgrade prize card content:
+
+**1st Place (Grand Prize card):**
+- Add "Worth Rs 22,999" value line below the prize name
+- Add micro-benefit: "AMOLED + GPS + Body Battery"
+- Keep existing "Grand Prize" badge (already present)
+
+**2nd Place:**
+- Add "Worth up to Rs 10,000" line
+- Add micro-benefit: "Valid in-store + online"
+
+**3rd Place:**
+- Add "Worth Rs 5,000" line
+- Add micro-benefit: "Bag + accessories bundle"
+
+### 4. Killer "How to Win" Line
+
+Add one crisp line below the subheadline (after "Compete. Climb the leaderboard. Win premium rewards."):
+
+> "Referrals + votes + verified shares = points. Highest points wins."
+
+Styled as a slightly smaller, accent-tinted text for clarity.
+
+### 5. Viral Vote CTA Upgrade
+
+- Change vote button text from "Vote & Unlock Rs 1,000 Off" to **"Vote in 30 Seconds -- Get Rs 1,000 Off"**
+- Add microcopy below the CTA buttons: "One per phone number. Valid 72 hours. Non-stackable."
+- Move WhatsApp share + Copy Link buttons into the hero CTA area (alongside Vote)
+- Add "Share to climb faster" microcopy near share buttons
+
+### 6. Mini Leaderboard Under CTAs
+
+Add a compact top-3 preview directly under the CTAs in the hero section:
+
+| Rank | Name | Points |
+|------|------|--------|
+| 1 | Rahul | 620 pts |
+| 2 | Neha | 580 pts |
+| 3 | Smaran | 540 pts |
+
+With a "See full leaderboard" link below. This replaces the separate "Current Standings" section (Section 3) which becomes redundant.
+
+### 7. Join CTA
+
+Add a tertiary CTA link below the main buttons:
+
+**"Join Challenge -- Get +50 Points"**
+
+Links to a WhatsApp click-to-chat: `https://wa.me/91XXXXXXXXXX?text=I want to join the Fisique Champions Challenge` (using a placeholder number that can be updated).
+
+### 8. Trust/Proof Block (New Section)
+
+Replace the old "Current Standings" section (Section 3, now redundant) with a new trust section:
+
+**Title:** "This is performance-based -- not a lucky draw"
+
+Four bullet items with check icons:
+- Points are tracked on the leaderboard
+- Votes are OTP verified
+- Winners are announced publicly
+- Prizes handed over on camera
+
+Compact, clean layout matching the premium card style.
+
+### 9. Share Hooks Near Vote CTA
+
+Already handled in point 5 -- WhatsApp share and Copy Link buttons are moved into the hero CTA area with the "Share to climb faster" line.
+
+### 10. Typography Hierarchy
+
+- Reduce headline from `clamp(40px,8vw,80px)` to `clamp(36px,7vw,72px)`
+- Increase subheadline from `text-lg md:text-xl` to `text-xl md:text-2xl`
+- Increase prize card text weight and add more letter-spacing
+- Add more spacing between headline and prize cards (`mb-14` instead of `mb-12`)
+
+---
+
+## Updated Section Order
+
+1. **Hero** -- Eyebrow, countdown strip, headline, "how to win" line, subheadline, grand prize card, 2nd/3rd cards, social proof stats, CTAs (View Leaderboard + Vote + Join + Share), mini leaderboard top 3
+2. **How It Works** -- 4 steps (unchanged)
+3. **Trust Block** -- "Performance-based, not a lucky draw" (replaces old leaderboard preview)
+4. **Vote and Unlock** -- Expanded with share hooks (kept but simplified since hero now has share buttons)
+5. **Fisique Points** -- Unchanged
+6. **Footer** -- Unchanged
+
+---
+
+## Technical Notes
+
+- Import `CountdownTimer` from `@/components/offers/CountdownTimer`
+- Import `Clock`, `CheckCircle`, `MessageCircle` from lucide-react (for timer strip and trust section)
+- Target date: `new Date("2026-02-28T23:59:00+05:30")` (Feb 28 end of month, IST)
+- Mini leaderboard data is hardcoded for now (static array)
+- WhatsApp join link uses placeholder number to be configured
+- No new files or dependencies needed
 
