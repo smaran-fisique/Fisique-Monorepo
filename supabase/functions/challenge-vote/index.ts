@@ -130,7 +130,7 @@ Deno.serve(async (req) => {
       }
 
       // Check if voter already has a discount code from a previous vote
-      const { data: existingVote } = await supabase
+      const { data: priorVote } = await supabase
         .from("challenge_votes")
         .select("discount_code, discount_expires_at")
         .eq("voter_phone", voter_phone)
@@ -138,9 +138,8 @@ Deno.serve(async (req) => {
         .limit(1)
         .maybeSingle();
 
-      const discountCode = existingVote?.discount_code ?? generateDiscountCode();
-      const expiresAt = existingVote?.discount_expires_at ?? new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString();
-      const isReturningVoter = !!existingVote;
+      const discountCode = priorVote?.discount_code ?? generateDiscountCode();
+      const expiresAt = priorVote?.discount_expires_at ?? new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString();
 
       // Insert vote
       const { error: voteErr } = await supabase.from("challenge_votes").insert({
