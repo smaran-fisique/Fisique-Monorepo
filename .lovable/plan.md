@@ -1,21 +1,39 @@
 
 
-## Plan: Update Vote Success Screen + Limit 1 Discount per Voter
+## Plan: Admin Challenge Management Page (`/admin/challenge`)
 
-### 1. Edge Function (`challenge-vote/index.ts`)
-- After OTP verification, check if `voter_phone` already has **any** vote in `challenge_votes` (not just for this participant)
-- If they already voted before: still record the vote (they can vote for multiple candidates), but **don't generate a new discount code** — return the existing one from their first vote
-- This enforces: 1 discount code per phone number, unlimited votes per phone (1 per candidate)
+### 1. New File: `src/pages/admin/ChallengeManager.tsx`
+A single admin page with three tabs:
 
-### 2. VoteModal Success Screen (`VoteModal.tsx`)
-- Replace "Copy Code" + "Share" buttons with a single **"Claim Now"** button
-- "Claim Now" opens WhatsApp to `+919515847444` with message: `"I would like to claim my vote discount - {discountCode}"`
-- Add disclaimer text: *"One discount code per phone number. Vote for multiple candidates but only one ₹1,000 discount per voter."*
-- Remove `Copy` and `Share2` icon imports, add `MessageCircle` or use existing WhatsApp pattern
+**Participants Tab**
+- Table listing all `challenge_participants` (name, phone, points, referral_count, vote_count)
+- "Add Participant" button → dialog with name + phone fields
+- Inline actions per row: Edit (name/phone), Delete, Award Points (+10/+25/custom referral points)
+- Award Points button increments both `points` and `referral_count` columns
 
-### 3. Files Modified
+**Votes Tab**
+- Table listing all `challenge_votes` (voter_phone, participant name via join, discount_code, discount_expires_at, created_at)
+- Read-only view for monitoring
+
+**Stats Summary**
+- Top cards showing total participants, total votes, total unique voters
+
+### 2. Route Registration (`src/App.tsx`)
+- Lazy import `ChallengeManager`
+- Add route `/admin/challenge` inside the protected admin routes
+
+### 3. Sidebar Navigation (`src/layouts/AdminLayout.tsx`)
+- Add "Challenge" nav item with `Trophy` icon, href `/admin/challenge`
+
+### 4. Data Access
+- All reads/writes use the existing Supabase client with authenticated admin session
+- RLS already configured: admins have ALL access on both `challenge_participants` and `challenge_votes`
+- No database migrations needed
+
+### Files Modified
 | File | Change |
 |------|--------|
-| `supabase/functions/challenge-vote/index.ts` | Check for existing discount code before generating new one |
-| `src/components/challenge/VoteModal.tsx` | Replace Copy/Share with "Claim Now" WhatsApp CTA + disclaimer |
+| `src/pages/admin/ChallengeManager.tsx` | New file — full CRUD page |
+| `src/App.tsx` | Add lazy import + route |
+| `src/layouts/AdminLayout.tsx` | Add nav entry |
 
