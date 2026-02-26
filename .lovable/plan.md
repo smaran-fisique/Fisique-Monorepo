@@ -1,133 +1,139 @@
 
 
-# Fisique Challenge Page -- 10 Upgrades
+# Full Implementation Plan: Voting System on Fisique Challenge Page
 
 ## Overview
-
-A comprehensive upgrade to `src/pages/FisiqueChallenge.tsx` implementing all 10 improvements to maximize conversions, urgency, social proof, and virality. Only one file is modified.
-
----
-
-## Changes (all in `src/pages/FisiqueChallenge.tsx`)
-
-### 1. Countdown Timer + Urgency Strip
-
-Add a compact urgency strip directly below the eyebrow pill, before the headline:
-
-- Reuse the existing `CountdownTimer` component (from `src/components/offers/CountdownTimer.tsx`) targeting **Feb 28, 2026 23:59 IST**
-- Below the timer, show two meta lines:
-  - "Season: Feb 2026"
-  - "Winners announced: Mar 1"
-- Compact styling matching the dark premium design
-
-### 2. Social Proof Stats in the Hero
-
-Replace the small paragraph text (line 234-237: "Earn points by referring...") with 3 inline stat chips:
-
-| Stat | Value |
-|------|-------|
-| Participants | 67 |
-| Votes Cast | 1,842 |
-| Referrals This Month | 38 |
-
-Displayed as a horizontal row of pill-shaped badges with accent styling, placed directly under the prize cards.
-
-### 3. Premium Prize Cards with Details
-
-Upgrade prize card content:
-
-**1st Place (Grand Prize card):**
-- Add "Worth Rs 22,999" value line below the prize name
-- Add micro-benefit: "AMOLED + GPS + Body Battery"
-- Keep existing "Grand Prize" badge (already present)
-
-**2nd Place:**
-- Add "Worth up to Rs 10,000" line
-- Add micro-benefit: "Valid in-store + online"
-
-**3rd Place:**
-- Add "Worth Rs 5,000" line
-- Add micro-benefit: "Bag + accessories bundle"
-
-### 4. Killer "How to Win" Line
-
-Add one crisp line below the subheadline (after "Compete. Climb the leaderboard. Win premium rewards."):
-
-> "Referrals + votes + verified shares = points. Highest points wins."
-
-Styled as a slightly smaller, accent-tinted text for clarity.
-
-### 5. Viral Vote CTA Upgrade
-
-- Change vote button text from "Vote & Unlock Rs 1,000 Off" to **"Vote in 30 Seconds -- Get Rs 1,000 Off"**
-- Add microcopy below the CTA buttons: "One per phone number. Valid 72 hours. Non-stackable."
-- Move WhatsApp share + Copy Link buttons into the hero CTA area (alongside Vote)
-- Add "Share to climb faster" microcopy near share buttons
-
-### 6. Mini Leaderboard Under CTAs
-
-Add a compact top-3 preview directly under the CTAs in the hero section:
-
-| Rank | Name | Points |
-|------|------|--------|
-| 1 | Rahul | 620 pts |
-| 2 | Neha | 580 pts |
-| 3 | Smaran | 540 pts |
-
-With a "See full leaderboard" link below. This replaces the separate "Current Standings" section (Section 3) which becomes redundant.
-
-### 7. Join CTA
-
-Add a tertiary CTA link below the main buttons:
-
-**"Join Challenge -- Get +50 Points"**
-
-Links to a WhatsApp click-to-chat: `https://wa.me/91XXXXXXXXXX?text=I want to join the Fisique Champions Challenge` (using a placeholder number that can be updated).
-
-### 8. Trust/Proof Block (New Section)
-
-Replace the old "Current Standings" section (Section 3, now redundant) with a new trust section:
-
-**Title:** "This is performance-based -- not a lucky draw"
-
-Four bullet items with check icons:
-- Points are tracked on the leaderboard
-- Votes are OTP verified
-- Winners are announced publicly
-- Prizes handed over on camera
-
-Compact, clean layout matching the premium card style.
-
-### 9. Share Hooks Near Vote CTA
-
-Already handled in point 5 -- WhatsApp share and Copy Link buttons are moved into the hero CTA area with the "Share to climb faster" line.
-
-### 10. Typography Hierarchy
-
-- Reduce headline from `clamp(40px,8vw,80px)` to `clamp(36px,7vw,72px)`
-- Increase subheadline from `text-lg md:text-xl` to `text-xl md:text-2xl`
-- Increase prize card text weight and add more letter-spacing
-- Add more spacing between headline and prize cards (`mb-14` instead of `mb-12`)
+Add WhatsApp OTP-verified voting and a live leaderboard directly into `/fisique-challenge`. No separate pages. One phone number = one vote per candidate.
 
 ---
 
-## Updated Section Order
+## 1. Database Migration (3 tables)
 
-1. **Hero** -- Eyebrow, countdown strip, headline, "how to win" line, subheadline, grand prize card, 2nd/3rd cards, social proof stats, CTAs (View Leaderboard + Vote + Join + Share), mini leaderboard top 3
-2. **How It Works** -- 4 steps (unchanged)
-3. **Trust Block** -- "Performance-based, not a lucky draw" (replaces old leaderboard preview)
-4. **Vote and Unlock** -- Expanded with share hooks (kept but simplified since hero now has share buttons)
-5. **Fisique Points** -- Unchanged
-6. **Footer** -- Unchanged
+### `challenge_participants`
+| Column | Type | Default |
+|--------|------|---------|
+| id | uuid | gen_random_uuid() |
+| name | text | required |
+| phone | text (unique) | required |
+| points | integer | 50 |
+| referral_count | integer | 0 |
+| vote_count | integer | 0 |
+| created_at | timestamptz | now() |
+
+RLS: Public SELECT. Admin ALL.
+
+### `challenge_votes`
+| Column | Type | Default |
+|--------|------|---------|
+| id | uuid | gen_random_uuid() |
+| participant_id | uuid FK | required |
+| voter_phone | text | required |
+| discount_code | text | generated |
+| discount_expires_at | timestamptz | +72h |
+| created_at | timestamptz | now() |
+| **UNIQUE(voter_phone, participant_id)** | | |
+
+RLS: Public INSERT (unique constraint dedup). Admin ALL.
+
+### `challenge_otps`
+| Column | Type | Default |
+|--------|------|---------|
+| id | uuid | gen_random_uuid() |
+| phone | text | required |
+| otp | text | required |
+| created_at | timestamptz | now() |
+
+RLS: No public access (service role only from edge function).
+
+Enable realtime on `challenge_participants` for live leaderboard.
 
 ---
 
-## Technical Notes
+## 2. Edge Function: `challenge-vote`
 
-- Import `CountdownTimer` from `@/components/offers/CountdownTimer`
-- Import `Clock`, `CheckCircle`, `MessageCircle` from lucide-react (for timer strip and trust section)
-- Target date: `new Date("2026-02-28T23:59:00+05:30")` (Feb 28 end of month, IST)
-- Mini leaderboard data is hardcoded for now (static array)
-- WhatsApp join link uses placeholder number to be configured
-- No new files or dependencies needed
+**File:** `supabase/functions/challenge-vote/index.ts`
+
+Two actions via POST:
+
+### `action: "send-otp"`
+- Input: `{ action: "send-otp", phone: "91XXXXXXXXXX" }`
+- Generate random 6-digit OTP
+- Delete any existing OTPs for this phone (cleanup)
+- Insert OTP into `challenge_otps`
+- Call WhatsApp API:
+  ```
+  POST https://adminapis.backendprod.com/lms_campaign/api/whatsapp/template/krsw4x895e/process
+  Body: { "receiver": "91XXXXXXXXXX", "values": { "1": "123456" } }
+  ```
+- No auth headers (as confirmed)
+- Return `{ success: true }`
+
+### `action: "verify-vote"`
+- Input: `{ action: "verify-vote", participant_id, voter_phone, otp }`
+- Look up OTP in `challenge_otps` where phone matches and created_at < 5 minutes ago
+- If no match or expired, return error
+- Check unique constraint — if voter already voted for this candidate, return "already voted"
+- Insert into `challenge_votes` with generated 8-char discount code, expiry = now + 72h
+- Increment participant's `vote_count` (+1) and `points` (+10) via direct update
+- Delete used OTP
+- Return `{ discount_code, expires_at }`
+
+Config: `verify_jwt = false` (public endpoint, no auth required)
+
+---
+
+## 3. UI Changes to `FisiqueChallenge.tsx`
+
+### Replace hardcoded mini leaderboard with live full leaderboard
+- Fetch `challenge_participants` ordered by `points DESC` on mount
+- Subscribe to realtime changes on `challenge_participants` for live updates
+- Show ranked list: position, name, points, vote count
+- Top 3 get accent styling
+- Each row has a **Vote** button (Heart icon)
+
+### Replace hardcoded social proof stats with live counts
+- Total participants count, sum of all vote_count, sum of all referral_count
+- Derived from the fetched participants data
+
+### Inline Vote Modal (Dialog component)
+Triggered by clicking "Vote" on any participant row:
+1. **Step 1**: Show participant name, enter 10-digit phone → "Send OTP via WhatsApp" button
+2. **Step 2**: Enter 6-digit OTP using existing `InputOTP` component → "Confirm Vote" button
+3. **Step 3**: Success — show discount code, 72h expiry, copy button, WhatsApp share link
+4. **Error states**: "Already voted for this person", "Invalid OTP", "OTP expired"
+
+### Update CTAs
+- "View Leaderboard" → anchor scroll (`#leaderboard`) to leaderboard section
+- "Vote in 30 Seconds" → anchor scroll to leaderboard section
+- "See full leaderboard →" → anchor scroll instead of Link
+- Remove `/fisique-challenge/vote` and `/fisique-challenge/leaderboard` Link references
+
+### Remove hardcoded `miniLeaderboard` array
+- Delete the static data at top of file
+- The leaderboard section replaces both the mini leaderboard and the "Vote & Unlock" section
+
+---
+
+## 4. Section Order (Final)
+
+1. **Hero** — Headline, subheadline, "how to win", prize podium, countdown, social proof stats (live), CTAs (scroll anchors + share + join), leaderboard with vote buttons
+2. **How It Works** — 4 steps (unchanged)
+3. **Trust Block** — "Performance-based, not a lucky draw" (unchanged)
+4. **Fisique Points** — Unchanged
+5. **Footer section** — Unchanged
+
+The "Vote & Unlock" section (lines 296-312) is removed since voting is now inline in the leaderboard.
+
+---
+
+## Files to Create/Modify
+
+| File | Action |
+|------|--------|
+| SQL migration | Create 3 tables + RLS + realtime |
+| `supabase/functions/challenge-vote/index.ts` | New edge function |
+| `supabase/config.toml` | Auto-updated with `verify_jwt = false` |
+| `src/pages/FisiqueChallenge.tsx` | Live leaderboard, vote modal, live stats, remove dead links |
+
+No new pages or routes needed.
 
