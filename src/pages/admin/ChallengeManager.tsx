@@ -1,0 +1,278 @@
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3 } from 'lucide-react';
+
+type Participant = {
+  id: string;
+  name: string;
+  phone: string;
+  points: number;
+  referral_count: number;
+  vote_count: number;
+  created_at: string;
+};
+
+type VoteRow = {
+  id: string;
+  voter_phone: string;
+  discount_code: string;
+  discount_expires_at: string;
+  created_at: string;
+  challenge_participants: { name: string } | null;
+};
+
+export default function ChallengeManager() {
+  const { toast } = useToast();
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [votes, setVotes] = useState<VoteRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Dialog states
+  const [addOpen, setAddOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [pointsOpen, setPointsOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [formName, setFormName] = useState('');
+  const [formPhone, setFormPhone] = useState('');
+  const [pointsAmount, setPointsAmount] = useState('10');
+  const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const [pRes, vRes] = await Promise.all([
+      supabase.from('challenge_participants').select('*').order('points', { ascending: false }),
+      supabase.from('challenge_votes').select('*, challenge_participants(name)').order('created_at', { ascending: false }),
+    ]);
+    if (pRes.data) setParticipants(pRes.data);
+    if (vRes.data) setVotes(vRes.data as unknown as VoteRow[]);
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchData(); }, []);
+
+  const handleAdd = async () => {
+    if (!formName.trim() || !formPhone.trim()) return;
+    const { error } = await supabase.from('challenge_participants').insert({ name: formName.trim(), phone: formPhone.trim() });
+    if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+    toast({ title: 'Participant added' });
+    setAddOpen(false);
+    setFormName('');
+    setFormPhone('');
+    fetchData();
+  };
+
+  const handleEdit = async () => {
+    if (!selectedParticipant || !formName.trim() || !formPhone.trim()) return;
+    const { error } = await supabase.from('challenge_participants').update({ name: formName.trim(), phone: formPhone.trim() }).eq('id', selectedParticipant.id);
+    if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+    toast({ title: 'Participant updated' });
+    setEditOpen(false);
+    fetchData();
+  };
+
+  const handleDelete = async () => {
+    if (!selectedParticipant) return;
+    const { error } = await supabase.from('challenge_participants').delete().eq('id', selectedParticipant.id);
+    if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+    toast({ title: 'Participant deleted' });
+    setDeleteOpen(false);
+    fetchData();
+  };
+
+  const handleAwardPoints = async () => {
+    if (!selectedParticipant) return;
+    const pts = parseInt(pointsAmount);
+    if (isNaN(pts) || pts <= 0) return;
+    const { error } = await supabase.from('challenge_participants').update({
+      points: selectedParticipant.points + pts,
+      referral_count: selectedParticipant.referral_count + 1,
+    }).eq('id', selectedParticipant.id);
+    if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
+    toast({ title: `Awarded ${pts} points` });
+    setPointsOpen(false);
+    fetchData();
+  };
+
+  const openEdit = (p: Participant) => { setSelectedParticipant(p); setFormName(p.name); setFormPhone(p.phone); setEditOpen(true); };
+  const openPoints = (p: Participant) => { setSelectedParticipant(p); setPointsAmount('10'); setPointsOpen(true); };
+  const openDelete = (p: Participant) => { setSelectedParticipant(p); setDeleteOpen(true); };
+
+  const totalVotes = votes.length;
+  const uniqueVoters = new Set(votes.map(v => v.voter_phone)).size;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-3">
+        <Trophy className="w-6 h-6 text-primary" />
+        <h1 className="text-2xl font-bold">Challenge Manager</h1>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: 'Participants', value: participants.length, icon: Users },
+          { label: 'Total Votes', value: totalVotes, icon: Vote },
+          { label: 'Unique Voters', value: uniqueVoters, icon: BarChart3 },
+        ].map(s => (
+          <div key={s.label} className="rounded-lg border border-border bg-card p-4 flex items-center gap-3">
+            <s.icon className="w-5 h-5 text-muted-foreground" />
+            <div>
+              <p className="text-2xl font-bold">{s.value}</p>
+              <p className="text-sm text-muted-foreground">{s.label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Tabs defaultValue="participants">
+        <TabsList>
+          <TabsTrigger value="participants">Participants</TabsTrigger>
+          <TabsTrigger value="votes">Votes</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="participants" className="space-y-4">
+          <div className="flex justify-end">
+            <Button onClick={() => { setFormName(''); setFormPhone(''); setAddOpen(true); }}>
+              <Plus className="w-4 h-4 mr-2" /> Add Participant
+            </Button>
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Phone</TableHead>
+                <TableHead className="text-right">Points</TableHead>
+                <TableHead className="text-right">Referrals</TableHead>
+                <TableHead className="text-right">Votes</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">Loading…</TableCell></TableRow>
+              ) : participants.length === 0 ? (
+                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No participants yet</TableCell></TableRow>
+              ) : participants.map(p => (
+                <TableRow key={p.id}>
+                  <TableCell className="font-medium">{p.name}</TableCell>
+                  <TableCell>{p.phone}</TableCell>
+                  <TableCell className="text-right">{p.points}</TableCell>
+                  <TableCell className="text-right">{p.referral_count}</TableCell>
+                  <TableCell className="text-right">{p.vote_count}</TableCell>
+                  <TableCell className="text-right space-x-1">
+                    <Button variant="ghost" size="icon" onClick={() => openEdit(p)}><Pencil className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={() => openPoints(p)}><Gift className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={() => openDelete(p)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TabsContent>
+
+        <TabsContent value="votes">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Voter Phone</TableHead>
+                <TableHead>Voted For</TableHead>
+                <TableHead>Discount Code</TableHead>
+                <TableHead>Expires</TableHead>
+                <TableHead>Date</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">Loading…</TableCell></TableRow>
+              ) : votes.length === 0 ? (
+                <TableRow><TableCell colSpan={5} className="text-center py-8 text-muted-foreground">No votes yet</TableCell></TableRow>
+              ) : votes.map(v => (
+                <TableRow key={v.id}>
+                  <TableCell>{v.voter_phone}</TableCell>
+                  <TableCell>{v.challenge_participants?.name ?? '—'}</TableCell>
+                  <TableCell className="font-mono text-xs">{v.discount_code}</TableCell>
+                  <TableCell>{new Date(v.discount_expires_at).toLocaleDateString()}</TableCell>
+                  <TableCell>{new Date(v.created_at).toLocaleDateString()}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TabsContent>
+      </Tabs>
+
+      {/* Add Dialog */}
+      <Dialog open={addOpen} onOpenChange={setAddOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Participant</DialogTitle>
+            <DialogDescription>Enter the contestant's name and phone number.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <Input placeholder="Name" value={formName} onChange={e => setFormName(e.target.value)} />
+            <Input placeholder="Phone" value={formPhone} onChange={e => setFormPhone(e.target.value)} />
+          </div>
+          <DialogFooter>
+            <Button onClick={handleAdd}>Add</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Participant</DialogTitle>
+            <DialogDescription>Update the contestant's details.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <Input placeholder="Name" value={formName} onChange={e => setFormName(e.target.value)} />
+            <Input placeholder="Phone" value={formPhone} onChange={e => setFormPhone(e.target.value)} />
+          </div>
+          <DialogFooter>
+            <Button onClick={handleEdit}>Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Award Points Dialog */}
+      <Dialog open={pointsOpen} onOpenChange={setPointsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Award Referral Points</DialogTitle>
+            <DialogDescription>Add points to {selectedParticipant?.name}. This also increments their referral count.</DialogDescription>
+          </DialogHeader>
+          <div className="flex gap-2">
+            {['10', '25', '50'].map(v => (
+              <Button key={v} variant={pointsAmount === v ? 'default' : 'outline'} size="sm" onClick={() => setPointsAmount(v)}>+{v}</Button>
+            ))}
+            <Input type="number" className="w-24" value={pointsAmount} onChange={e => setPointsAmount(e.target.value)} min="1" />
+          </div>
+          <DialogFooter>
+            <Button onClick={handleAwardPoints}>Award {pointsAmount} pts</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Participant</DialogTitle>
+            <DialogDescription>Are you sure you want to delete {selectedParticipant?.name}? This cannot be undone.</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
+            <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
