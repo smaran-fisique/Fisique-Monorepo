@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Heart, Trophy } from "lucide-react";
+import { Vote, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VoteModal } from "./VoteModal";
 
@@ -105,11 +105,11 @@ export const LiveLeaderboard = () => {
                   </span>
                   <Button
                     size="sm"
-                    variant="ghost"
-                    className="h-8 px-3 text-accent hover:text-accent/80 hover:bg-accent/10"
+                    variant="outline"
+                    className="h-8 px-3 text-accent border-accent/30 hover:bg-accent/10 gap-1.5"
                     onClick={() => handleVote(p)}
                   >
-                    <Heart className="w-4 h-4" />
+                    <Vote className="w-4 h-4" /> Vote
                   </Button>
                 </div>
               </div>

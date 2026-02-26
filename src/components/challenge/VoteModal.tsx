@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Heart, CheckCircle, Loader2, MessageCircle } from "lucide-react";
+import { Vote, CheckCircle, Loader2, MessageCircle } from "lucide-react";
 
 type Step = "phone" | "otp" | "success";
 
@@ -109,7 +109,7 @@ export const VoteModal = ({ open, onOpenChange, participant }: VoteModalProps) =
               type="tel"
             />
             <Button onClick={sendOtp} disabled={loading} className="w-full">
-              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Heart className="w-4 h-4 mr-2" />}
+              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Vote className="w-4 h-4 mr-2" />}
               Send OTP via WhatsApp
             </Button>
             <p className="text-xs text-muted-foreground text-center">
