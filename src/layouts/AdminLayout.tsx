@@ -14,7 +14,8 @@ import {
   Menu,
   X,
   Key,
-  Globe
+  Globe,
+  Trophy
 } from 'lucide-react';
 import { useState } from 'react';
 import fisiquelogo from '@/assets/fisique-logo.webp';
@@ -29,6 +30,7 @@ const navigation = [
   { name: 'Global SEO', href: '/admin/global-seo', icon: Globe },
   { name: 'Media', href: '/admin/media', icon: Image },
   { name: 'API Keys', href: '/admin/api-keys', icon: Key },
+  { name: 'Challenge', href: '/admin/challenge', icon: Trophy },
   { name: 'Users', href: '/admin/users', icon: Users },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];

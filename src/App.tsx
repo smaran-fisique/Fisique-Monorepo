@@ -53,6 +53,7 @@ const OffersIndex = lazy(() => import("./pages/offers/OffersIndex"));
 const IPhoneOffer = lazy(() => import("./pages/offers/IPhoneOffer"));
 const IPhoneLeaderboard = lazy(() => import("./pages/offers/IPhoneLeaderboard"));
 const FisiqueChallenge = lazy(() => import("./pages/FisiqueChallenge"));
+const ChallengeManager = lazy(() => import("./pages/admin/ChallengeManager"));
 
 // Minimal loading fallback
 const PageLoader = () => (
@@ -131,6 +132,7 @@ const App = () => (
                     <Route path="/admin/media" element={<Media />} />
                     <Route path="/admin/api-keys" element={<ApiKeys />} />
                     <Route path="/admin/users" element={<Users />} />
+                    <Route path="/admin/challenge" element={<ChallengeManager />} />
                   </Route>
                 </Route>
                 
