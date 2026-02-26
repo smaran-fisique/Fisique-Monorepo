@@ -5,15 +5,11 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/offers/CountdownTimer";
 import { LiveLeaderboard } from "@/components/challenge/LiveLeaderboard";
-import { toast } from "sonner";
 import {
   Trophy,
   UserPlus,
   Users,
-  Heart,
   Award,
-  Share2,
-  Copy,
   Star,
   Zap,
   Target,
@@ -30,16 +26,12 @@ const trackEvent = (eventName: string) => {
   }
 };
 
-const WHATSAPP_MESSAGE = encodeURIComponent(
-  "I'm competing in the Fisique Champions Challenge. Vote for me and help me win a Garmin Vivoactive 5. You also unlock Rs 1,000 off membership. Vote here: https://fisique.fitness/fisique-challenge"
-);
-
 const CHALLENGE_END_DATE = new Date("2026-03-31T23:59:00+05:30");
 
 const steps = [
   { icon: UserPlus, title: "Join the Challenge", desc: "Earn +50 points instantly" },
   { icon: Users, title: "Refer Members", desc: "Earn leaderboard points and Fisique Points" },
-  { icon: Heart, title: "Receive Votes & Share", desc: "Climb faster on the leaderboard" },
+  { icon: Target, title: "Receive Votes & Share", desc: "Climb faster on the leaderboard" },
   { icon: Trophy, title: "Top Ranked Win", desc: "Premium rewards for top performers" },
 ];
 
@@ -55,12 +47,6 @@ const trustBullets = [
   "Winners are announced publicly",
   "Prizes handed over on camera",
 ];
-
-const handleCopyLink = () => {
-  navigator.clipboard.writeText("https://fisique.fitness/fisique-challenge");
-  toast.success("Challenge link copied!");
-  trackEvent("challenge_share_click");
-};
 
 const scrollToLeaderboard = () => {
   document.getElementById("leaderboard")?.scrollIntoView({ behavior: "smooth" });
@@ -171,48 +157,33 @@ const FisiqueChallenge = () => {
             <LiveLeaderboard />
 
             {/* CTAs */}
-            <div className="flex flex-col items-center gap-3 mt-10 mb-4">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Button size="lg" className="shadow-glow hover:shadow-glow-hover transition-all" onClick={() => { scrollToLeaderboard(); trackEvent("challenge_leaderboard_click"); }}>
-                  View Leaderboard
-                </Button>
-                <Button variant="ghost" size="lg" onClick={() => { scrollToLeaderboard(); trackEvent("challenge_vote_click"); }}>
-                  Vote in 30 Seconds — Get ₹1,000 Off
-                  <Heart className="w-4 h-4 ml-1" />
-                </Button>
+            <div className="flex flex-col items-center gap-4 mt-10 mb-4">
+              {/* Primary value prop for new customers */}
+              <div className="border border-accent/30 rounded-2xl px-6 py-4 bg-accent/5 text-center max-w-md shadow-[0_0_30px_hsl(186_68%_45%/0.1)]">
+                <p className="text-lg md:text-xl font-bold text-foreground mb-1">
+                  New here? Vote & get <span className="text-accent">₹1,000 off</span> membership
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Pick any contestant below · Verify via WhatsApp · Instant discount code
+                </p>
               </div>
 
-              <p className="text-xs text-muted-foreground">One per phone number · Valid 72 hours · Non-stackable</p>
+              <Button size="lg" className="shadow-glow hover:shadow-glow-hover transition-all" onClick={() => { scrollToLeaderboard(); trackEvent("challenge_vote_click"); }}>
+                Vote Now — Takes 30 Seconds
+              </Button>
 
-              {/* Share buttons */}
-              <div className="flex items-center gap-3 mt-2">
-                <a
-                  href={`https://wa.me/?text=${WHATSAPP_MESSAGE}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent("challenge_share_click")}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border text-sm text-muted-foreground hover:text-foreground hover:border-accent/40 transition-all"
-                >
-                  <Share2 className="w-4 h-4" />
-                  WhatsApp
-                </a>
-                <button onClick={handleCopyLink} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border text-sm text-muted-foreground hover:text-foreground hover:border-accent/40 transition-all">
-                  <Copy className="w-4 h-4" />
-                  Copy Link
-                </button>
-              </div>
-              <p className="text-xs text-muted-foreground/70">Share to climb faster</p>
+              <p className="text-xs text-muted-foreground">One discount per phone number · Valid 72 hours · Non-stackable</p>
 
-              {/* Join CTA */}
+              {/* Join CTA for participants */}
               <a
-                href="https://wa.me/919999999999?text=I%20want%20to%20join%20the%20Fisique%20Champions%20Challenge"
+                href="https://wa.me/919515847444?text=I%20want%20to%20join%20the%20Fisique%20Champions%20Challenge"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("challenge_join_click")}
                 className="inline-flex items-center gap-2 text-sm text-accent hover:text-accent/80 font-medium mt-1 transition-colors"
               >
                 <MessageCircle className="w-4 h-4" />
-                Join Challenge — Get +50 Points
+                Already a member? Join as a Contestant
               </a>
             </div>
           </div>
