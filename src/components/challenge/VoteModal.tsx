@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Heart, Copy, Share2, CheckCircle, Loader2 } from "lucide-react";
+import { Heart, CheckCircle, Loader2, MessageCircle } from "lucide-react";
 
 type Step = "phone" | "otp" | "success";
 
@@ -83,11 +83,6 @@ export const VoteModal = ({ open, onOpenChange, participant }: VoteModalProps) =
     } finally {
       setLoading(false);
     }
-  };
-
-  const copyCode = () => {
-    navigator.clipboard.writeText(discountCode);
-    toast.success("Discount code copied!");
   };
 
   if (!participant) return null;
@@ -172,20 +167,18 @@ export const VoteModal = ({ open, onOpenChange, participant }: VoteModalProps) =
                 Valid until {new Date(expiresAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
               </p>
             </div>
-            <div className="flex gap-2">
-              <Button onClick={copyCode} variant="outline" className="flex-1">
-                <Copy className="w-4 h-4 mr-2" /> Copy Code
-              </Button>
-              <Button asChild variant="outline" className="flex-1">
-                <a
-                  href={`https://wa.me/919999999999?text=${encodeURIComponent(`I just voted in the Fisique Champions Challenge! Use my discount code ${discountCode} for ₹1,000 off membership. Vote here: https://fisique.fitness/fisique-challenge`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Share2 className="w-4 h-4 mr-2" /> Share
-                </a>
-              </Button>
-            </div>
+            <Button asChild className="w-full" size="lg">
+              <a
+                href={`https://wa.me/919515847444?text=${encodeURIComponent(`I would like to claim my vote discount - ${discountCode}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" /> Claim Now on WhatsApp
+              </a>
+            </Button>
+            <p className="text-xs text-muted-foreground text-center">
+              One discount code per phone number. Vote for multiple candidates but only one ₹1,000 discount per voter.
+            </p>
           </div>
         )}
       </DialogContent>
