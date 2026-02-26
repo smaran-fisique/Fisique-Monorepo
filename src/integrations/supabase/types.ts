@@ -211,6 +211,92 @@ export type Database = {
         }
         Relationships: []
       }
+      challenge_otps: {
+        Row: {
+          created_at: string
+          id: string
+          otp: string
+          phone: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          otp: string
+          phone: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          otp?: string
+          phone?: string
+        }
+        Relationships: []
+      }
+      challenge_participants: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          points: number
+          referral_count: number
+          vote_count: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          phone: string
+          points?: number
+          referral_count?: number
+          vote_count?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string
+          points?: number
+          referral_count?: number
+          vote_count?: number
+        }
+        Relationships: []
+      }
+      challenge_votes: {
+        Row: {
+          created_at: string
+          discount_code: string
+          discount_expires_at: string
+          id: string
+          participant_id: string
+          voter_phone: string
+        }
+        Insert: {
+          created_at?: string
+          discount_code: string
+          discount_expires_at: string
+          id?: string
+          participant_id: string
+          voter_phone: string
+        }
+        Update: {
+          created_at?: string
+          discount_code?: string
+          discount_expires_at?: string
+          id?: string
+          participant_id?: string
+          voter_phone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_votes_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "challenge_participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       google_reviews: {
         Row: {
           author_name: string

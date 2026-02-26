@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { CountdownTimer } from "@/components/offers/CountdownTimer";
+import { LiveLeaderboard } from "@/components/challenge/LiveLeaderboard";
 import { toast } from "sonner";
 import {
   Trophy,
@@ -13,7 +14,6 @@ import {
   Award,
   Share2,
   Copy,
-  ChevronRight,
   Star,
   Zap,
   Target,
@@ -49,12 +49,6 @@ const pointsCards = [
   { icon: Users, value: "∞", label: "Grow the community together" },
 ];
 
-const miniLeaderboard = [
-  { rank: 1, name: "Rahul", points: 620 },
-  { rank: 2, name: "Neha", points: 580 },
-  { rank: 3, name: "Smaran", points: 540 },
-];
-
 const trustBullets = [
   "Points are tracked on the leaderboard",
   "Votes are OTP verified",
@@ -66,6 +60,10 @@ const handleCopyLink = () => {
   navigator.clipboard.writeText("https://fisique.fitness/fisique-challenge");
   toast.success("Challenge link copied!");
   trackEvent("challenge_share_click");
+};
+
+const scrollToLeaderboard = () => {
+  document.getElementById("leaderboard")?.scrollIntoView({ behavior: "smooth" });
 };
 
 const FisiqueChallenge = () => {
@@ -94,7 +92,6 @@ const FisiqueChallenge = () => {
           <div className="premium-glow-orb w-[300px] h-[300px] top-1/3 -right-32 animate-glow-pulse" style={{ background: "hsl(186 100% 76% / 0.08)", animationDelay: "1.5s" }} />
 
           <div className="container-custom px-4 relative z-10">
-            {/* Headline */}
             <h1 className="text-center font-black leading-[0.95] tracking-tight text-[clamp(36px,7vw,72px)] mb-4">
               <span className="text-gradient">Champions</span> Challenge
             </h1>
@@ -107,9 +104,9 @@ const FisiqueChallenge = () => {
               Referrals + votes + verified shares = points. Highest points wins.
             </p>
 
-            {/* All 3 prizes in one row, 1st place larger */}
+            {/* Prize Podium */}
             <div className="grid grid-cols-4 gap-4 max-w-3xl mx-auto mb-8 items-end">
-              {/* 2nd Place - smaller */}
+              {/* 2nd Place */}
               <div className="premium-card rounded-2xl p-5 md:p-6 text-center col-span-1">
                 <Award className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
                 <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">2nd Place</p>
@@ -118,7 +115,7 @@ const FisiqueChallenge = () => {
                 <p className="text-xs text-muted-foreground mt-0.5">Valid in-store + online</p>
               </div>
 
-              {/* 1st Place - Grand Prize, larger, spans 2 cols */}
+              {/* 1st Place */}
               <div className="col-span-2">
                 <div className="premium-card rounded-2xl p-6 md:p-8 text-center border-accent/50 shadow-[0_0_60px_hsl(186_68%_45%/0.3)] relative overflow-hidden">
                   <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 50% 40%, hsl(186 68% 45% / 0.12), transparent 70%)" }} />
@@ -139,7 +136,7 @@ const FisiqueChallenge = () => {
                 </div>
               </div>
 
-              {/* 3rd Place - smaller */}
+              {/* 3rd Place */}
               <div className="premium-card rounded-2xl p-5 md:p-6 text-center col-span-1">
                 <Star className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
                 <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">3rd Place</p>
@@ -163,38 +160,21 @@ const FisiqueChallenge = () => {
               </div>
             </div>
 
-            {/* 2. Social Proof Stats */}
-            <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
-              {[
-                { label: "Participants", value: "67" },
-                { label: "Votes Cast", value: "1,842" },
-                { label: "Referrals This Month", value: "38" },
-              ].map((stat) => (
-                <span key={stat.label} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent/20 bg-accent/5 text-sm">
-                  <span className="font-bold text-foreground">{stat.value}</span>
-                  <span className="text-muted-foreground">{stat.label}</span>
-                </span>
-              ))}
-            </div>
+            {/* Live Leaderboard + Stats */}
+            <LiveLeaderboard />
 
-            {/* 5 & 9. CTAs with share hooks */}
-            <div className="flex flex-col items-center gap-3 mb-4">
+            {/* CTAs */}
+            <div className="flex flex-col items-center gap-3 mt-10 mb-4">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Button asChild size="lg" className="shadow-glow hover:shadow-glow-hover transition-all" onClick={() => trackEvent("challenge_leaderboard_click")}>
-                  <Link to="/fisique-challenge/leaderboard">
-                    View Leaderboard
-                    <ChevronRight className="w-4 h-4 ml-1" />
-                  </Link>
+                <Button size="lg" className="shadow-glow hover:shadow-glow-hover transition-all" onClick={() => { scrollToLeaderboard(); trackEvent("challenge_leaderboard_click"); }}>
+                  View Leaderboard
                 </Button>
-                <Button asChild variant="ghost" size="lg" onClick={() => trackEvent("challenge_vote_click")}>
-                  <Link to="/fisique-challenge/vote">
-                    Vote in 30 Seconds — Get ₹1,000 Off
-                    <Heart className="w-4 h-4 ml-1" />
-                  </Link>
+                <Button variant="ghost" size="lg" onClick={() => { scrollToLeaderboard(); trackEvent("challenge_vote_click"); }}>
+                  Vote in 30 Seconds — Get ₹1,000 Off
+                  <Heart className="w-4 h-4 ml-1" />
                 </Button>
               </div>
 
-              {/* Microcopy */}
               <p className="text-xs text-muted-foreground">One per phone number · Valid 72 hours · Non-stackable</p>
 
               {/* Share buttons */}
@@ -216,7 +196,7 @@ const FisiqueChallenge = () => {
               </div>
               <p className="text-xs text-muted-foreground/70">Share to climb faster</p>
 
-              {/* 7. Join CTA */}
+              {/* Join CTA */}
               <a
                 href="https://wa.me/919999999999?text=I%20want%20to%20join%20the%20Fisique%20Champions%20Challenge"
                 target="_blank"
@@ -227,29 +207,6 @@ const FisiqueChallenge = () => {
                 <MessageCircle className="w-4 h-4" />
                 Join Challenge — Get +50 Points
               </a>
-            </div>
-
-            {/* 6. Mini Leaderboard */}
-            <div className="max-w-xs mx-auto mt-8">
-              <p className="text-xs uppercase tracking-widest text-muted-foreground text-center mb-3">Top 3 Right Now</p>
-              <div className="premium-card rounded-xl overflow-hidden">
-                {miniLeaderboard.map((entry, i) => (
-                  <div key={entry.name} className={`flex items-center justify-between px-4 py-3 ${i < miniLeaderboard.length - 1 ? "border-b border-border/50" : ""}`}>
-                    <div className="flex items-center gap-3">
-                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${i === 0 ? "bg-accent/20 text-accent" : "bg-muted text-muted-foreground"}`}>
-                        {entry.rank}
-                      </span>
-                      <span className="text-sm font-medium text-foreground">{entry.name}</span>
-                    </div>
-                    <span className="text-sm font-bold text-foreground">{entry.points} <span className="text-xs text-muted-foreground font-normal">pts</span></span>
-                  </div>
-                ))}
-              </div>
-              <div className="text-center mt-3">
-                <Link to="/fisique-challenge/leaderboard" className="text-xs text-accent hover:text-accent/80 font-medium transition-colors" onClick={() => trackEvent("challenge_leaderboard_click")}>
-                  See full leaderboard →
-                </Link>
-              </div>
             </div>
           </div>
         </section>
@@ -273,7 +230,7 @@ const FisiqueChallenge = () => {
           </div>
         </section>
 
-        {/* ── 8. TRUST BLOCK ── */}
+        {/* ── TRUST BLOCK ── */}
         <section className="py-16 md:py-24 border-t border-border/50">
           <div className="container-custom px-4">
             <h2 className="text-center text-2xl md:text-3xl font-bold mb-3">
@@ -290,24 +247,6 @@ const FisiqueChallenge = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* ── VOTE & UNLOCK ── */}
-        <section className="py-16 md:py-24 border-t border-border/50 premium-section">
-          <div className="premium-glow-orb w-[250px] h-[250px] bottom-0 left-1/2 -translate-x-1/2 animate-glow-pulse" style={{ background: "hsl(186 68% 45% / 0.12)" }} />
-          <div className="container-custom px-4 relative z-10 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Support your friends. Unlock your reward.</h2>
-            <p className="text-muted-foreground max-w-md mx-auto mb-8">
-              Vote for a participant and unlock a flat ₹1,000 off Fisique membership.
-            </p>
-            <Button asChild size="lg" className="mb-4" onClick={() => trackEvent("challenge_vote_click")}>
-              <Link to="/fisique-challenge/vote">
-                Vote Now
-                <Heart className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-            <p className="text-xs text-muted-foreground">One per phone number · Valid 72 hours · Non-stackable</p>
           </div>
         </section>
 

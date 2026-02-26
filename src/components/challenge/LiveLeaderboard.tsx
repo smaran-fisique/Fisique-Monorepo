@@ -1,0 +1,124 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Heart, Trophy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { VoteModal } from "./VoteModal";
+
+interface Participant {
+  id: string;
+  name: string;
+  points: number;
+  vote_count: number;
+}
+
+export const LiveLeaderboard = () => {
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const fetchParticipants = async () => {
+    const { data } = await supabase
+      .from("challenge_participants")
+      .select("id, name, points, vote_count")
+      .order("points", { ascending: false });
+    if (data) setParticipants(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchParticipants();
+
+    const channel = supabase
+      .channel("challenge-leaderboard")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "challenge_participants" },
+        () => fetchParticipants()
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
+  const handleVote = (p: Participant) => {
+    setSelectedParticipant({ id: p.id, name: p.name });
+    setModalOpen(true);
+  };
+
+  // Derive stats
+  const totalParticipants = participants.length;
+  const totalVotes = participants.reduce((s, p) => s + p.vote_count, 0);
+  const totalReferrals = participants.reduce((s, p) => s + ((p as any).referral_count || 0), 0);
+
+  return (
+    <>
+      {/* Live Stats */}
+      <div className="flex items-center justify-center gap-3 flex-wrap mb-10">
+        {[
+          { label: "Participants", value: totalParticipants.toLocaleString() },
+          { label: "Votes Cast", value: totalVotes.toLocaleString() },
+        ].map((stat) => (
+          <span key={stat.label} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent/20 bg-accent/5 text-sm">
+            <span className="font-bold text-foreground">{stat.value}</span>
+            <span className="text-muted-foreground">{stat.label}</span>
+          </span>
+        ))}
+      </div>
+
+      {/* Leaderboard */}
+      <div id="leaderboard" className="max-w-lg mx-auto">
+        <p className="text-xs uppercase tracking-widest text-muted-foreground text-center mb-3">Live Leaderboard</p>
+        <div className="premium-card rounded-xl overflow-hidden">
+          {loading ? (
+            <div className="p-8 text-center text-muted-foreground text-sm">Loading...</div>
+          ) : participants.length === 0 ? (
+            <div className="p-8 text-center text-muted-foreground text-sm">No participants yet. Be the first to join!</div>
+          ) : (
+            participants.map((p, i) => (
+              <div
+                key={p.id}
+                className={`flex items-center justify-between px-4 py-3 ${i < participants.length - 1 ? "border-b border-border/50" : ""}`}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                      i === 0
+                        ? "bg-accent/20 text-accent"
+                        : i === 1
+                        ? "bg-accent/10 text-accent/80"
+                        : i === 2
+                        ? "bg-accent/5 text-accent/60"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {i < 3 ? <Trophy className="w-3.5 h-3.5" /> : i + 1}
+                  </span>
+                  <div>
+                    <span className="text-sm font-medium text-foreground">{p.name}</span>
+                    <span className="text-xs text-muted-foreground ml-2">{p.vote_count} votes</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-bold text-foreground">
+                    {p.points} <span className="text-xs text-muted-foreground font-normal">pts</span>
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-8 px-3 text-accent hover:text-accent/80 hover:bg-accent/10"
+                    onClick={() => handleVote(p)}
+                  >
+                    <Heart className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <VoteModal open={modalOpen} onOpenChange={setModalOpen} participant={selectedParticipant} />
+    </>
+  );
+};
