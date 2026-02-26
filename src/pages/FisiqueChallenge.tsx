@@ -168,9 +168,7 @@ const FisiqueChallenge = () => {
                 </p>
               </div>
 
-              <Button size="lg" className="shadow-glow hover:shadow-glow-hover transition-all" onClick={() => { scrollToLeaderboard(); trackEvent("challenge_vote_click"); }}>
-                Vote Now — Takes 30 Seconds
-              </Button>
+              <p className="text-xs text-muted-foreground">↓ Pick a contestant below to vote</p>
 
               <p className="text-xs text-muted-foreground">One discount per phone number · Valid 72 hours · Non-stackable</p>
 
