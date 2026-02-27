@@ -97,48 +97,47 @@ export const LiveLeaderboard = () => {
             participants.map((p, i) => (
               <div
                 key={p.id}
-                className={`flex items-center justify-between px-4 py-3 ${i < participants.length - 1 ? "border-b border-border/50" : ""}`}
+                className={`px-4 py-3 ${i < participants.length - 1 ? "border-b border-border/50" : ""}`}
               >
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                      i === 0
-                        ? "bg-accent/20 text-accent"
-                        : i === 1
-                        ? "bg-accent/10 text-accent/80"
-                        : i === 2
-                        ? "bg-accent/5 text-accent/60"
-                        : "bg-muted text-muted-foreground"
-                    }`}
-                  >
-                    {i < 3 ? <Trophy className="w-3.5 h-3.5" /> : i + 1}
-                  </span>
-                  <div>
-                    <span className="text-sm font-medium text-foreground">{p.name}</span>
-                    <span className="text-xs text-muted-foreground ml-2">{p.vote_count} votes</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span
+                      className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
+                        i === 0
+                          ? "bg-accent/20 text-accent"
+                          : i === 1
+                          ? "bg-accent/10 text-accent/80"
+                          : i === 2
+                          ? "bg-accent/5 text-accent/60"
+                          : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {i < 3 ? <Trophy className="w-3.5 h-3.5" /> : i + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
+                      <p className="text-xs text-muted-foreground">{p.vote_count} votes · {p.points} pts</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-foreground">
-                    {p.points} <span className="text-xs text-muted-foreground font-normal">pts</span>
-                  </span>
-                  <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`Vote for ${p.name} in the Fisique Champions Challenge and get ₹1,000 off membership! 💪 https://fisique.fitness/fisique-challenge?vote=${p.id}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-8 w-8 inline-flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground hover:border-accent/40 transition-all"
-                    title={`Share ${p.name}'s profile`}
-                  >
-                    <Share2 className="w-3.5 h-3.5" />
-                  </a>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="h-8 px-3 text-accent border-accent/30 hover:bg-accent/10 gap-1.5"
-                    onClick={() => handleVote(p)}
-                  >
-                    <Vote className="w-4 h-4" /> Vote
-                  </Button>
+                  <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(`Vote for ${p.name} in the Fisique Champions Challenge and get ₹1,000 off membership! 💪 https://fisique.fitness/fisique-challenge?vote=${p.id}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-8 w-8 inline-flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground hover:border-accent/40 transition-all"
+                      title={`Share ${p.name}'s profile`}
+                    >
+                      <Share2 className="w-3.5 h-3.5" />
+                    </a>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-8 px-3 text-accent border-accent/30 hover:bg-accent/10 gap-1.5"
+                      onClick={() => handleVote(p)}
+                    >
+                      <Vote className="w-4 h-4" /> Vote
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))
