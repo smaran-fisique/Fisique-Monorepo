@@ -29,7 +29,7 @@ const trackEvent = (eventName: string) => {
 const CHALLENGE_END_DATE = new Date("2026-03-31T23:59:00+05:30");
 
 const steps = [
-  { icon: UserPlus, title: "Join", desc: "+50 pts joining bonus (one-time)" },
+  { icon: UserPlus, title: "Join", desc: "All active members are eligible · Enrollment required · +50 pts joining bonus" },
   { icon: Zap, title: "Earn", desc: "+120 pts PT referral · +60 pts membership referral · +30 pts IG post · +15 pts IG story · +10 pts per vote (capped 400)" },
   { icon: Trophy, title: "Win", desc: "Top the leaderboard → Garmin watch, sportswear voucher, gym kit & more" },
 ];
