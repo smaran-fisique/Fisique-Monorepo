@@ -82,13 +82,11 @@ const FisiqueChallenge = () => {
               <span className="text-gradient">Champions</span> Challenge
             </h1>
 
-            <p className="text-center text-xl md:text-2xl text-muted-foreground max-w-lg mx-auto mb-2">
-              Compete. Climb the leaderboard. Win premium rewards.
-            </p>
-
-            <p className="text-center text-sm md:text-base text-accent/80 font-medium max-w-md mx-auto mb-14">
-              Referrals + votes + verified shares = points. Highest points wins.
-            </p>
+            <div className="flex justify-center mb-14">
+              <span className="text-sm md:text-base text-accent font-semibold tracking-wide border border-accent/25 rounded-full px-5 py-2 bg-accent/5 shadow-[0_0_20px_hsl(186_68%_45%/0.1)]">
+                Referrals + Votes + Shares = Points → Highest Wins 🏆
+              </span>
+            </div>
 
             {/* Prize Structure */}
             <div className="max-w-3xl mx-auto mb-8">
