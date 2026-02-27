@@ -29,9 +29,39 @@ const trackEvent = (eventName: string) => {
 const CHALLENGE_END_DATE = new Date("2026-03-31T23:59:00+05:30");
 
 const steps = [
-  { icon: UserPlus, title: "Join", desc: "All active members are eligible · Enrollment required · +50 pts joining bonus" },
-  { icon: Zap, title: "Earn", desc: "+120 pts PT referral · +60 pts membership referral · +30 pts IG post · +15 pts IG story · +10 pts per vote (capped 400)" },
-  { icon: Trophy, title: "Win", desc: "Top the leaderboard → Garmin watch, sportswear voucher, gym kit & more" },
+  {
+    icon: UserPlus,
+    title: "Join",
+    emoji: "🚀",
+    tagline: "Get in the game",
+    highlight: "+50",
+    bullets: ["All active members eligible", "Enrollment required", "+50 pts joining bonus instantly"],
+    accent: "hsl(186 68% 45%)",
+  },
+  {
+    icon: Zap,
+    title: "Earn",
+    emoji: "⚡",
+    tagline: "Stack your points",
+    highlight: "Up to 400+ pts",
+    bullets: [
+      "+120 pts — PT referral",
+      "+60 pts — Membership referral",
+      "+30 pts — Instagram post",
+      "+15 pts — Instagram story",
+      "+10 pts — Per vote (max 400)",
+    ],
+    accent: "hsl(45 80% 55%)",
+  },
+  {
+    icon: Trophy,
+    title: "Win",
+    emoji: "🏆",
+    tagline: "Claim your glory",
+    highlight: "₹50k+ in prizes",
+    bullets: ["Garmin Vivoactive 5", "Sportswear voucher", "Bull Rage gym kit", "Decathlon gift cards"],
+    accent: "hsl(25 60% 55%)",
+  },
 ];
 
 const pointsCards = [
@@ -147,18 +177,69 @@ const FisiqueChallenge = () => {
         </section>
 
         {/* ── HOW IT WORKS ── */}
-        <section className="py-16 md:py-24 border-t border-border/50">
+        <section className="py-16 md:py-24 border-t border-border/50 overflow-hidden">
           <div className="container-custom px-4">
-            <h2 className="text-center text-2xl md:text-3xl font-bold mb-12">How It Works</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
+            <p className="text-center text-xs uppercase tracking-widest text-accent font-semibold mb-2">3 Simple Steps</p>
+            <h2 className="text-center text-2xl md:text-4xl font-black mb-4">How It Works</h2>
+            <p className="text-center text-muted-foreground max-w-md mx-auto mb-12">
+              Join the challenge, earn points through actions, and win premium prizes.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {steps.map((s, i) => (
-                <div key={i} className="premium-card rounded-2xl p-5 text-center">
-                  <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-3">
-                    <s.icon className="w-5 h-5 text-accent" />
+                <div
+                  key={i}
+                  className="group relative rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm p-6 md:p-8 text-center transition-all duration-300 hover:border-accent/50 hover:shadow-[0_0_40px_hsl(186_68%_45%/0.1)] hover:-translate-y-1"
+                >
+                  {/* Step number badge */}
+                  <div
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-background"
+                    style={{ backgroundColor: s.accent }}
+                  >
+                    Step {i + 1}
                   </div>
-                  <p className="text-xs text-accent font-semibold mb-1">Step {i + 1}</p>
-                  <p className="font-semibold text-sm text-foreground mb-1">{s.title}</p>
-                  <p className="text-xs text-muted-foreground">{s.desc}</p>
+
+                  {/* Emoji + Icon */}
+                  <div className="text-4xl mb-2 mt-2">{s.emoji}</div>
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: `${s.accent.replace(')', ' / 0.15)')}` }}
+                  >
+                    <s.icon className="w-6 h-6" style={{ color: s.accent }} />
+                  </div>
+
+                  {/* Title & tagline */}
+                  <h3 className="text-xl font-black text-foreground mb-1">{s.title}</h3>
+                  <p className="text-xs text-muted-foreground mb-4 italic">{s.tagline}</p>
+
+                  {/* Highlight number */}
+                  <div
+                    className="inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-5"
+                    style={{
+                      backgroundColor: `${s.accent.replace(')', ' / 0.12)')}`,
+                      color: s.accent,
+                      boxShadow: `0 0 20px ${s.accent.replace(')', ' / 0.15)')}`,
+                    }}
+                  >
+                    {s.highlight}
+                  </div>
+
+                  {/* Bullet points */}
+                  <ul className="text-left space-y-2">
+                    {s.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <CheckCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: s.accent }} />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Connecting arrow (desktop only, not on last) */}
+                  {i < steps.length - 1 && (
+                    <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 text-accent text-lg font-bold">
+                      →
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
