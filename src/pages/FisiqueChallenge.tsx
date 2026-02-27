@@ -122,7 +122,7 @@ const FisiqueChallenge = () => {
               <div className="grid grid-cols-3 gap-2 md:gap-4 items-end">
                 {/* 2nd Place */}
                 <div className="flex flex-col items-center">
-                  <img src={prizeSneaker} alt="Sportswear prize" className="w-16 h-16 md:w-20 md:h-20 mb-2 mix-blend-screen drop-shadow-[0_0_20px_hsl(186_68%_45%/0.4)]" />
+                  <img src={prizeSneaker} alt="Sportswear prize" className="w-16 h-16 md:w-20 md:h-20 mb-2 drop-shadow-[0_0_20px_hsl(186_68%_45%/0.4)]" />
                   <div className="w-full rounded-xl p-3 md:p-5 text-center flex flex-col justify-center border-2 border-[hsl(0_0%_65%/0.5)] bg-gradient-to-b from-[hsl(0_0%_50%/0.1)] to-[hsl(0_0%_30%/0.15)] shadow-[inset_0_1px_0_hsl(0_0%_80%/0.2),0_0_20px_hsl(0_0%_60%/0.1)]">
                     <p className="text-xs md:text-sm font-bold text-foreground uppercase tracking-wide">2<sup>nd</sup> Place</p>
                     <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Premium Sportswear Voucher</p>
@@ -134,7 +134,7 @@ const FisiqueChallenge = () => {
                 <div className="flex flex-col items-center -mt-4">
                   <div className="relative w-20 h-20 md:w-28 md:h-28 mx-auto mb-2">
                     <div className="absolute inset-0 rounded-full bg-[hsl(186_68%_45%/0.2)] animate-glow-pulse blur-xl" />
-                    <img src={prizeWatch} alt="Fitness Tracker" className="relative w-full h-full object-contain mix-blend-screen drop-shadow-[0_0_24px_hsl(186_68%_45%/0.4)]" />
+                    <img src={prizeWatch} alt="Fitness Tracker" className="relative w-full h-full object-contain drop-shadow-[0_0_24px_hsl(186_68%_45%/0.4)]" />
                   </div>
                   <div className="w-full rounded-xl p-3 md:p-6 text-center flex flex-col justify-center border-2 border-[hsl(45_70%_50%/0.6)] bg-gradient-to-b from-[hsl(45_60%_50%/0.12)] to-[hsl(45_50%_30%/0.15)] shadow-[inset_0_1px_0_hsl(45_70%_60%/0.3),0_0_30px_hsl(45_70%_50%/0.15)]">
                     <p className="text-sm md:text-base font-black text-foreground uppercase tracking-wide">Grand Prize</p>
@@ -145,7 +145,7 @@ const FisiqueChallenge = () => {
 
                 {/* 3rd Place */}
                 <div className="flex flex-col items-center">
-                  <img src={prizeGymBag} alt="Gym kit prize" className="w-16 h-16 md:w-20 md:h-20 mb-2 mix-blend-screen drop-shadow-[0_0_20px_hsl(186_68%_45%/0.4)]" />
+                  <img src={prizeGymBag} alt="Gym kit prize" className="w-16 h-16 md:w-20 md:h-20 mb-2 drop-shadow-[0_0_20px_hsl(186_68%_45%/0.4)]" />
                   <div className="w-full rounded-xl p-3 md:p-5 text-center flex flex-col justify-center border-2 border-[hsl(25_50%_45%/0.5)] bg-gradient-to-b from-[hsl(25_50%_45%/0.1)] to-[hsl(25_40%_30%/0.15)] shadow-[inset_0_1px_0_hsl(25_60%_60%/0.2),0_0_20px_hsl(25_50%_45%/0.1)]">
                     <p className="text-xs md:text-sm font-bold text-foreground uppercase tracking-wide">3<sup>rd</sup> Place</p>
                     <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Complete Gym Kit Bundle</p>
