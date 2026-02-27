@@ -69,7 +69,7 @@ const FisiqueChallenge = () => {
 
       <main className="min-h-screen">
         {/* ── HERO ── */}
-        <section className="premium-section pt-28 pb-20 md:pt-36 md:pb-28 relative">
+        <section className="premium-section pt-20 pb-16 md:pt-28 md:pb-24 relative">
           <div className="absolute inset-0">
             <img src={heroGym} alt="" className="w-full h-full object-cover opacity-15" aria-hidden="true" />
             <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
@@ -78,15 +78,9 @@ const FisiqueChallenge = () => {
           <div className="premium-glow-orb w-[300px] h-[300px] top-1/3 -right-32 animate-glow-pulse" style={{ background: "hsl(186 100% 76% / 0.08)", animationDelay: "1.5s" }} />
 
           <div className="container-custom px-4 relative z-10">
-            <h1 className="text-center font-black leading-[0.95] tracking-tight text-[clamp(36px,7vw,72px)] mb-4">
+            <h1 className="text-center font-black leading-[0.95] tracking-tight text-[clamp(36px,7vw,72px)] mb-6">
               <span className="text-gradient">Champions</span> Challenge
             </h1>
-
-            <div className="flex justify-center mb-14">
-              <span className="text-sm md:text-base text-accent font-semibold tracking-wide border border-accent/25 rounded-full px-5 py-2 bg-accent/5 shadow-[0_0_20px_hsl(186_68%_45%/0.1)]">
-                Referrals + Votes + Shares = Points → Highest Wins 🏆
-              </span>
-            </div>
 
             {/* Prize Structure */}
             <div className="max-w-3xl mx-auto mb-8">
