@@ -144,8 +144,31 @@ const FisiqueChallenge = () => {
                 <span>Winners announced: Apr 1</span>
               </div>
             </div>
+          </div>
+        </section>
 
-            {/* Live Leaderboard + Stats */}
+        {/* ── HOW IT WORKS ── */}
+        <section className="py-16 md:py-24 border-t border-border/50">
+          <div className="container-custom px-4">
+            <h2 className="text-center text-2xl md:text-3xl font-bold mb-12">How It Works</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+              {steps.map((s, i) => (
+                <div key={i} className="premium-card rounded-2xl p-5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-3">
+                    <s.icon className="w-5 h-5 text-accent" />
+                  </div>
+                  <p className="text-xs text-accent font-semibold mb-1">Step {i + 1}</p>
+                  <p className="font-semibold text-sm text-foreground mb-1">{s.title}</p>
+                  <p className="text-xs text-muted-foreground">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── LEADERBOARD + CTAs ── */}
+        <section className="py-16 md:py-24 border-t border-border/50">
+          <div className="container-custom px-4">
             <LiveLeaderboard />
 
             {/* CTAs */}
@@ -175,25 +198,6 @@ const FisiqueChallenge = () => {
                 <MessageCircle className="w-4 h-4" />
                 Already a member? Join as a Contestant
               </a>
-            </div>
-          </div>
-        </section>
-
-        {/* ── HOW IT WORKS ── */}
-        <section className="py-16 md:py-24 border-t border-border/50">
-          <div className="container-custom px-4">
-            <h2 className="text-center text-2xl md:text-3xl font-bold mb-12">How It Works</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
-              {steps.map((s, i) => (
-                <div key={i} className="premium-card rounded-2xl p-5 text-center">
-                  <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-3">
-                    <s.icon className="w-5 h-5 text-accent" />
-                  </div>
-                  <p className="text-xs text-accent font-semibold mb-1">Step {i + 1}</p>
-                  <p className="font-semibold text-sm text-foreground mb-1">{s.title}</p>
-                  <p className="text-xs text-muted-foreground">{s.desc}</p>
-                </div>
-              ))}
             </div>
           </div>
         </section>
