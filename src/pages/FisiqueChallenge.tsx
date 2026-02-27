@@ -19,8 +19,8 @@ import {
 } from "lucide-react";
 import garminWatch from "@/assets/garmin-vivoactive5.png";
 import heroGym from "@/assets/hero-gym-optimized.webp";
-import medalSilver from "@/assets/medal-silver.png";
-import medalBronze from "@/assets/medal-bronze.png";
+import prizeSneaker from "@/assets/prize-sneaker.png";
+import prizeGymBag from "@/assets/prize-gymbag.png";
 
 const trackEvent = (eventName: string) => {
   if (typeof window !== "undefined" && window.gtag) {
@@ -122,7 +122,7 @@ const FisiqueChallenge = () => {
               <div className="grid grid-cols-3 gap-2 md:gap-4 items-end">
                 {/* 2nd Place */}
                 <div className="flex flex-col items-center">
-                  <img src={medalSilver} alt="Silver medal" className="w-12 h-12 md:w-14 md:h-14 mb-2 drop-shadow-[0_0_16px_hsl(0_0%_70%/0.5)]" />
+                  <img src={prizeSneaker} alt="Sportswear prize" className="w-16 h-16 md:w-20 md:h-20 mb-2 drop-shadow-[0_0_20px_hsl(186_68%_45%/0.4)]" />
                   <div className="w-full rounded-xl p-3 md:p-5 text-center flex flex-col justify-center border-2 border-[hsl(0_0%_65%/0.5)] bg-gradient-to-b from-[hsl(0_0%_50%/0.1)] to-[hsl(0_0%_30%/0.15)] shadow-[inset_0_1px_0_hsl(0_0%_80%/0.2),0_0_20px_hsl(0_0%_60%/0.1)]">
                     <p className="text-xs md:text-sm font-bold text-foreground uppercase tracking-wide">2<sup>nd</sup> Place</p>
                     <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Premium Sportswear Voucher</p>
@@ -145,7 +145,7 @@ const FisiqueChallenge = () => {
 
                 {/* 3rd Place */}
                 <div className="flex flex-col items-center">
-                  <img src={medalBronze} alt="Bronze medal" className="w-12 h-12 md:w-14 md:h-14 mb-2 drop-shadow-[0_0_16px_hsl(25_60%_50%/0.5)]" />
+                  <img src={prizeGymBag} alt="Gym kit prize" className="w-16 h-16 md:w-20 md:h-20 mb-2 drop-shadow-[0_0_20px_hsl(186_68%_45%/0.4)]" />
                   <div className="w-full rounded-xl p-3 md:p-5 text-center flex flex-col justify-center border-2 border-[hsl(25_50%_45%/0.5)] bg-gradient-to-b from-[hsl(25_50%_45%/0.1)] to-[hsl(25_40%_30%/0.15)] shadow-[inset_0_1px_0_hsl(25_60%_60%/0.2),0_0_20px_hsl(25_50%_45%/0.1)]">
                     <p className="text-xs md:text-sm font-bold text-foreground uppercase tracking-wide">3<sup>rd</sup> Place</p>
                     <p className="text-[11px] text-muted-foreground mt-1 leading-tight">Complete Gym Kit Bundle</p>
