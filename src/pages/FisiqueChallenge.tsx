@@ -29,10 +29,9 @@ const trackEvent = (eventName: string) => {
 const CHALLENGE_END_DATE = new Date("2026-03-31T23:59:00+05:30");
 
 const steps = [
-  { icon: UserPlus, title: "Join the Challenge", desc: "Earn +50 points instantly" },
-  { icon: Users, title: "Refer Members", desc: "Earn leaderboard points and Fisique Points" },
-  { icon: Target, title: "Receive Votes & Share", desc: "Climb faster on the leaderboard" },
-  { icon: Trophy, title: "Top Ranked Win", desc: "Premium rewards for top performers" },
+  { icon: UserPlus, title: "Join", desc: "+50 pts instantly when you sign up as a contestant" },
+  { icon: Zap, title: "Earn", desc: "+10 pts per vote · +100 pts per referral · 1,000 Fisique Points per referral" },
+  { icon: Trophy, title: "Win", desc: "Top the leaderboard → Garmin watch, sportswear voucher, gym kit & more" },
 ];
 
 const pointsCards = [
@@ -151,7 +150,7 @@ const FisiqueChallenge = () => {
         <section className="py-16 md:py-24 border-t border-border/50">
           <div className="container-custom px-4">
             <h2 className="text-center text-2xl md:text-3xl font-bold mb-12">How It Works</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
               {steps.map((s, i) => (
                 <div key={i} className="premium-card rounded-2xl p-5 text-center">
                   <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center mx-auto mb-3">
