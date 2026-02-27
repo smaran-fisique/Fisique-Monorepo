@@ -1,39 +1,18 @@
 
 
-## Plan: Admin Challenge Management Page (`/admin/challenge`)
+## Plan: Move "How It Works" above the Leaderboard
 
-### 1. New File: `src/pages/admin/ChallengeManager.tsx`
-A single admin page with three tabs:
+### Current order
+Hero (prizes → countdown → leaderboard → CTAs) → How It Works → Trust → Points
 
-**Participants Tab**
-- Table listing all `challenge_participants` (name, phone, points, referral_count, vote_count)
-- "Add Participant" button → dialog with name + phone fields
-- Inline actions per row: Edit (name/phone), Delete, Award Points (+10/+25/custom referral points)
-- Award Points button increments both `points` and `referral_count` columns
+### New order
+Hero (prizes → countdown) → **How It Works** (own section) → Leaderboard + CTAs → Trust → Points
 
-**Votes Tab**
-- Table listing all `challenge_votes` (voter_phone, participant name via join, discount_code, discount_expires_at, created_at)
-- Read-only view for monitoring
+### Changes in `src/pages/FisiqueChallenge.tsx`
 
-**Stats Summary**
-- Top cards showing total participants, total votes, total unique voters
+1. **End the hero section** after the countdown timer (line 146), before the leaderboard
+2. **Move the "How It Works" section** (lines 182-199) to sit between the hero closing tag and a new section containing the leaderboard
+3. **Wrap the leaderboard + CTAs** (lines 148-178) in their own `<section>` with matching styling
 
-### 2. Route Registration (`src/App.tsx`)
-- Lazy import `ChallengeManager`
-- Add route `/admin/challenge` inside the protected admin routes
-
-### 3. Sidebar Navigation (`src/layouts/AdminLayout.tsx`)
-- Add "Challenge" nav item with `Trophy` icon, href `/admin/challenge`
-
-### 4. Data Access
-- All reads/writes use the existing Supabase client with authenticated admin session
-- RLS already configured: admins have ALL access on both `challenge_participants` and `challenge_votes`
-- No database migrations needed
-
-### Files Modified
-| File | Change |
-|------|--------|
-| `src/pages/admin/ChallengeManager.tsx` | New file — full CRUD page |
-| `src/App.tsx` | Add lazy import + route |
-| `src/layouts/AdminLayout.tsx` | Add nav entry |
+No new files. Single file edit.
 
