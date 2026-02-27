@@ -271,7 +271,7 @@ const FisiqueChallenge = () => {
                 </p>
               </div>
 
-              <p className="text-xs text-muted-foreground">↓ Pick a contestant below to vote</p>
+              
 
               <p className="text-xs text-muted-foreground">One discount per phone number · Valid 72 hours · Non-stackable</p>
 
