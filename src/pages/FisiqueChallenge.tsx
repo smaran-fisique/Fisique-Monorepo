@@ -122,9 +122,6 @@ const FisiqueChallenge = () => {
 
             {/* Prize Structure */}
             <div className="max-w-3xl mx-auto mb-8">
-              <p className="text-center text-xs uppercase tracking-widest text-muted-foreground mb-1">The Prize Structure</p>
-              <p className="text-center text-sm text-muted-foreground mb-8">Total Pool: ₹50k–₹60k</p>
-
               {/* Podium */}
               <div className="grid grid-cols-3 gap-2 md:gap-4 items-end">
                 {/* 2nd Place */}
