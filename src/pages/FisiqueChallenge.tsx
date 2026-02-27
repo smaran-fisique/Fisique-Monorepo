@@ -43,7 +43,7 @@ const steps = [
     title: "Earn",
     emoji: "",
     tagline: "Stack your points",
-    highlight: "Up to 400+ pts",
+    highlight: "Unlimited pts",
     bullets: [
       "+120 pts — PT referral",
       "+60 pts — Membership referral",
