@@ -32,7 +32,7 @@ const steps = [
   {
     icon: UserPlus,
     title: "Join",
-    emoji: "🚀",
+    emoji: "",
     tagline: "Get in the game",
     highlight: "+50",
     bullets: ["All active members eligible", "Enrollment required", "+50 pts joining bonus instantly"],
@@ -41,7 +41,7 @@ const steps = [
   {
     icon: Zap,
     title: "Earn",
-    emoji: "⚡",
+    emoji: "",
     tagline: "Stack your points",
     highlight: "Up to 400+ pts",
     bullets: [
@@ -56,7 +56,7 @@ const steps = [
   {
     icon: Trophy,
     title: "Win",
-    emoji: "🏆",
+    emoji: "",
     tagline: "Claim your glory",
     highlight: "₹50k+ in prizes",
     bullets: ["Garmin Vivoactive 5", "Sportswear voucher", "Bull Rage gym kit", "Decathlon gift cards"],
@@ -199,8 +199,7 @@ const FisiqueChallenge = () => {
                     Step {i + 1}
                   </div>
 
-                  {/* Emoji + Icon */}
-                  <div className="text-4xl mb-2 mt-2">{s.emoji}</div>
+                  {/* Icon */}
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-transform duration-300 group-hover:scale-110"
                     style={{ backgroundColor: `${s.accent.replace(')', ' / 0.15)')}` }}
