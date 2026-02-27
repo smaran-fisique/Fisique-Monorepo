@@ -107,7 +107,7 @@ const FisiqueChallenge = () => {
 
       <main className="min-h-screen">
         {/* ── HERO ── */}
-        <section className="premium-section pt-20 pb-16 md:pt-28 md:pb-24 relative">
+        <section className="premium-section pt-20 pb-8 md:pt-28 md:pb-12 relative">
           <div className="absolute inset-0">
             <img src={heroGym} alt="" className="w-full h-full object-cover opacity-15" aria-hidden="true" />
             <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
@@ -170,7 +170,7 @@ const FisiqueChallenge = () => {
             </div>
 
             {/* Countdown Timer */}
-            <div className="text-center mb-10">
+            <div className="text-center mb-4">
               <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-3">
                 <Clock className="w-3.5 h-3.5" />
                 <span className="uppercase tracking-widest font-semibold">Ends in</span>
