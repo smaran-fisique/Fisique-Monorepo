@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3, Upload } from 'lucide-react';
+import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3, Upload, RefreshCw } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 type Participant = {
@@ -58,15 +58,19 @@ export default function ChallengeManager() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importPreview, setImportPreview] = useState<{ name: string; phone: string }[]>([]);
   const [importLoading, setImportLoading] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
+  const [lastSynced, setLastSynced] = useState<string | null>(null);
 
   const fetchData = async () => {
     setLoading(true);
-    const [pRes, vRes] = await Promise.all([
+    const [pRes, vRes, sRes] = await Promise.all([
       supabase.from('challenge_participants').select('*').order('points', { ascending: false }),
       supabase.from('challenge_votes').select('*, challenge_participants(name)').order('created_at', { ascending: false }),
+      supabase.from('site_settings').select('value').eq('key', 'members_last_synced').maybeSingle(),
     ]);
     if (pRes.data) setParticipants(pRes.data);
     if (vRes.data) setVotes(vRes.data as unknown as VoteRow[]);
+    if (sRes.data) setLastSynced(sRes.data.value);
     setLoading(false);
   };
 
@@ -118,6 +122,22 @@ export default function ChallengeManager() {
   const openEdit = (p: Participant) => { setSelectedParticipant(p); setFormName(p.name); setFormPhone(p.phone); setEditOpen(true); };
   const openPoints = (p: Participant) => { setSelectedParticipant(p); setPointsAmount('10'); setPointsOpen(true); };
   const openDelete = (p: Participant) => { setSelectedParticipant(p); setDeleteOpen(true); };
+
+  const handleSync = async () => {
+    setSyncLoading(true);
+    try {
+      const res = await supabase.functions.invoke('sync-members');
+      if (res.error) throw res.error;
+      const { synced, message, error } = res.data as { synced?: number; message?: string; error?: string };
+      if (error) throw new Error(error);
+      toast({ title: message || `Synced ${synced} members` });
+      fetchData();
+    } catch (err: any) {
+      toast({ title: 'Sync failed', description: err.message, variant: 'destructive' });
+    } finally {
+      setSyncLoading(false);
+    }
+  };
 
   // --- Bulk Import ---
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -214,20 +234,30 @@ export default function ChallengeManager() {
         </TabsList>
 
         <TabsContent value="participants" className="space-y-4">
-          <div className="flex justify-end gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".csv,.xlsx,.xls"
-              className="hidden"
-              onChange={handleFileSelect}
-            />
-            <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
-              <Upload className="w-4 h-4 mr-2" /> Import CSV / Excel
-            </Button>
-            <Button onClick={() => { setFormName(''); setFormPhone(''); setAddOpen(true); }}>
-              <Plus className="w-4 h-4 mr-2" /> Add Participant
-            </Button>
+          <div className="flex items-center justify-between">
+            {lastSynced && (
+              <p className="text-xs text-muted-foreground">
+                Last synced: {new Date(lastSynced).toLocaleString()}
+              </p>
+            )}
+            <div className="flex gap-2 ml-auto">
+              <Button variant="outline" onClick={handleSync} disabled={syncLoading}>
+                <RefreshCw className={`w-4 h-4 mr-2 ${syncLoading ? 'animate-spin' : ''}`} /> {syncLoading ? 'Syncing…' : 'Sync Now'}
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                className="hidden"
+                onChange={handleFileSelect}
+              />
+              <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+                <Upload className="w-4 h-4 mr-2" /> Import CSV / Excel
+              </Button>
+              <Button onClick={() => { setFormName(''); setFormPhone(''); setAddOpen(true); }}>
+                <Plus className="w-4 h-4 mr-2" /> Add Participant
+              </Button>
+            </div>
           </div>
           <Table>
             <TableHeader>
