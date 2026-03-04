@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3 } from 'lucide-react';
+import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3, Upload } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 type Participant = {
   id: string;
@@ -27,6 +28,14 @@ type VoteRow = {
   challenge_participants: { name: string } | null;
 };
 
+/** Converts a string to Title Case (e.g. "john DOE" → "John Doe") */
+function toTitleCase(str: string): string {
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s)\S/g, (match) => match.toUpperCase());
+}
+
 export default function ChallengeManager() {
   const { toast } = useToast();
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -38,11 +47,17 @@ export default function ChallengeManager() {
   const [editOpen, setEditOpen] = useState(false);
   const [pointsOpen, setPointsOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
 
   const [formName, setFormName] = useState('');
   const [formPhone, setFormPhone] = useState('');
   const [pointsAmount, setPointsAmount] = useState('10');
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
+
+  // Bulk import state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [importPreview, setImportPreview] = useState<{ name: string; phone: string }[]>([]);
+  const [importLoading, setImportLoading] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -59,7 +74,7 @@ export default function ChallengeManager() {
 
   const handleAdd = async () => {
     if (!formName.trim() || !formPhone.trim()) return;
-    const { error } = await supabase.from('challenge_participants').insert({ name: formName.trim(), phone: formPhone.trim() });
+    const { error } = await supabase.from('challenge_participants').insert({ name: toTitleCase(formName), phone: formPhone.trim() });
     if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
     toast({ title: 'Participant added' });
     setAddOpen(false);
@@ -70,7 +85,7 @@ export default function ChallengeManager() {
 
   const handleEdit = async () => {
     if (!selectedParticipant || !formName.trim() || !formPhone.trim()) return;
-    const { error } = await supabase.from('challenge_participants').update({ name: formName.trim(), phone: formPhone.trim() }).eq('id', selectedParticipant.id);
+    const { error } = await supabase.from('challenge_participants').update({ name: toTitleCase(formName), phone: formPhone.trim() }).eq('id', selectedParticipant.id);
     if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
     toast({ title: 'Participant updated' });
     setEditOpen(false);
@@ -103,6 +118,66 @@ export default function ChallengeManager() {
   const openEdit = (p: Participant) => { setSelectedParticipant(p); setFormName(p.name); setFormPhone(p.phone); setEditOpen(true); };
   const openPoints = (p: Participant) => { setSelectedParticipant(p); setPointsAmount('10'); setPointsOpen(true); };
   const openDelete = (p: Participant) => { setSelectedParticipant(p); setDeleteOpen(true); };
+
+  // --- Bulk Import ---
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = new Uint8Array(evt.target?.result as ArrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: '' });
+
+        const parsed: { name: string; phone: string }[] = [];
+        for (const row of rows) {
+          // Try common column name variations
+          const name = String(row['Name'] ?? row['name'] ?? row['NAME'] ?? '').trim();
+          const phone = String(row['Phone'] ?? row['phone'] ?? row['PHONE'] ?? row['Phone Number'] ?? row['phone number'] ?? '').trim();
+          if (name && phone) {
+            parsed.push({ name: toTitleCase(name), phone });
+          }
+        }
+
+        if (parsed.length === 0) {
+          toast({ title: 'No valid rows found', description: 'Ensure columns are named "Name" and "Phone".', variant: 'destructive' });
+          return;
+        }
+
+        setImportPreview(parsed);
+        setImportOpen(true);
+      } catch {
+        toast({ title: 'Failed to parse file', variant: 'destructive' });
+      }
+    };
+    reader.readAsArrayBuffer(file);
+    // Reset so the same file can be re-selected
+    e.target.value = '';
+  };
+
+  const handleBulkImport = async () => {
+    if (importPreview.length === 0) return;
+    setImportLoading(true);
+
+    const { error, data } = await supabase.from('challenge_participants').insert(
+      importPreview.map(r => ({ name: r.name, phone: r.phone }))
+    ).select();
+
+    setImportLoading(false);
+
+    if (error) {
+      toast({ title: 'Import failed', description: error.message, variant: 'destructive' });
+      return;
+    }
+
+    toast({ title: `Imported ${data?.length ?? importPreview.length} participants` });
+    setImportOpen(false);
+    setImportPreview([]);
+    fetchData();
+  };
 
   const totalVotes = votes.length;
   const uniqueVoters = new Set(votes.map(v => v.voter_phone)).size;
@@ -138,7 +213,17 @@ export default function ChallengeManager() {
         </TabsList>
 
         <TabsContent value="participants" className="space-y-4">
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,.xlsx,.xls"
+              className="hidden"
+              onChange={handleFileSelect}
+            />
+            <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+              <Upload className="w-4 h-4 mr-2" /> Import CSV / Excel
+            </Button>
             <Button onClick={() => { setFormName(''); setFormPhone(''); setAddOpen(true); }}>
               <Plus className="w-4 h-4 mr-2" /> Add Participant
             </Button>
@@ -270,6 +355,40 @@ export default function ChallengeManager() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
             <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Import Preview Dialog */}
+      <Dialog open={importOpen} onOpenChange={(open) => { setImportOpen(open); if (!open) setImportPreview([]); }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Import Preview</DialogTitle>
+            <DialogDescription>{importPreview.length} participant{importPreview.length !== 1 ? 's' : ''} found. Names are auto-formatted to Title Case.</DialogDescription>
+          </DialogHeader>
+          <div className="max-h-64 overflow-y-auto border border-border rounded-md">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Phone</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {importPreview.map((r, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="font-medium">{r.name}</TableCell>
+                    <TableCell>{r.phone}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setImportOpen(false); setImportPreview([]); }}>Cancel</Button>
+            <Button onClick={handleBulkImport} disabled={importLoading}>
+              {importLoading ? 'Importing…' : `Import ${importPreview.length}`}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
