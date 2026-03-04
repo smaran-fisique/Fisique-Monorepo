@@ -169,7 +169,7 @@ export const VoteModal = ({ open, onOpenChange, participant }: VoteModalProps) =
             </div>
             <Button asChild className="w-full" size="lg">
               <a
-                href={`https://wa.me/919515847444?text=${encodeURIComponent(`I would like to claim my vote discount - ${discountCode}`)}`}
+                href={`https://wa.me/919515847444?text=${encodeURIComponent(`I would like to claim my vote discount`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
