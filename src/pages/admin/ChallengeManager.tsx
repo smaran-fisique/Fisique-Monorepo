@@ -162,8 +162,9 @@ export default function ChallengeManager() {
     if (importPreview.length === 0) return;
     setImportLoading(true);
 
-    const { error, data } = await supabase.from('challenge_participants').insert(
-      importPreview.map(r => ({ name: r.name, phone: r.phone }))
+    const { error, data } = await supabase.from('challenge_participants').upsert(
+      importPreview.map(r => ({ name: r.name, phone: r.phone })),
+      { onConflict: 'phone', ignoreDuplicates: false }
     ).select();
 
     setImportLoading(false);
@@ -173,7 +174,7 @@ export default function ChallengeManager() {
       return;
     }
 
-    toast({ title: `Imported ${data?.length ?? importPreview.length} participants` });
+    toast({ title: `Imported ${data?.length ?? importPreview.length} participants (duplicates updated)` });
     setImportOpen(false);
     setImportPreview([]);
     fetchData();
