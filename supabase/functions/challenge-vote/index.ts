@@ -66,7 +66,7 @@ Deno.serve(async (req) => {
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json-patch+json",
+              "Content-Type": "application/json",
               "Authorization": `Bearer ${Deno.env.get("WATI_API_TOKEN")}`,
             },
             body: JSON.stringify({
@@ -77,7 +77,7 @@ Deno.serve(async (req) => {
           }
         );
         const waBody = await waRes.text();
-        console.log("Wati API response:", waRes.status, waBody);
+        console.log("Wati status:", waRes.status, "body:", waBody);
       } catch (waErr) {
         console.error("WhatsApp API error:", waErr);
         // Still return success — OTP is stored, user might not receive it but we don't block
