@@ -62,7 +62,7 @@ Deno.serve(async (req) => {
       // Send via WhatsApp API
       try {
         const waRes = await fetch(
-          `https://live-mt-server.wati.io/420836/api/v2/sendTemplateMessage?whatsappNumber=${phone}`,
+          `https://live-mt-server.wati.io/api/v1/sendTemplateMessage?whatsappNumber=${phone}`,
           {
             method: "POST",
             headers: {
