@@ -62,13 +62,17 @@ Deno.serve(async (req) => {
       // Send via WhatsApp API
       try {
         const waRes = await fetch(
-          "https://adminapis.backendprod.com/lms_campaign/api/whatsapp/template/krsw4x895e/process",
+          `https://live-mt-server.wati.io/420836/api/v1/sendTemplateMessage?whatsappNumber=${phone}`,
           {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${Deno.env.get("WATI_API_TOKEN")}`,
+            },
             body: JSON.stringify({
-              receiver: phone,
-              values: { "1": otpCode },
+              template_name: "fisique_auth",
+              broadcast_name: "otp_verification",
+              parameters: [{ name: "1", value: otpCode }],
             }),
           }
         );
