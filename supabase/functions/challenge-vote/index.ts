@@ -64,11 +64,11 @@ Deno.serve(async (req) => {
         const watiToken = Deno.env.get("WATI_API_TOKEN") || "";
         const authHeader = watiToken.startsWith("Bearer ") ? watiToken : `Bearer ${watiToken}`;
         const waRes = await fetch(
-          `https://live-mt-server.wati.io/420836/api/v3/sendTemplateMessage?whatsappNumber=${phone}`,
+          `https://live-mt-server.wati.io/api/v1/sendTemplateMessage?whatsappNumber=${phone}`,
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "application/json-patch+json",
               "Authorization": authHeader,
             },
             body: JSON.stringify({
