@@ -78,6 +78,8 @@ Deno.serve(async (req) => {
         );
         const waBody = await waRes.text();
         console.log("WhatsApp API response:", waRes.status, waBody);
+        console.log("WATI token present:", !!Deno.env.get("WATI_API_TOKEN"));
+        console.log("WATI token length:", Deno.env.get("WATI_API_TOKEN")?.length);
       } catch (waErr) {
         console.error("WhatsApp API error:", waErr);
         // Still return success — OTP is stored, user might not receive it but we don't block
