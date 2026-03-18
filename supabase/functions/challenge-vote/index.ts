@@ -67,7 +67,10 @@ Deno.serve(async (req) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${Deno.env.get("WATI_API_TOKEN")}`,
+              const watiToken = Deno.env.get("WATI_API_TOKEN") || "";
+              const authHeader = watiToken.startsWith("Bearer ") ? watiToken : `Bearer ${watiToken}`;
+              return authHeader;
+            })(),
             },
             body: JSON.stringify({
               template_name: "fisique_auth",
