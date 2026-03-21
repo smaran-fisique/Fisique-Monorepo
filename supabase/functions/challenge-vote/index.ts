@@ -176,7 +176,7 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Increment participant points and vote_count
+      // Increment participant vote_count; only award points if under 40-vote cap (max 400 pts from votes)
       const { data: participant } = await supabase
         .from("challenge_participants")
         .select("points, vote_count")
@@ -184,10 +184,11 @@ Deno.serve(async (req) => {
         .single();
 
       if (participant) {
+        const pointsToAdd = participant.vote_count < 40 ? 10 : 0;
         await supabase
           .from("challenge_participants")
           .update({
-            points: participant.points + 10,
+            points: participant.points + pointsToAdd,
             vote_count: participant.vote_count + 1,
           })
           .eq("id", participant_id);
