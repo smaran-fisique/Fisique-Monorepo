@@ -116,7 +116,7 @@ export const LiveLeaderboard = () => {
                     </span>
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">{p.vote_count} votes · {p.points} pts</p>
+                      <p className="text-xs text-muted-foreground">{p.vote_count >= 40 ? "40+" : p.vote_count} votes · {p.points} pts</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0 ml-2">
