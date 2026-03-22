@@ -46,7 +46,7 @@ export default function ChallengeManager() {
   // Dialog states
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [pointsOpen, setPointsOpen] = useState(false);
+  const [categoryPointsOpen, setCategoryPointsOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
 
