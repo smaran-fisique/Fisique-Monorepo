@@ -52,7 +52,7 @@ export default function ChallengeManager() {
 
   const [formName, setFormName] = useState('');
   const [formPhone, setFormPhone] = useState('');
-  const [pointsAmount, setPointsAmount] = useState('10');
+  
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
 
   // Bulk import state
