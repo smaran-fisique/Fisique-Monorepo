@@ -345,24 +345,13 @@ export default function ChallengeManager() {
         </DialogContent>
       </Dialog>
 
-      {/* Award Points Dialog */}
-      <Dialog open={pointsOpen} onOpenChange={setPointsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Award Referral Points</DialogTitle>
-            <DialogDescription>Add points to {selectedParticipant?.name}. This also increments their referral count.</DialogDescription>
-          </DialogHeader>
-          <div className="flex gap-2">
-            {['10', '25', '50'].map(v => (
-              <Button key={v} variant={pointsAmount === v ? 'default' : 'outline'} size="sm" onClick={() => setPointsAmount(v)}>+{v}</Button>
-            ))}
-            <Input type="number" className="w-24" value={pointsAmount} onChange={e => setPointsAmount(e.target.value)} min="1" />
-          </div>
-          <DialogFooter>
-            <Button onClick={handleAwardPoints}>Award {pointsAmount} pts</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Category Points Dialog */}
+      <CategoryPointsDialog
+        open={categoryPointsOpen}
+        onOpenChange={setCategoryPointsOpen}
+        participant={selectedParticipant}
+        onUpdated={fetchData}
+      />
 
       {/* Delete Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
