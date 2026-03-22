@@ -106,19 +106,6 @@ export default function ChallengeManager() {
     fetchData();
   };
 
-  const handleAwardPoints = async () => {
-    if (!selectedParticipant) return;
-    const pts = parseInt(pointsAmount);
-    if (isNaN(pts) || pts <= 0) return;
-    const { error } = await supabase.from('challenge_participants').update({
-      points: selectedParticipant.points + pts,
-      referral_count: selectedParticipant.referral_count + 1,
-    }).eq('id', selectedParticipant.id);
-    if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
-    toast({ title: `Awarded ${pts} points` });
-    setPointsOpen(false);
-    fetchData();
-  };
 
   const openEdit = (p: Participant) => { setSelectedParticipant(p); setFormName(p.name); setFormPhone(p.phone); setEditOpen(true); };
   const openPoints = (p: Participant) => { setSelectedParticipant(p); setPointsAmount('10'); setPointsOpen(true); };
