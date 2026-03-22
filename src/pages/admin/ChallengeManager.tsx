@@ -108,7 +108,7 @@ export default function ChallengeManager() {
 
 
   const openEdit = (p: Participant) => { setSelectedParticipant(p); setFormName(p.name); setFormPhone(p.phone); setEditOpen(true); };
-  const openPoints = (p: Participant) => { setSelectedParticipant(p); setPointsAmount('10'); setPointsOpen(true); };
+  const openPoints = (p: Participant) => { setSelectedParticipant(p); setCategoryPointsOpen(true); };
   const openDelete = (p: Participant) => { setSelectedParticipant(p); setDeleteOpen(true); };
 
   const handleSync = async () => {
