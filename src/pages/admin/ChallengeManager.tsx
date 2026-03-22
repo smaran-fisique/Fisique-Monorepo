@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3, Upload, RefreshCw } from 'lucide-react';
+import CategoryPointsDialog from '@/components/admin/CategoryPointsDialog';
 import * as XLSX from 'xlsx';
 
 type Participant = {
