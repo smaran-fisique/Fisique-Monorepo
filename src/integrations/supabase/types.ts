@@ -262,6 +262,41 @@ export type Database = {
         }
         Relationships: []
       }
+      challenge_point_logs: {
+        Row: {
+          category: string
+          created_at: string
+          created_by: string | null
+          id: string
+          participant_id: string
+          points: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          participant_id: string
+          points: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          participant_id?: string
+          points?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_point_logs_participant_id_fkey"
+            columns: ["participant_id"]
+            isOneToOne: false
+            referencedRelation: "challenge_participants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       challenge_votes: {
         Row: {
           created_at: string

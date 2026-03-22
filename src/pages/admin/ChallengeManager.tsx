@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Trophy, Plus, Pencil, Trash2, Gift, Users, Vote, BarChart3, Upload, RefreshCw } from 'lucide-react';
+import CategoryPointsDialog from '@/components/admin/CategoryPointsDialog';
 import * as XLSX from 'xlsx';
 
 type Participant = {
@@ -45,13 +46,13 @@ export default function ChallengeManager() {
   // Dialog states
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [pointsOpen, setPointsOpen] = useState(false);
+  const [categoryPointsOpen, setCategoryPointsOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
 
   const [formName, setFormName] = useState('');
   const [formPhone, setFormPhone] = useState('');
-  const [pointsAmount, setPointsAmount] = useState('10');
+  
   const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
 
   // Bulk import state
@@ -105,22 +106,9 @@ export default function ChallengeManager() {
     fetchData();
   };
 
-  const handleAwardPoints = async () => {
-    if (!selectedParticipant) return;
-    const pts = parseInt(pointsAmount);
-    if (isNaN(pts) || pts <= 0) return;
-    const { error } = await supabase.from('challenge_participants').update({
-      points: selectedParticipant.points + pts,
-      referral_count: selectedParticipant.referral_count + 1,
-    }).eq('id', selectedParticipant.id);
-    if (error) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); return; }
-    toast({ title: `Awarded ${pts} points` });
-    setPointsOpen(false);
-    fetchData();
-  };
 
   const openEdit = (p: Participant) => { setSelectedParticipant(p); setFormName(p.name); setFormPhone(p.phone); setEditOpen(true); };
-  const openPoints = (p: Participant) => { setSelectedParticipant(p); setPointsAmount('10'); setPointsOpen(true); };
+  const openPoints = (p: Participant) => { setSelectedParticipant(p); setCategoryPointsOpen(true); };
   const openDelete = (p: Participant) => { setSelectedParticipant(p); setDeleteOpen(true); };
 
   const handleSync = async () => {
@@ -357,24 +345,13 @@ export default function ChallengeManager() {
         </DialogContent>
       </Dialog>
 
-      {/* Award Points Dialog */}
-      <Dialog open={pointsOpen} onOpenChange={setPointsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Award Referral Points</DialogTitle>
-            <DialogDescription>Add points to {selectedParticipant?.name}. This also increments their referral count.</DialogDescription>
-          </DialogHeader>
-          <div className="flex gap-2">
-            {['10', '25', '50'].map(v => (
-              <Button key={v} variant={pointsAmount === v ? 'default' : 'outline'} size="sm" onClick={() => setPointsAmount(v)}>+{v}</Button>
-            ))}
-            <Input type="number" className="w-24" value={pointsAmount} onChange={e => setPointsAmount(e.target.value)} min="1" />
-          </div>
-          <DialogFooter>
-            <Button onClick={handleAwardPoints}>Award {pointsAmount} pts</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Category Points Dialog */}
+      <CategoryPointsDialog
+        open={categoryPointsOpen}
+        onOpenChange={setCategoryPointsOpen}
+        participant={selectedParticipant}
+        onUpdated={fetchData}
+      />
 
       {/* Delete Dialog */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
