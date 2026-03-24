@@ -6,6 +6,7 @@ import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 import { FAQSection } from "@/components/FAQSection";
 import { FAQSchema, membershipFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { NearbyLocationsSection } from "@/components/NearbyLocationsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Dumbbell, Users, Clock, Thermometer, X } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
