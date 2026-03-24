@@ -6,6 +6,7 @@ import { BreadcrumbSchema } from "@/components/BreadcrumbSchema";
 import { FAQSection } from "@/components/FAQSection";
 import { FAQSchema, personalTrainingFAQs } from "@/components/FAQSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { NearbyLocationsSection } from "@/components/NearbyLocationsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, Check, Target, Apple, Dumbbell, Thermometer, TrendingUp, Calendar } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
@@ -265,6 +266,8 @@ const PersonalTrainingKokapet = () => {
           faqs={personalTrainingFAQs}
           includeSchema={false}
         />
+
+        <NearbyLocationsSection currentPath="/personal-training-kokapet" />
 
         {/* Final CTA */}
         <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">

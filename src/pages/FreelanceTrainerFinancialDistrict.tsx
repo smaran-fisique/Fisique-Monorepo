@@ -7,6 +7,7 @@ import { FAQSection } from "@/components/FAQSection";
 import { FAQSchema } from "@/components/FAQSchema";
 import { ServiceSchema } from "@/components/ServiceSchema";
 import { ReviewsSection } from "@/components/ReviewsSection";
+import { NearbyLocationsSection } from "@/components/NearbyLocationsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock, UserCheck, CheckCircle2, Building2 } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
@@ -258,6 +259,8 @@ const FreelanceTrainerFinancialDistrict = () => {
           faqs={freelanceFDFAQs}
           includeSchema={false}
         />
+
+        <NearbyLocationsSection currentPath="/freelance-trainer-financial-district" />
 
         {/* Final CTA */}
         <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">

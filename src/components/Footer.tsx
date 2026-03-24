@@ -71,7 +71,7 @@ export const Footer = () => {
           
           {/* Quick Links - Services */}
           <div className="pt-8 border-t border-border/50">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
               {/* Services */}
               <div className="text-center md:text-left">
                 <h3 className="font-semibold text-foreground mb-3">Services</h3>
@@ -85,6 +85,21 @@ export const Footer = () => {
                   <Link to="/kokapet-gym" className="text-muted-foreground hover:text-accent transition-colors">
                     Our Studio
                   </Link>
+                </div>
+              </div>
+
+              {/* Locations We Serve */}
+              <div className="text-center md:text-left">
+                <h3 className="font-semibold text-foreground mb-3">Locations We Serve</h3>
+                <div className="flex flex-col gap-2">
+                  <Link to="/kokapet-gym" className="text-muted-foreground hover:text-accent transition-colors">Kokapet</Link>
+                  <Link to="/gym-narsingi" className="text-muted-foreground hover:text-accent transition-colors">Narsingi</Link>
+                  <Link to="/gym-financial-district" className="text-muted-foreground hover:text-accent transition-colors">Financial District</Link>
+                  <Link to="/gym-gachibowli" className="text-muted-foreground hover:text-accent transition-colors">Gachibowli</Link>
+                  <Link to="/gym-gandipet" className="text-muted-foreground hover:text-accent transition-colors">Gandipet</Link>
+                  <Link to="/gym-manikonda" className="text-muted-foreground hover:text-accent transition-colors">Manikonda</Link>
+                  <Link to="/gym-puppalaguda" className="text-muted-foreground hover:text-accent transition-colors">Puppalaguda</Link>
+                  <Link to="/gym-tellapur" className="text-muted-foreground hover:text-accent transition-colors">Tellapur</Link>
                 </div>
               </div>
               
