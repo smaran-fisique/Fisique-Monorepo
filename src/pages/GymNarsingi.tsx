@@ -313,6 +313,8 @@ const GymNarsingi = () => {
           </div>
         </section>
 
+        <NearbyLocationsSection currentPath="/gym-narsingi" />
+
         {/* Final CTA */}
         <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
           <div className="container-custom text-center">
