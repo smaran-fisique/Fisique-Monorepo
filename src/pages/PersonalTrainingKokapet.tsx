@@ -267,6 +267,8 @@ const PersonalTrainingKokapet = () => {
           includeSchema={false}
         />
 
+        <NearbyLocationsSection currentPath="/personal-training-kokapet" />
+
         {/* Final CTA */}
         <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
           <div className="container-custom text-center">
