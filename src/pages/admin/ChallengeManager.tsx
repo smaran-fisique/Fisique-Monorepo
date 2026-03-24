@@ -72,14 +72,30 @@ export default function ChallengeManager() {
 
   const fetchData = async () => {
     setLoading(true);
-    const [pRes, vRes, sRes] = await Promise.all([
+    const [pRes, vRes, sRes, logRes] = await Promise.all([
       supabase.from('challenge_participants').select('*').order('points', { ascending: false }),
       supabase.from('challenge_votes').select('*, challenge_participants(name)').order('created_at', { ascending: false }),
       supabase.from('site_settings').select('value').eq('key', 'members_last_synced').maybeSingle(),
+      supabase.from('challenge_point_logs' as any).select('participant_id, category'),
     ]);
     if (pRes.data) setParticipants(pRes.data);
     if (vRes.data) setVotes(vRes.data as unknown as VoteRow[]);
     if (sRes.data) setLastSynced(sRes.data.value);
+    
+    // Build category counts per participant
+    const counts: Record<string, CategoryCounts> = {};
+    if (logRes.data) {
+      for (const log of logRes.data as any[]) {
+        if (!counts[log.participant_id]) {
+          counts[log.participant_id] = { pt_referral: 0, membership_referral: 0, instagram_post: 0, instagram_story: 0 };
+        }
+        const cat = log.category as keyof CategoryCounts;
+        if (cat in counts[log.participant_id]) {
+          counts[log.participant_id][cat]++;
+        }
+      }
+    }
+    setCategoryCounts(counts);
     setLoading(false);
   };
 
