@@ -47,6 +47,7 @@ function toTitleCase(str: string): string {
 export default function ChallengeManager() {
   const { toast } = useToast();
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, CategoryCounts>>({});
   const [votes, setVotes] = useState<VoteRow[]>([]);
   const [loading, setLoading] = useState(true);
 
