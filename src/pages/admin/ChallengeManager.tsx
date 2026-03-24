@@ -271,29 +271,49 @@ export default function ChallengeManager() {
               </Button>
             </div>
           </div>
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Phone</TableHead>
                 <TableHead className="text-right">Points</TableHead>
-                <TableHead className="text-right">Referrals</TableHead>
+                <TableHead className="text-right">PT Ref</TableHead>
+                <TableHead className="text-right">Mem Ref</TableHead>
+                <TableHead className="text-right">IG Post</TableHead>
+                <TableHead className="text-right">IG Story</TableHead>
                 <TableHead className="text-right">Votes</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">Loading…</TableCell></TableRow>
+                <TableRow><TableCell colSpan={9} className="text-center py-8 text-muted-foreground">Loading…</TableCell></TableRow>
               ) : participants.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="text-center py-8 text-muted-foreground">No participants yet</TableCell></TableRow>
-              ) : participants.map(p => (
+                <TableRow><TableCell colSpan={9} className="text-center py-8 text-muted-foreground">No participants yet</TableCell></TableRow>
+              ) : participants.map(p => {
+                const cc = categoryCounts[p.id] || { pt_referral: 0, membership_referral: 0, instagram_post: 0, instagram_story: 0 };
+                return (
                 <TableRow key={p.id}>
                   <TableCell className="font-medium">{p.name}</TableCell>
                   <TableCell>{p.phone}</TableCell>
-                  <TableCell className="text-right">{p.points}</TableCell>
-                  <TableCell className="text-right">{p.referral_count}</TableCell>
+                  <TableCell className="text-right font-bold">{p.points}</TableCell>
+                  <TableCell className="text-right">{cc.pt_referral || '—'}</TableCell>
+                  <TableCell className="text-right">{cc.membership_referral || '—'}</TableCell>
+                  <TableCell className="text-right">{cc.instagram_post || '—'}</TableCell>
+                  <TableCell className="text-right">{cc.instagram_story || '—'}</TableCell>
                   <TableCell className="text-right">{p.vote_count}</TableCell>
+                  <TableCell className="text-right space-x-1">
+                    <Button variant="ghost" size="icon" onClick={() => openEdit(p)}><Pencil className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={() => openPoints(p)}><Gift className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={() => openDelete(p)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                  </TableCell>
+                </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+          </div>
                   <TableCell className="text-right space-x-1">
                     <Button variant="ghost" size="icon" onClick={() => openEdit(p)}><Pencil className="w-4 h-4" /></Button>
                     <Button variant="ghost" size="icon" onClick={() => openPoints(p)}><Gift className="w-4 h-4" /></Button>
