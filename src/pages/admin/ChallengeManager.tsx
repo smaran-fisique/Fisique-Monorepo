@@ -20,6 +20,13 @@ type Participant = {
   created_at: string;
 };
 
+type CategoryCounts = {
+  pt_referral: number;
+  membership_referral: number;
+  instagram_post: number;
+  instagram_story: number;
+};
+
 type VoteRow = {
   id: string;
   voter_phone: string;

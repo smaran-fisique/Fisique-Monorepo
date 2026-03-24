@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Minus, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -44,8 +43,20 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
   const [logs, setLogs] = useState<PointLog[]>([]);
   const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  // Keep a local copy of participant data that stays fresh
+  const [liveParticipant, setLiveParticipant] = useState<Participant | null>(null);
 
-  const fetchLogs = async () => {
+  const fetchParticipant = useCallback(async () => {
+    if (!participant) return;
+    const { data } = await supabase
+      .from('challenge_participants')
+      .select('id, name, phone, points, referral_count, vote_count')
+      .eq('id', participant.id)
+      .single();
+    if (data) setLiveParticipant(data);
+  }, [participant?.id]);
+
+  const fetchLogs = useCallback(async () => {
     if (!participant) return;
     setLoading(true);
     const { data } = await supabase
@@ -55,11 +66,17 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
       .order('created_at', { ascending: false });
     setLogs((data as any as PointLog[]) ?? []);
     setLoading(false);
-  };
+  }, [participant?.id]);
 
   useEffect(() => {
-    if (open && participant) fetchLogs();
+    if (open && participant) {
+      setLiveParticipant(participant);
+      fetchLogs();
+      fetchParticipant();
+    }
   }, [open, participant]);
+
+  const p = liveParticipant;
 
   const categoryCounts = CATEGORIES.map(cat => {
     const catLogs = logs.filter(l => l.category === cat.key);
@@ -70,13 +87,18 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
     };
   });
 
+  const refreshAll = async () => {
+    await Promise.all([fetchLogs(), fetchParticipant()]);
+    onUpdated();
+  };
+
   const handleAdd = async (catKey: CategoryKey, points: number) => {
-    if (!participant) return;
+    if (!p) return;
     setActionLoading(`add-${catKey}`);
     
     const { error: logErr } = await supabase
       .from('challenge_point_logs' as any)
-      .insert({ participant_id: participant.id, category: catKey, points } as any);
+      .insert({ participant_id: p.id, category: catKey, points } as any);
 
     if (logErr) {
       toast({ title: 'Error', description: logErr.message, variant: 'destructive' });
@@ -84,21 +106,19 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
       return;
     }
 
-    // Update participant total points
     const isReferral = catKey === 'pt_referral' || catKey === 'membership_referral';
-    const updates: any = { points: participant.points + points };
-    if (isReferral) updates.referral_count = participant.referral_count + 1;
+    const updates: any = { points: p.points + points };
+    if (isReferral) updates.referral_count = p.referral_count + 1;
 
-    await supabase.from('challenge_participants').update(updates).eq('id', participant.id);
+    await supabase.from('challenge_participants').update(updates).eq('id', p.id);
 
     toast({ title: `+${points} pts (${CATEGORIES.find(c => c.key === catKey)?.label})` });
     setActionLoading(null);
-    onUpdated();
-    fetchLogs();
+    await refreshAll();
   };
 
   const handleRemoveLast = async (catKey: CategoryKey) => {
-    if (!participant) return;
+    if (!p) return;
     const lastLog = logs.find(l => l.category === catKey);
     if (!lastLog) return;
 
@@ -116,18 +136,17 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
     }
 
     const isReferral = catKey === 'pt_referral' || catKey === 'membership_referral';
-    const updates: any = { points: Math.max(0, participant.points - lastLog.points) };
-    if (isReferral) updates.referral_count = Math.max(0, participant.referral_count - 1);
+    const updates: any = { points: Math.max(0, p.points - lastLog.points) };
+    if (isReferral) updates.referral_count = Math.max(0, p.referral_count - 1);
 
-    await supabase.from('challenge_participants').update(updates).eq('id', participant.id);
+    await supabase.from('challenge_participants').update(updates).eq('id', p.id);
 
     toast({ title: `Removed ${lastLog.points} pts (${CATEGORIES.find(c => c.key === catKey)?.label})` });
     setActionLoading(null);
-    onUpdated();
-    fetchLogs();
+    await refreshAll();
   };
 
-  const votePoints = Math.min(participant?.vote_count ?? 0, 40) * 10;
+  const votePoints = Math.min(p?.vote_count ?? 0, 40) * 10;
   const categoryTotal = categoryCounts.reduce((s, c) => s + c.totalPoints, 0);
   const joinBonus = 50;
 
@@ -135,7 +154,7 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Points — {participant?.name}</DialogTitle>
+          <DialogTitle>Points — {p?.name}</DialogTitle>
           <DialogDescription>
             Add or remove category points. Total: {joinBonus} (join) + {categoryTotal} (activities) + {votePoints} (votes) = {joinBonus + categoryTotal + votePoints} pts
           </DialogDescription>
@@ -185,7 +204,7 @@ export default function CategoryPointsDialog({ open, onOpenChange, participant, 
             {/* Summary row for votes & join */}
             <div className="rounded-lg bg-muted/50 p-3 space-y-1 text-sm">
               <div className="flex justify-between"><span className="text-muted-foreground">Join Bonus</span><span>+{joinBonus}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Votes ({Math.min(participant?.vote_count ?? 0, 40)}/40)</span><span>+{votePoints}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Votes ({Math.min(p?.vote_count ?? 0, 40)}/40)</span><span>+{votePoints}</span></div>
               <div className="flex justify-between font-bold border-t border-border pt-1 mt-1"><span>Total</span><span>{joinBonus + categoryTotal + votePoints}</span></div>
             </div>
           </div>
