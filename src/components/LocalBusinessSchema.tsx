@@ -119,22 +119,17 @@ export const LocalBusinessSchema = ({ includeRating = true }: LocalBusinessSchem
       "Fitness Coaching"
     ],
     "areaServed": [
-      {
-        "@type": "City",
-        "name": "Kokapet"
-      },
-      {
-        "@type": "City",
-        "name": "Financial District"
-      },
-      {
-        "@type": "City",
-        "name": "Narsingi"
-      },
-      {
-        "@type": "City",
-        "name": "Gandipet"
-      }
+      { "@type": "City", "name": "Kokapet" },
+      { "@type": "City", "name": "Financial District" },
+      { "@type": "City", "name": "Narsingi" },
+      { "@type": "City", "name": "Gandipet" },
+      { "@type": "City", "name": "Gachibowli" },
+      { "@type": "City", "name": "Manikonda" },
+      { "@type": "City", "name": "Puppalaguda" },
+      { "@type": "City", "name": "Tellapur" },
+      { "@type": "City", "name": "Nallagandla" },
+      { "@type": "City", "name": "Khajaguda" },
+      { "@type": "City", "name": "Nanakramguda" }
     ],
     "isAccessibleForFree": false,
     "publicAccess": true

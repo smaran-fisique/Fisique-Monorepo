@@ -113,6 +113,11 @@ const App = () => (
                 <Route path="/freelance-trainer-kokapet" element={<FreelanceTrainerKokapet />} />
                 <Route path="/freelance-trainer-narsingi" element={<FreelanceTrainerNarsingi />} />
                 <Route path="/freelance-trainer-financial-district" element={<FreelanceTrainerFinancialDistrict />} />
+                <Route path="/gym-gachibowli" element={<GymGachibowli />} />
+                <Route path="/gym-gandipet" element={<GymGandipet />} />
+                <Route path="/gym-manikonda" element={<GymManikonda />} />
+                <Route path="/gym-puppalaguda" element={<GymPuppalaguda />} />
+                <Route path="/gym-tellapur" element={<GymTellapur />} />
                 <Route path="/offers" element={<OffersIndex />} />
                 <Route path="/offers/" element={<OffersIndex />} />
                 <Route path="/offers/iphone" element={<IPhoneOffer />} />
