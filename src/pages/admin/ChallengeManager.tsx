@@ -314,15 +314,6 @@ export default function ChallengeManager() {
             </TableBody>
           </Table>
           </div>
-                  <TableCell className="text-right space-x-1">
-                    <Button variant="ghost" size="icon" onClick={() => openEdit(p)}><Pencil className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" onClick={() => openPoints(p)}><Gift className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" onClick={() => openDelete(p)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
         </TabsContent>
 
         <TabsContent value="votes">
