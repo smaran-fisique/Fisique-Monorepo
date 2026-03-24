@@ -123,6 +123,15 @@ Kokapet is a rapidly developing residential and commercial area in Hyderabad, ad
 - **Blog** (https://fisique.fitness/blog-posts/): Fitness tips, guides, and articles
 - **Contact** (https://fisique.fitness/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/): Contact form and location
 
+### Location Pages
+- **Gym Near Narsingi** (https://fisique.fitness/gym-narsingi): 3 min from Narsingi
+- **Gym Near Financial District** (https://fisique.fitness/gym-financial-district): 5 min from FD
+- **Gym Near Gachibowli** (https://fisique.fitness/gym-gachibowli): 8 min from Gachibowli
+- **Gym Near Gandipet** (https://fisique.fitness/gym-gandipet): 7 min from Gandipet
+- **Gym Near Manikonda** (https://fisique.fitness/gym-manikonda): 10 min from Manikonda
+- **Gym Near Puppalaguda** (https://fisique.fitness/gym-puppalaguda): 6 min from Puppalaguda
+- **Gym Near Tellapur** (https://fisique.fitness/gym-tellapur): 12 min from Tellapur
+
 ### Related Subdomains
 - **Offers** (https://offers.fisique.fitness): Current promotions and special offers
 - **Member Portal** (https://member.fisique.fitness): Member login and account management
