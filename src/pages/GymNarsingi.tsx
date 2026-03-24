@@ -10,6 +10,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock, Car, Home } from "lucide-react";
 import { StickyBottomCTA } from "@/components/StickyBottomCTA";
+import { NearbyLocationsSection } from "@/components/NearbyLocationsSection";
 import { useSEO } from "@/hooks/useSEO";
 
 const narsingiFAQs = [
