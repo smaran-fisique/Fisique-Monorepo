@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     // 1. Fetch active members from membership hub
     const apiUrl = 'https://vuuqslqhjuzjllribugt.supabase.co/functions/v1/active-members';
     const res = await fetch(apiUrl, {
-      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      headers: { 'x-api-key': apiKey, 'Content-Type': 'application/json' },
     });
 
     if (!res.ok) {
