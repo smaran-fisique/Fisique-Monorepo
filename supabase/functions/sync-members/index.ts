@@ -11,13 +11,18 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const apiKey = Deno.env.get('ACTIVE_MEMBERS_API_KEY');
-    if (!apiKey) throw new Error('ACTIVE_MEMBERS_API_KEY not configured');
+    const rawApiKey = Deno.env.get('ACTIVE_MEMBERS_API_KEY')?.trim();
+    if (!rawApiKey) throw new Error('ACTIVE_MEMBERS_API_KEY not configured');
+
+    const hadBearerPrefix = /^Bearer\s+/i.test(rawApiKey);
+    const apiKey = rawApiKey.replace(/^Bearer\s+/i, '').trim();
+    if (!apiKey) throw new Error('ACTIVE_MEMBERS_API_KEY is empty after normalization');
+    console.log('sync-members token format:', { hadBearerPrefix, tokenLength: apiKey.length });
 
     // 1. Fetch active members from membership hub
     const apiUrl = 'https://vuuqslqhjuzjllribugt.supabase.co/functions/v1/active-members';
     const res = await fetch(apiUrl, {
-      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     });
 
     if (!res.ok) {
