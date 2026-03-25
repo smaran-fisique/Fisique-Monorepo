@@ -11,8 +11,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const apiKey = Deno.env.get('MEMBERSHIP_HUB_API_KEY');
-    if (!apiKey) throw new Error('MEMBERSHIP_HUB_API_KEY not configured');
+    const apiKey = Deno.env.get('ACTIVE_MEMBERS_API_KEY');
+    if (!apiKey) throw new Error('ACTIVE_MEMBERS_API_KEY not configured');
 
     // 1. Fetch active members from membership hub
     const apiUrl = 'https://vuuqslqhjuzjllribugt.supabase.co/functions/v1/active-members';
