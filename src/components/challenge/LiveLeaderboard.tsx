@@ -26,11 +26,39 @@ export const LiveLeaderboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const fetchParticipants = async () => {
-    const { data } = await supabase
-      .from("challenge_participants")
-      .select("id, name, points, vote_count")
-      .order("points", { ascending: false });
-    if (data) setParticipants(data);
+    const [{ data: pData }, { data: logData }] = await Promise.all([
+      supabase.from("challenge_participants").select("id, name, points, vote_count"),
+      supabase.from("challenge_point_logs").select("participant_id, category, points"),
+    ]);
+
+    if (pData) {
+      // Aggregate point logs by participant + category
+      const catMap: Record<string, Record<string, number>> = {};
+      (logData || []).forEach((l) => {
+        if (!catMap[l.participant_id]) catMap[l.participant_id] = {};
+        catMap[l.participant_id][l.category] = (catMap[l.participant_id][l.category] || 0) + l.points;
+      });
+
+      const enriched: Participant[] = pData.map((p) => ({
+        ...p,
+        pt_referral_points: catMap[p.id]?.pt_referral || 0,
+        membership_referral_points: catMap[p.id]?.membership_referral || 0,
+        instagram_post_points: catMap[p.id]?.instagram_post || 0,
+        instagram_story_points: catMap[p.id]?.instagram_story || 0,
+      }));
+
+      // Sort: points DESC → pt_referral → membership_referral → posts → stories → votes
+      enriched.sort((a, b) =>
+        b.points - a.points ||
+        b.pt_referral_points - a.pt_referral_points ||
+        b.membership_referral_points - a.membership_referral_points ||
+        b.instagram_post_points - a.instagram_post_points ||
+        b.instagram_story_points - a.instagram_story_points ||
+        b.vote_count - a.vote_count
+      );
+
+      setParticipants(enriched);
+    }
     setLoading(false);
   };
 
