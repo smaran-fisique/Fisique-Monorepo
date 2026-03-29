@@ -1,0 +1,1 @@
+UPDATE challenge_participants SET vote_count = vote_count + 4, points = points + 40 WHERE name = 'Anand Ramdas';
