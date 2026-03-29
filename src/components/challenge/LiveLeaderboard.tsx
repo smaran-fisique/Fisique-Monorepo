@@ -11,6 +11,11 @@ interface Participant {
   name: string;
   points: number;
   vote_count: number;
+  // Tiebreaker fields from point logs
+  pt_referral_points: number;
+  membership_referral_points: number;
+  instagram_post_points: number;
+  instagram_story_points: number;
 }
 
 export const LiveLeaderboard = () => {
