@@ -34,6 +34,16 @@ const nextConfig = {
         destination: '/blog',
         permanent: true,
       },
+      {
+        source: '/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/',
+        destination: '/contact',
+        permanent: true,
+      },
     ];
   },
 };
