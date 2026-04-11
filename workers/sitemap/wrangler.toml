@@ -1,10 +1,11 @@
-name = "fisique-sitemap"
+name = "fisique-sitemap-worker"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 
-[[routes]]
-pattern = "fisique.fitness/sitemap.xml"
-zone_name = "fisique.fitness"
+# Route — uncomment once fisique.fitness is proxied through Cloudflare:
+# [[routes]]
+# pattern = "fisique.fitness/sitemap.xml"
+# zone_name = "fisique.fitness"
 
 # Secrets — set via CLI, never commit values:
 #   wrangler secret put SUPABASE_URL
