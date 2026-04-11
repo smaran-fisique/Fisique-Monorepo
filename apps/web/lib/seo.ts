@@ -22,6 +22,8 @@ export async function getSeoMeta(pagePath: string): Promise<SeoMeta | null> {
   return data as unknown as SeoMeta;
 }
 
+const DEFAULT_OG_IMAGE = 'https://fisique.fitness/social-og.jpg';
+
 /** Build a Next.js Metadata object from seo_meta + fallback values. */
 export function buildMetadata(
   seo: SeoMeta | null,
@@ -30,6 +32,7 @@ export function buildMetadata(
   const title = seo?.title ?? fallback.title;
   const description = seo?.description ?? fallback.description;
   const canonical = seo?.canonical_url ?? `https://fisique.fitness${fallback.path}`;
+  const ogImage = seo?.og_image ?? DEFAULT_OG_IMAGE;
 
   return {
     title,
@@ -40,8 +43,15 @@ export function buildMetadata(
       title,
       description,
       url: canonical,
+      siteName: 'Fisique Fitness',
       type: 'website',
-      ...(seo?.og_image ? { images: [{ url: seo.og_image }] } : {}),
+      images: [{ url: ogImage, width: 1024, height: 1024, alt: title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
     },
   };
 }
