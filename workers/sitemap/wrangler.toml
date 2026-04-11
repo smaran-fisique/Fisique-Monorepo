@@ -1,0 +1,11 @@
+name = "fisique-sitemap"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[routes]]
+pattern = "fisique.fitness/sitemap.xml"
+zone_name = "fisique.fitness"
+
+# Secrets — set via CLI, never commit values:
+#   wrangler secret put SUPABASE_URL
+#   wrangler secret put SUPABASE_ANON_KEY
