@@ -1,3 +1,10 @@
+# Next.js
+apps/web/.next
+apps/web/out
+
+# Turborepo
+.turbo
+
 # Logs
 logs
 *.log
