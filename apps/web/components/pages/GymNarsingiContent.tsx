@@ -112,8 +112,8 @@ export default function GymNarsingiContent() {
                     or impersonal can be challenging.
                   </p>
                   <p>
-                    Fisique Fitness in Kokapet is just a 3-minute drive from Narsingi, offering
-                    everything big gyms can't: personal attention, no waiting for equipment,
+                    <a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness in Kokapet</a> is just a 3-minute drive from Narsingi, offering
+                    everything big gyms can't: <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">personal 1:1 training</a>, no waiting for equipment,
                     and trainers who actually know your name and your goals.
                   </p>
                   <p>

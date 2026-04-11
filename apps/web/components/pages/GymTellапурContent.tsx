@@ -59,7 +59,7 @@ export default function GymTellапурContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Tellapur Residents Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>Tellapur and Nallagandla are growing rapidly, but quality fitness options with expert coaching are still scarce. Most gyms in the area offer equipment access without the guidance you need.</p>
-                  <p>Fisique Fitness is just 12 minutes via ORR, offering certified personal trainers who create customised programs, nutrition counseling, and an on-site sauna—a complete fitness ecosystem.</p>
+                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness</a> is just 12 minutes via ORR, offering <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">certified personal trainers</a> who create customised programs, nutrition counseling, and an on-site sauna—a complete fitness ecosystem.</p>
                   <p>Our members from Tellapur treat the short drive as part of their fitness routine. They arrive, train with focus, recover in the sauna, and leave transformed.</p>
                 </div>
                 <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">

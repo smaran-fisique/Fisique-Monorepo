@@ -70,7 +70,7 @@ export default function GymGachibowliContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Gachibowli Professionals Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>Working in Gachibowli's tech corridor means long hours and high stress. The last thing you need is a crowded gym where you wait 20 minutes for a squat rack.</p>
-                  <p>Fisique Fitness is just 8 minutes from Gachibowli, offering a boutique personal training experience with certified coaches who understand the demands of a corporate lifestyle.</p>
+                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness</a> is just 8 minutes from Gachibowli, offering a boutique <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">personal training</a> experience with certified coaches who understand the demands of a corporate lifestyle.</p>
                   <p>Many tech professionals from companies in Gachibowli and Nanakramguda have made Fisique their go-to gym. They value the personalised attention, flexible scheduling, and real results.</p>
                 </div>
                 <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">

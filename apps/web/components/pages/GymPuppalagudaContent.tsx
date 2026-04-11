@@ -59,7 +59,7 @@ export default function GymPuppalagudaContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Puppalaguda Residents Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>Puppalaguda is one of the closest neighbourhoods to Fisique Fitness. At just 6 minutes away, it's practically your neighbourhood gym—but with a premium experience you won't find elsewhere.</p>
-                  <p>Our Puppalaguda members love that they can get world-class personal training without driving across the city. With certified coaches, nutrition guidance, and sauna recovery, every session is productive.</p>
+                  <p>Our Puppalaguda members love that they can get world-class <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">personal training</a> without driving across the city. With certified coaches, nutrition guidance, and sauna recovery, every session is productive. Prefer to train independently? Our <a href="/gym-membership-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">gym membership plans</a> give you full access at a flexible pace.</p>
                   <p>Whether you're a working professional, a homemaker, or a student, our personalised approach ensures you get the attention and results you deserve.</p>
                 </div>
                 <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">

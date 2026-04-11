@@ -98,7 +98,7 @@ export default function FreelanceTrainerNarsingiContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Narsingi Trainers Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>As a freelance trainer in Narsingi, you know the challenges: training clients outdoors means weather cancellations, limited equipment, and no recovery options like sauna.</p>
-                  <p>Fisique Fitness is just a 3-minute drive from Narsingi. Our trainer access program lets you bring your clients to a professional gym environment with everything you need for comprehensive training.</p>
+                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness</a> is just a 3-minute drive from Narsingi. Our trainer access program lets you bring your clients to a professional gym environment with everything you need for comprehensive training. Clients looking for in-house coaching can also explore our <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">personal training packages</a>.</p>
                   <p>Many freelance trainers from Narsingi, Puppalaguda, and Neknampur now use Fisique as their primary training location. Their clients appreciate the upgrade in facilities and comfort.</p>
                 </div>
 

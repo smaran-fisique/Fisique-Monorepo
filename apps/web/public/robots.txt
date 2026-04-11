@@ -5,15 +5,50 @@ Allow: /
 Allow: /kokapet-gym
 Allow: /personal-training-kokapet
 Allow: /gym-membership-kokapet
+Allow: /gym-narsingi
+Allow: /gym-gachibowli
+Allow: /gym-gandipet
+Allow: /gym-manikonda
+Allow: /gym-puppalaguda
+Allow: /gym-tellapur
+Allow: /gym-financial-district
+Allow: /freelance-trainer-kokapet
+Allow: /freelance-trainer-narsingi
+Allow: /freelance-trainer-financial-district
 
 # Blog
 Allow: /blog/
 
 # Contact
-Allow: /embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/
+Allow: /contact
 
 # AI Crawlers - llms.txt files
 Allow: /llms.txt
 Allow: /llms-full.txt
 
-Sitemap: https://cwzeymrokgsvwytkrhim.supabase.co/functions/v1/sitemap
+Sitemap: https://fisique.fitness/sitemap.xml
+
+# AI Crawlers — explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /

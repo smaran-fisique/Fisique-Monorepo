@@ -98,7 +98,7 @@ export default function FreelanceTrainerFinancialDistrictContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Perfect for Training IT Professionals</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>IT professionals in Financial District have demanding schedules and high stress. They need efficient workouts in a comfortable environment—not outdoor training in Hyderabad's heat or cramped apartment gyms.</p>
-                  <p>Fisique Fitness gives you the facilities to deliver professional training. Our premium equipment, climate control, and sauna allow you to offer comprehensive programs that get real results.</p>
+                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness</a> gives you the facilities to deliver professional training. Our premium equipment, climate control, and sauna allow you to offer comprehensive programs that get real results. Your clients can also enquire directly about our <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">in-house personal training</a> for a fully managed experience.</p>
                   <p>Many trainers serving FD clients have made Fisique their home base. The 5-minute commute from major tech parks makes it convenient for both early morning and evening sessions.</p>
                 </div>
 

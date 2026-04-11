@@ -63,7 +63,7 @@ export default function GymManikondaContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Manikonda Residents Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>Manikonda has plenty of gyms, but finding one with personalised coaching and a premium experience is a different story. Most gyms in the area are packed and impersonal.</p>
-                  <p>Fisique Fitness is just 10 minutes from Manikonda via ORR, offering what no gym nearby can: certified personal trainers, nutrition counseling included with every package, and a private sauna for recovery.</p>
+                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness</a> is just 10 minutes from Manikonda via ORR, offering what no gym nearby can: <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">certified personal trainers</a>, <a href="/gym-membership-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">flexible membership plans</a>, and a private sauna for recovery.</p>
                   <p>Our Manikonda members say the short drive is worth it for the personalised attention and the results they've achieved with us.</p>
                 </div>
                 <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">

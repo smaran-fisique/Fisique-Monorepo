@@ -63,7 +63,7 @@ export default function GymGandipetContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Gandipet Residents Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>Gandipet and Khajaguda are known for their peaceful lakeside living. But when it comes to fitness, options nearby are limited to basic gyms without expert guidance.</p>
-                  <p>Fisique Fitness in Kokapet is just 7 minutes from Gandipet, offering certified personal trainers, customised nutrition plans, and an on-site sauna—everything you need for a complete fitness transformation.</p>
+                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness in Kokapet</a> is just 7 minutes from Gandipet, offering <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">certified personal trainers</a>, customised nutrition plans, and an on-site sauna—everything you need for a complete fitness transformation.</p>
                   <p>Our members from Gandipet appreciate the boutique atmosphere, the short commute, and the fact that their workout time is always productive with a dedicated trainer.</p>
                 </div>
                 <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">

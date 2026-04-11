@@ -72,7 +72,7 @@ export default function GymFinancialDistrictContent() {
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Financial District Professionals Choose Fisique</h2>
                 <div className="prose prose-lg text-muted-foreground space-y-4">
                   <p>Working in Financial District means long hours, high stress, and little time for fitness. Commercial gyms are crowded during your only free hours, and finding consistent motivation is challenging.</p>
-                  <p>That's why we built Fisique Fitness in Kokapet—just a 5-minute drive from your office. Our boutique studio offers what big gyms can't: personal attention, no waiting for equipment, and trainers who understand the demands of corporate life.</p>
+                  <p>That's why we built <a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness in Kokapet</a>—just a 5-minute drive from your office. Our boutique studio offers what big gyms can't: <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">1:1 personal training</a>, no waiting for equipment, and trainers who understand the demands of corporate life.</p>
                   <p>Many of our members are IT professionals, managers, and entrepreneurs from Financial District who've tried everything. They stay because our personalized approach delivers results they couldn't achieve elsewhere.</p>
                 </div>
                 <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">

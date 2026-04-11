@@ -3,6 +3,7 @@ import { getSeoMeta, buildMetadata } from '@/lib/seo';
 import { LocalBusinessSchema } from '@/components/LocalBusinessSchema';
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
 import { FAQSchema, personalTrainingFAQs } from '@/components/FAQSchema';
+import { TrainerCredentialsSchema } from '@/components/TrainerCredentialsSchema';
 import PersonalTrainingKokapetContent from '@/components/pages/PersonalTrainingKokapetContent';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,6 +26,7 @@ export default function PersonalTrainingKokapetPage() {
   return (
     <>
       <LocalBusinessSchema includeRating={false} />
+      <TrainerCredentialsSchema />
       <FAQSchema faqs={personalTrainingFAQs} />
       <BreadcrumbSchema items={breadcrumbItems} />
       <PersonalTrainingKokapetContent />

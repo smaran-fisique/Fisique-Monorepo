@@ -54,9 +54,9 @@ export default function FreelanceTrainerKokapetContent() {
               </h1>
 
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-                Already have a personal trainer you love? Bring them to Fisique Fitness!
+                Already have a personal trainer you love? Bring them to <a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness</a>!
                 Our BYOT program gives freelance trainers and their clients access to
-                premium equipment in a boutique, uncrowded environment.
+                premium equipment in a boutique, uncrowded environment. Prefer a structured program? See our <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">in-house personal training</a> options.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
