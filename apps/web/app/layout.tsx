@@ -4,6 +4,8 @@ import { Providers } from '@/components/Providers';
 import { GoogleAnalyticsLoader } from '@/components/GoogleAnalyticsLoader';
 import { MicrosoftClarityLoader } from '@/components/MicrosoftClarityLoader';
 
+export const runtime = 'edge';
+
 export const metadata: Metadata = {
   title: {
     default: 'Fisique Fitness - Best Gym in Kokapet | Personal Training Hyderabad',
