@@ -1,37 +1,51 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { sanityClient, urlFor } from "@/lib/sanity";
 
-interface GoogleReview {
+export interface GoogleReview {
   id: string;
   author_name: string;
   rating: number;
   text: string;
-  time: string;
   profile_photo_url: string | null;
   relative_time_description: string;
-  fetched_at: string;
 }
+
+const QUERY = `*[_type == "testimonial"] | order(order asc, _createdAt desc) {
+  _id,
+  "author_name": memberName,
+  rating,
+  "text": quote,
+  afterPhoto,
+  "relative_time_description": duration
+}`;
 
 export const useGoogleReviews = () => {
   return useQuery({
-    queryKey: ["google-reviews"],
+    queryKey: ["testimonials"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .schema('fisique_web' as any)
-        .from("google_reviews")
-        .select("*")
-        .order("time", { ascending: false });
+      const data = await sanityClient.fetch<Array<{
+        _id: string;
+        author_name: string;
+        rating: number;
+        text: string;
+        afterPhoto: unknown | null;
+        relative_time_description: string | null;
+      }>>(QUERY);
 
-      if (error) {
-        console.error("Error fetching reviews:", error);
-        throw error;
-      }
-
-      return (data as GoogleReview[]).filter(
-        review => review.text.trim().length > 0
-      );
+      return data
+        .filter((r) => r.text?.trim().length > 0)
+        .map((r) => ({
+          id: r._id,
+          author_name: r.author_name,
+          rating: r.rating,
+          text: r.text,
+          profile_photo_url: r.afterPhoto
+            ? urlFor(r.afterPhoto as Parameters<typeof urlFor>[0]).width(100).height(100).url()
+            : null,
+          relative_time_description: r.relative_time_description ?? '',
+        })) satisfies GoogleReview[];
     },
-    staleTime: 1000 * 60 * 60 * 24 * 7, // 7 days
+    staleTime: 1000 * 60 * 60 * 24,
     refetchOnWindowFocus: false,
   });
 };

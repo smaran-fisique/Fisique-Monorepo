@@ -2,19 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { supabase } from '@/integrations/supabase/client';
+import { sanityClient } from '@/lib/sanity';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 
 interface Offer {
-  id: string;
+  _id: string;
   title: string;
-  description: string | null;
-  cta_text: string;
-  cta_link: string;
+  ctaText: string | null;
+  ctaLink: string | null;
 }
 
-const BANNER_HEIGHT = 44; // px
+const QUERY = `*[_type == "offer" && isActive == true
+  && (!defined(startDate) || startDate <= now())
+  && (!defined(endDate) || endDate >= now())
+] | order(endDate asc) [0] {
+  _id, title, ctaText, ctaLink
+}`;
+
+const BANNER_HEIGHT = 44;
 
 export const OfferBanner = () => {
   const pathname = usePathname();
@@ -24,7 +30,15 @@ export const OfferBanner = () => {
   const isExcludedPage = pathname.startsWith('/offers') || pathname.startsWith('/admin');
 
   useEffect(() => {
-    fetchActiveOffer();
+    sanityClient.fetch<Offer | null>(QUERY).then((data) => {
+      if (!data) return;
+      const dismissedDate = localStorage.getItem('offer_banner_dismissed_date');
+      const dismissedId = localStorage.getItem('offer_banner_dismissed');
+      const today = new Date().toDateString();
+      if (dismissedDate === today && dismissedId === data._id) return;
+      setOffer(data);
+      setVisible(true);
+    }).catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -45,37 +59,10 @@ export const OfferBanner = () => {
     };
   }, [visible, isExcludedPage]);
 
-  const fetchActiveOffer = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('offers')
-        .select('id, title, description, cta_text, cta_link, end_date')
-        .eq('is_active', true)
-        .lte('start_date', new Date().toISOString())
-        .gte('end_date', new Date().toISOString())
-        .order('end_date', { ascending: true })
-        .limit(1)
-        .maybeSingle();
-
-      if (error || !data) return;
-
-      const dismissedDate = localStorage.getItem('offer_banner_dismissed_date');
-      const dismissedId = localStorage.getItem('offer_banner_dismissed');
-      const today = new Date().toDateString();
-
-      if (dismissedDate === today && dismissedId === data.id) return;
-
-      setOffer(data);
-      setVisible(true);
-    } catch (error) {
-      console.error('Error fetching offer:', error);
-    }
-  };
-
   const handleDismiss = () => {
     if (offer) {
       localStorage.setItem('offer_banner_dismissed_date', new Date().toDateString());
-      localStorage.setItem('offer_banner_dismissed', offer.id);
+      localStorage.setItem('offer_banner_dismissed', offer._id);
     }
     setVisible(false);
   };
@@ -92,11 +79,13 @@ export const OfferBanner = () => {
           <strong>{offer.title}</strong>
         </div>
         <div className="flex items-center gap-2">
-          <Button asChild variant="secondary" size="sm" className="h-7 text-xs px-3">
-            <a href={offer.cta_link} target="_blank" rel="noopener noreferrer">
-              {offer.cta_text}
-            </a>
-          </Button>
+          {offer.ctaLink && offer.ctaText && (
+            <Button asChild variant="secondary" size="sm" className="h-7 text-xs px-3">
+              <a href={offer.ctaLink} target="_blank" rel="noopener noreferrer">
+                {offer.ctaText}
+              </a>
+            </Button>
+          )}
           <button
             onClick={handleDismiss}
             className="hover:bg-primary-foreground/20 p-1 rounded transition-colors"

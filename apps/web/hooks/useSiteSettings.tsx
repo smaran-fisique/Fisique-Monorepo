@@ -1,74 +1,41 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { sanityClient } from '@/lib/sanity';
 
 interface SiteSettings {
   whatsapp_number: string;
   ga4_measurement_id: string;
   site_name: string;
   site_tagline: string;
-  ai_enhance_prompt: string;
-  ai_format_prompt: string;
-  ai_image_prompt: string;
 }
 
+const DEFAULTS: SiteSettings = {
+  whatsapp_number: '919515469444',
+  ga4_measurement_id: '',
+  site_name: 'Fisique Fitness',
+  site_tagline: 'Transform Your Body, Transform Your Life',
+};
+
+const QUERY = `*[_type == "siteSettings" && _id == "siteSettings"][0]{
+  "whatsapp_number": contact.whatsappNumber,
+  "ga4_measurement_id": analytics.ga4MeasurementId,
+  "site_name": branding.siteName,
+  "site_tagline": branding.tagline
+}`;
+
 export const useSiteSettings = () => {
-  const [settings, setSettings] = useState<SiteSettings>({
-    whatsapp_number: '919515469444',
-    ga4_measurement_id: '',
-    site_name: 'Fisique Fitness',
-    site_tagline: 'Transform Your Body, Transform Your Life',
-    ai_enhance_prompt: '',
-    ai_format_prompt: '',
-    ai_image_prompt: '',
-  });
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULTS);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchSettings();
-
-    // Subscribe to changes
-    const channel = supabase
-      .channel('site_settings_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'site_settings',
-        },
-        () => {
-          fetchSettings();
+    sanityClient.fetch<Partial<SiteSettings>>(QUERY)
+      .then((data) => {
+        if (data) {
+          setSettings({ ...DEFAULTS, ...Object.fromEntries(Object.entries(data).filter(([, v]) => v != null)) });
         }
-      )
-      .subscribe();
-
-    return () => {
-      channel.unsubscribe();
-    };
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
-
-  const fetchSettings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('site_settings')
-        .select('key, value');
-
-      if (error) throw error;
-
-      if (data) {
-        const settingsObj = data.reduce((acc, { key, value }) => {
-          acc[key as keyof SiteSettings] = value;
-          return acc;
-        }, {} as SiteSettings);
-
-        setSettings(settingsObj);
-      }
-    } catch (error) {
-      console.error('Error fetching site settings:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return { settings, loading };
 };

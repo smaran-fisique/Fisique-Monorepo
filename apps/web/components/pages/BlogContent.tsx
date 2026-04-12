@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/integrations/supabase/client';
+import { sanityClient, urlFor } from '@/lib/sanity';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StickyBottomCTA } from '@/components/StickyBottomCTA';
@@ -10,14 +10,24 @@ import { Input } from '@/components/ui/input';
 import { Loader2, Search, Users, Dumbbell, MapPin } from 'lucide-react';
 
 interface BlogPost {
-  id: string;
+  _id: string;
   title: string;
-  slug: string;
+  slug: { current: string };
   excerpt: string | null;
-  featured_image_url: string | null;
-  published_at: string;
-  blog_categories: { name: string } | null;
+  featuredImage: unknown | null;
+  publishedAt: string;
+  category: { name: string } | null;
 }
+
+const QUERY = `*[_type == "post" && status == "published"] | order(publishedAt desc) {
+  _id,
+  title,
+  slug,
+  excerpt,
+  featuredImage,
+  publishedAt,
+  category->{ name }
+}`
 
 export default function BlogContent() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -25,25 +35,11 @@ export default function BlogContent() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    fetchPosts();
+    sanityClient.fetch<BlogPost[]>(QUERY)
+      .then(setPosts)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
-
-  const fetchPosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('id, title, slug, excerpt, featured_image_url, published_at, blog_categories(name)')
-        .eq('status', 'published')
-        .order('published_at', { ascending: false });
-
-      if (error) throw error;
-      setPosts(data || []);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase())
@@ -82,56 +78,55 @@ export default function BlogContent() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  {post.featured_image_url && (
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={post.featured_image_url}
-                        alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    {post.blog_categories && (
-                      <span className="text-xs font-medium text-primary mb-2 block">{post.blog_categories.name}</span>
+              {filteredPosts.map((post) => {
+                const imageUrl = post.featuredImage ? urlFor(post.featuredImage).width(800).height(450).url() : null;
+                return (
+                  <Link
+                    key={post._id}
+                    href={`/blog/${post.slug.current}`}
+                    className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                  >
+                    {imageUrl && (
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={imageUrl}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
                     )}
-                    <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{post.title}</h2>
-                    {post.excerpt && (
-                      <p className="text-muted-foreground text-sm line-clamp-3">{post.excerpt}</p>
-                    )}
-                    <div className="mt-4 text-xs text-muted-foreground">
-                      {new Date(post.published_at).toLocaleDateString()}
+                    <div className="p-6">
+                      {post.category && (
+                        <span className="text-xs font-medium text-primary mb-2 block">{post.category.name}</span>
+                      )}
+                      <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{post.title}</h2>
+                      {post.excerpt && (
+                        <p className="text-muted-foreground text-sm line-clamp-3">{post.excerpt}</p>
+                      )}
+                      <div className="mt-4 text-xs text-muted-foreground">
+                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           )}
 
-          {/* Explore Our Services */}
           <section className="mt-16 pt-12 border-t border-border">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center mb-4">Explore Our Services</h2>
             <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">Ready to take the next step? Check out what Fisique Fitness offers</p>
-
             <div className="grid md:grid-cols-3 gap-6">
               <Link href="/personal-training-kokapet" className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group">
                 <Users className="w-8 h-8 text-primary mb-4" />
                 <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">Personal Training</h3>
                 <p className="text-sm text-muted-foreground">1:1 coaching with certified trainers for real results</p>
               </Link>
-
               <Link href="/gym-membership-kokapet" className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group">
                 <Dumbbell className="w-8 h-8 text-primary mb-4" />
                 <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">Gym Membership</h3>
                 <p className="text-sm text-muted-foreground">Premium equipment in an uncrowded boutique environment</p>
               </Link>
-
               <Link href="/kokapet-gym" className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group">
                 <MapPin className="w-8 h-8 text-primary mb-4" />
                 <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">Our Kokapet Studio</h3>

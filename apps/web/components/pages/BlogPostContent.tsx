@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { supabase } from '@/integrations/supabase/client';
+import { PortableText } from '@portabletext/react';
+import { sanityClient, urlFor } from '@/lib/sanity';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StickyBottomCTA } from '@/components/StickyBottomCTA';
@@ -12,13 +13,34 @@ import { RelatedServicesSection } from '@/components/RelatedServicesSection';
 
 interface BlogPost {
   title: string;
-  content: string;
+  body: unknown[];
   excerpt: string | null;
-  featured_image_url: string | null;
-  published_at: string;
-  updated_at: string | null;
-  blog_categories: { name: string } | null;
+  featuredImage: unknown | null;
+  publishedAt: string;
+  category: { name: string } | null;
 }
+
+const QUERY = `*[_type == "post" && slug.current == $slug && status == "published"][0]{
+  title,
+  body,
+  excerpt,
+  featuredImage,
+  publishedAt,
+  category->{ name }
+}`
+
+const portableTextComponents = {
+  types: {
+    image: ({ value }: { value: unknown }) => {
+      const src = urlFor(value as Parameters<typeof urlFor>[0]).width(1200).url();
+      return (
+        <figure className="my-8">
+          <img src={src} alt="" className="w-full rounded-lg" />
+        </figure>
+      );
+    },
+  },
+};
 
 interface BlogPostContentProps {
   slug: string;
@@ -29,28 +51,12 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (slug) {
-      fetchPost();
-    }
+    if (!slug) return;
+    sanityClient.fetch<BlogPost>(QUERY, { slug })
+      .then(setPost)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, [slug]);
-
-  const fetchPost = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('title, content, excerpt, featured_image_url, published_at, updated_at, blog_categories(name)')
-        .eq('slug', slug)
-        .eq('status', 'published')
-        .single();
-
-      if (error) throw error;
-      setPost(data);
-    } catch (error) {
-      console.error('Error fetching post:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -77,6 +83,8 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
     );
   }
 
+  const imageUrl = post.featuredImage ? urlFor(post.featuredImage as Parameters<typeof urlFor>[0]).width(1200).height(630).url() : null;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -89,42 +97,34 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
             </Link>
           </Button>
 
-          {post.featured_image_url && (
+          {imageUrl && (
             <div className="aspect-video rounded-lg overflow-hidden mb-8">
-              <img
-                src={post.featured_image_url}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={imageUrl} alt={post.title} className="w-full h-full object-cover" />
             </div>
           )}
 
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
 
           <div className="mb-6 flex items-center gap-3 text-sm text-muted-foreground">
-            {post.blog_categories && (
+            {post.category && (
               <>
-                <span className="font-medium text-primary">{post.blog_categories.name}</span>
+                <span className="font-medium text-primary">{post.category.name}</span>
                 <span>•</span>
               </>
             )}
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              {new Date(post.published_at).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </div>
+            {post.publishedAt && (
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </div>
+            )}
           </div>
 
-          <div
-            className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-blockquote:text-muted-foreground"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <div className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-blockquote:text-muted-foreground">
+            {post.body && <PortableText value={post.body as Parameters<typeof PortableText>[0]['value']} components={portableTextComponents} />}
+          </div>
         </article>
 
-        {/* Related Services CTA */}
         <RelatedServicesSection />
       </main>
 
