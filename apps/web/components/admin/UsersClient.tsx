@@ -7,14 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Shield } from 'lucide-react';
 
-interface UserRole {
+interface UserProfile {
   id: string;
-  user_id: string;
   role: string;
+  full_name: string | null;
 }
 
 export function UsersClient() {
-  const [userRoles, setUserRoles] = useState<UserRole[]>([]);
+  const [profiles, setProfiles] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -25,12 +25,14 @@ export function UsersClient() {
   const fetchUsers = async () => {
     try {
       const { data, error } = await supabase
-        .from('user_roles')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .schema('public')
+        .from('profiles')
+        .select('id, role, full_name')
+        .in('role', ['admin', 'super_admin', 'moderator', 'user'])
+        .order('role', { ascending: true });
 
       if (error) throw error;
-      setUserRoles(data || []);
+      setProfiles(data || []);
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -42,10 +44,11 @@ export function UsersClient() {
     }
   };
 
-  const handleRoleChange = async (id: string, newRole: 'admin' | 'moderator' | 'user') => {
+  const handleRoleChange = async (id: string, newRole: 'admin' | 'super_admin' | 'moderator' | 'user') => {
     try {
       const { error } = await supabase
-        .from('user_roles')
+        .schema('public')
+        .from('profiles')
         .update({ role: newRole })
         .eq('id', id);
 
@@ -82,28 +85,29 @@ export function UsersClient() {
       </div>
 
       <div className="bg-card border border-border rounded-lg">
-        {userRoles.length === 0 ? (
+        {profiles.length === 0 ? (
           <div className="p-12 text-center">
             <Shield className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
             <p className="text-muted-foreground">No users with assigned roles yet</p>
           </div>
         ) : (
           <div className="divide-y divide-border">
-            {userRoles.map((userRole) => (
-              <div key={userRole.id} className="p-4 flex items-center justify-between">
+            {profiles.map((profile) => (
+              <div key={profile.id} className="p-4 flex items-center justify-between">
                 <div>
-                  <p className="font-medium font-mono text-sm">{userRole.user_id}</p>
-                  <p className="text-xs text-muted-foreground">User ID</p>
+                  <p className="font-medium text-sm">{profile.full_name || 'Unnamed'}</p>
+                  <p className="font-mono text-xs text-muted-foreground">{profile.id}</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <Select
-                    value={userRole.role}
-                    onValueChange={(value) => handleRoleChange(userRole.id, value as 'admin' | 'moderator' | 'user')}
+                    value={profile.role}
+                    onValueChange={(value) => handleRoleChange(profile.id, value as 'admin' | 'super_admin' | 'moderator' | 'user')}
                   >
-                    <SelectTrigger className="w-32">
+                    <SelectTrigger className="w-36">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="super_admin">Super Admin</SelectItem>
                       <SelectItem value="admin">Admin</SelectItem>
                       <SelectItem value="moderator">Moderator</SelectItem>
                       <SelectItem value="user">User</SelectItem>

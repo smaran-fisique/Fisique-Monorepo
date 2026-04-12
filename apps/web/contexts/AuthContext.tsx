@@ -83,12 +83,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const hasRole = async (role: 'admin' | 'moderator' | 'user'): Promise<boolean> => {
     if (!user) return false;
     const { data, error } = await supabase
-      .from('user_roles')
+      .schema('public')
+      .from('profiles')
       .select('role')
-      .eq('user_id', user.id)
-      .eq('role', role)
+      .eq('id', user.id)
       .single();
-    return !error && !!data;
+    if (error || !data) return false;
+    if (role === 'admin') return data.role === 'admin' || data.role === 'super_admin';
+    return data.role === role;
   };
 
   return (
