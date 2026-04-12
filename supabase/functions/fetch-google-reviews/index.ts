@@ -14,7 +14,9 @@ serve(async (req) => {
     const googleApiKey = Deno.env.get('GOOGLE_PLACES_API_KEY')!;
     const placeId = Deno.env.get('GOOGLE_PLACE_ID')!;
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      db: { schema: 'fisique_web' },
+    });
 
     // Check cache freshness (7 days = 604800000 ms)
     const { data: cachedReviews, error: cacheError } = await supabase

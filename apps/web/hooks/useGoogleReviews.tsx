@@ -16,23 +16,22 @@ export const useGoogleReviews = () => {
   return useQuery({
     queryKey: ["google-reviews"],
     queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke("fetch-google-reviews");
+      const { data, error } = await supabase
+        .schema('fisique_web' as any)
+        .from("google_reviews")
+        .select("*")
+        .order("time", { ascending: false });
 
       if (error) {
         console.error("Error fetching reviews:", error);
         throw error;
       }
 
-      const allReviews = data.reviews as GoogleReview[];
-      
-      // Filter to only show reviews with text content (any rating)
-      const filteredReviews = allReviews.filter(
+      return (data as GoogleReview[]).filter(
         review => review.text.trim().length > 0
       );
-      
-      return filteredReviews;
     },
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    staleTime: 1000 * 60 * 60 * 24 * 7, // 7 days
     refetchOnWindowFocus: false,
   });
 };
