@@ -48,12 +48,13 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Verify admin role
+    // Verify admin role via member hub profiles (public schema, read-only)
     const { data: roleData } = await supabase
-      .from('user_roles')
+      .schema('public')
+      .from('profiles')
       .select('role')
-      .eq('user_id', user.id)
-      .eq('role', 'admin')
+      .eq('id', user.id)
+      .in('role', ['admin', 'super_admin'])
       .maybeSingle();
 
     if (!roleData) {
