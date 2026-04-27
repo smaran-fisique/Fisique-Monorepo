@@ -51,7 +51,11 @@ export const OrganizationSchema = () => {
       }
     ],
     "sameAs": [
-      "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
+      "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9",
+      "https://www.instagram.com/fisique.fitness/",
+      "https://www.youtube.com/@fisiquefitness",
+      "https://www.linkedin.com/company/fisique-fitness/",
+      "https://www.facebook.com/fisique.fitness/"
     ],
     "contactPoint": [
       {

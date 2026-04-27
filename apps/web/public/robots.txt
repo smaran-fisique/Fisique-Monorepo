@@ -15,6 +15,7 @@ Allow: /gym-financial-district
 Allow: /freelance-trainer-kokapet
 Allow: /freelance-trainer-narsingi
 Allow: /freelance-trainer-financial-district
+Allow: /best-gym-kokapet
 
 # Blog
 Allow: /blog/
@@ -51,4 +52,20 @@ User-agent: Applebot-Extended
 Allow: /
 
 User-agent: Bytespider
+Allow: /
+
+# AI Search bots (live-retrieval, distinct from training crawlers)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Applebot
 Allow: /
