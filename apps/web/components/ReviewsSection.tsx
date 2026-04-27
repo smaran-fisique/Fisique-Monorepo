@@ -1,139 +1,230 @@
 'use client';
 
-import { Star } from "lucide-react";
-import { useGoogleReviews } from "@/hooks/useGoogleReviews";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { useRef } from "react";
+import { useState, useEffect } from 'react';
+import { Star, ArrowLeft, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useGoogleReviews } from '@/hooks/useGoogleReviews';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const enterEase = [0.16, 1, 0.3, 1] as const;
+
+const PLACE_URL =
+  'https://www.google.com/maps/search/?api=1&query=Fisique+Fitness+-+Best+Gym+in+Kokapet&query_place_id=ChIJCVGCTtmVyzsRcoYr31T3p2s';
+
+const REVIEW_TAGS = [
+  { label: 'Trainers', count: 36 },
+  { label: 'Quality equipment', count: 7 },
+  { label: 'Tailored workouts', count: 5 },
+  { label: 'Sauna', count: 4 },
+  { label: 'Motivating trainer', count: 3 },
+  { label: 'Diet advice', count: 2 },
+  { label: 'Realistic plan', count: 2 },
+];
+
 export const ReviewsSection = () => {
   const { data: reviews, isLoading, error } = useGoogleReviews();
-  const plugin = useRef(
-    Autoplay({
-      delay: 5000,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-    }),
-  );
+  const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  const total = reviews?.length ?? 0;
+
+  useEffect(() => {
+    if (!reviews || reduce) return;
+    const t = setInterval(() => setIndex((i) => (i + 1) % reviews.length), 7000);
+    return () => clearInterval(t);
+  }, [reviews, reduce]);
+
+  const go = (dir: 1 | -1) => {
+    if (!reviews) return;
+    setIndex((i) => (i + dir + reviews.length) % reviews.length);
+  };
+
   return (
-    <section className="py-20 border-t border-border">
-      <div className="container-custom">
-        <div className="mb-7">
-          <h2 className="font-bold tracking-tight mb-3 text-5xl text-cyan-500">What Clients Say</h2>
-          <p className="text-muted-foreground w-full max-w-none">
-            Minimal, honest reviews pulled from client feedback.{" "}
-            <a
-              href="https://www.google.com/maps/place/Fisique+Fitness+-+Best+Gym+in+Kokapet/@17.3871076,78.3375157,17z/data=!4m8!3m7!1s0x3bcb95d94e825109:0x6ba7f754df2b8672!8m2!3d17.3871076!4d78.3400906!9m1!1b1!16s%2Fg%2F11y3l06b_5?entry=ttu&g_ep=EgoyMDI1MTEwNC4xIKXMDSoASAFQAw%3D%3D"
-              className="underline text-primary"
-              target="_blank"
-              rel="noopener noreferrer"
+    <section className="relative bg-background paper py-10 md:py-20">
+      <div className="container-custom px-4 md:px-6">
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease: enterEase }}
+          className="mb-8 flex items-baseline justify-between border-b hairline pb-3 font-mono-display text-[10px] uppercase tracking-[0.28em] text-muted-foreground"
+        >
+          <span>Section · 07 · Letters</span>
+          <span className="hidden md:inline">From the members</span>
+          <span>Page A7</span>
+        </motion.div>
+
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, ease: enterEase }}
+          className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between"
+        >
+          <div>
+            <span className="font-mono-display text-[10px] uppercase tracking-[0.28em] text-accent">
+              Voices · Members
+            </span>
+            <h2 className="mt-4 font-display font-black text-foreground text-[clamp(40px,7vw,108px)] leading-[0.92] tracking-[-0.045em]">
+              In their
+              <span className="font-thin text-accent"> words.</span>
+            </h2>
+          </div>
+          <a
+            href={PLACE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono-display text-[11px] uppercase tracking-[0.18em] text-muted-foreground underline decoration-accent/50 underline-offset-4 transition hover:text-foreground hover:decoration-accent"
+          >
+            Read all on Google →
+          </a>
+        </motion.div>
+
+        {/* Stats + review tags */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: enterEase }}
+          className="mb-10 flex flex-wrap items-center gap-2 md:mb-12"
+        >
+          <span className="mr-2 font-mono-display text-[10px] uppercase tracking-[0.28em] text-foreground">
+            5.0 ★ · 81 reviews
+          </span>
+          {REVIEW_TAGS.map((tag) => (
+            <span
+              key={tag.label}
+              className="inline-flex items-center gap-1.5 border hairline bg-background px-3 py-1 font-mono-display text-[9px] uppercase tracking-[0.22em] text-muted-foreground"
             >
-              Full list available on Google
-            </a>
-            .
-          </p>
-        </div>
+              {tag.label}
+              <span className="text-accent">{tag.count}</span>
+            </span>
+          ))}
+        </motion.div>
 
         {isLoading ? (
-          <div className="grid md:grid-cols-3 gap-5">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-[160px] rounded-[16px]" />
-            ))}
-          </div>
-        ) : error ? (
-          <div className="text-center py-8">
-            <p className="text-muted-foreground mb-4">Unable to load reviews at the moment.</p>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID || ""}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              View reviews on Google →
-            </a>
+          <Skeleton className="h-[420px] w-full rounded-[var(--radius)]" />
+        ) : error || !reviews || total === 0 ? (
+          <div className="border-y hairline py-20 text-center">
+            <p className="text-muted-foreground">
+              Reviews unavailable.{' '}
+              <a
+                href={PLACE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:underline"
+              >
+                View on Google →
+              </a>
+            </p>
           </div>
         ) : (
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            plugins={[plugin.current]}
-            className="w-full"
-            onMouseEnter={plugin.current.stop}
-            onMouseLeave={plugin.current.reset}
-          >
-            <CarouselContent>
-              {reviews?.map((review) => (
-                <CarouselItem key={review.id} className="md:basis-1/2 lg:basis-1/3">
-                  <article className="group relative h-full rounded-2xl bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm border border-border/50 p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1">
-                    {/* Rating stars - prominent at top */}
-                    <div className="flex gap-1 mb-4 text-[#ffd166]">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 transition-transform group-hover:scale-110 ${i < review.rating ? "fill-current" : "fill-none stroke-current opacity-20"}`}
-                          style={{
-                            transitionDelay: `${i * 50}ms`,
-                          }}
-                        />
-                      ))}
-                    </div>
+          <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+            {/* Giant quote mark + counter */}
+            <div className="lg:col-span-3">
+              <div
+                className="font-display font-black leading-none text-accent/30 text-[clamp(140px,20vw,280px)]"
+                aria-hidden
+              >
+                &ldquo;
+              </div>
+              <div className="-mt-6 font-mono-display text-[11px] uppercase tracking-[0.22em] text-muted-foreground md:-mt-12">
+                {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+              </div>
+            </div>
 
-                    {/* Review text - larger and more prominent */}
-                    <blockquote className="mb-6">
-                      <p className="text-base leading-relaxed line-clamp-5 text-cyan-500">"{review.text}"</p>
-                    </blockquote>
+            {/* Quote */}
+            <div className="relative min-h-[280px] lg:col-span-9">
+              <AnimatePresence mode="wait">
+                <motion.figure
+                  key={reviews[index].id}
+                  initial={reduce ? false : { opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduce ? undefined : { opacity: 0, y: -16 }}
+                  transition={{ duration: 0.6, ease: enterEase }}
+                >
+                  <div className="flex items-center gap-1 text-accent">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`h-4 w-4 ${
+                          i < reviews[index].rating
+                            ? 'fill-accent stroke-accent'
+                            : 'fill-none stroke-muted-foreground/40'
+                        }`}
+                      />
+                    ))}
+                  </div>
 
-                    {/* Author info - footer style */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-border/30">
-                      {review.profile_photo_url ? (
-                        <img
-                          src={review.profile_photo_url.replace(/=s\d+/, '=s200')}
-                          alt={review.author_name}
-                          width={44}
-                          height={44}
-                          className="w-11 h-11 rounded-full object-cover ring-2 ring-border/50"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 border border-border/50 flex items-center justify-center">
-                          <span className="text-sm font-medium text-primary">{review.author_name.charAt(0)}</span>
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm text-foreground truncate">{review.author_name}</p>
-                        <p className="text-xs text-muted-foreground">{review.relative_time_description}</p>
+                  <blockquote className="mt-6 text-foreground/90 text-[clamp(17px,1.6vw,22px)] leading-[1.55] tracking-[-0.005em]">
+                    &ldquo;{reviews[index].text}&rdquo;
+                  </blockquote>
+
+                  <figcaption className="mt-8 flex items-center gap-4 border-t hairline pt-6">
+                    {reviews[index].profile_photo_url ? (
+                      <img
+                        src={reviews[index].profile_photo_url.replace(/=s\d+/, '=s200')}
+                        alt={reviews[index].author_name}
+                        width={48}
+                        height={48}
+                        className="h-12 w-12 rounded-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary">
+                        <span className="font-medium text-foreground">
+                          {reviews[index].author_name.charAt(0)}
+                        </span>
                       </div>
-                      {/* Google badge */}
-                      <div className="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
-                        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                          <path
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                            fill="#4285F4"
-                          />
-                          <path
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                            fill="#34A853"
-                          />
-                          <path
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                            fill="#FBBC05"
-                          />
-                          <path
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                            fill="#EA4335"
-                          />
-                        </svg>
-                      </div>
+                    )}
+                    <div>
+                      <p className="font-display font-bold text-foreground">
+                        {reviews[index].author_name}
+                      </p>
+                      <p className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                        {reviews[index].relative_time_description} · Google review
+                      </p>
                     </div>
-                  </article>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-12 border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card hover:border-primary/50 transition-all" />
-            <CarouselNext className="hidden md:flex -right-12 border-border/50 bg-card/80 backdrop-blur-sm hover:bg-card hover:border-primary/50 transition-all" />
-          </Carousel>
+                  </figcaption>
+                </motion.figure>
+              </AnimatePresence>
+
+              {/* Controls */}
+              <div className="mt-10 flex items-center justify-between gap-6 border-t hairline pt-6">
+                <div className="flex flex-1 items-center gap-4">
+                  <span className="font-mono-display text-[11px] uppercase tracking-[0.22em] text-foreground tabular-nums">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="relative h-px flex-1 bg-border">
+                    <div
+                      className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-500"
+                      style={{ width: `${((index + 1) / total) * 100}%` }}
+                    />
+                  </div>
+                  <span className="font-mono-display text-[11px] uppercase tracking-[0.22em] text-muted-foreground tabular-nums">
+                    {String(total).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => go(-1)}
+                    aria-label="Previous review"
+                    className="grid h-10 w-10 place-items-center border hairline transition hover:bg-secondary"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => go(1)}
+                    aria-label="Next review"
+                    className="grid h-10 w-10 place-items-center border hairline transition hover:bg-secondary"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </section>

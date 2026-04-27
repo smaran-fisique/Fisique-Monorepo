@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { sanityClient, urlFor } from '@/lib/sanity';
+import { createSupabaseServerClient } from '@/integrations/supabase/server';
 import { BlogPostSchema } from '@/components/BlogPostSchema';
 import { BreadcrumbSchema } from '@/components/BreadcrumbSchema';
 import BlogPostContent from '@/components/pages/BlogPostContent';
@@ -8,29 +8,20 @@ interface PageProps {
   params: { slug: string };
 }
 
-const META_QUERY = `*[_type == "post" && slug.current == $slug && status == "published"][0]{
-  title, excerpt, featuredImage, publishedAt,
-  seo { metaTitle, metaDescription, ogImage }
-}`
-
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = await sanityClient.fetch<{
-    title: string;
-    excerpt: string | null;
-    featuredImage: unknown | null;
-    publishedAt: string | null;
-    seo: { metaTitle: string | null; metaDescription: string | null; ogImage: unknown | null } | null;
-  }>(META_QUERY, { slug: params.slug });
+  const supabase = createSupabaseServerClient();
+  const { data: post } = await supabase
+    .from('blog_posts')
+    .select('title, excerpt, featured_image_url')
+    .eq('slug', params.slug)
+    .eq('status', 'published')
+    .maybeSingle();
 
   if (!post) return { title: 'Post Not Found | Fisique Fitness Blog' };
 
-  const title = post.seo?.metaTitle ?? post.title;
-  const description = post.seo?.metaDescription ?? post.excerpt ?? 'Read this article on the Fisique Fitness blog.';
-  const ogImage = post.seo?.ogImage
-    ? urlFor(post.seo.ogImage as Parameters<typeof urlFor>[0]).width(1200).height(630).url()
-    : post.featuredImage
-    ? urlFor(post.featuredImage as Parameters<typeof urlFor>[0]).width(1200).height(630).url()
-    : undefined;
+  const title = post.title;
+  const description = post.excerpt ?? 'Read this article on the Fisique Fitness blog.';
+  const ogImage = post.featured_image_url ?? undefined;
 
   return {
     title: `${title} | Fisique Fitness Blog`,

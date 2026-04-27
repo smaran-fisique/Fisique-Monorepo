@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { sanityClient, urlFor } from '@/lib/sanity';
+import { supabase } from '@/integrations/supabase/client';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StickyBottomCTA } from '@/components/StickyBottomCTA';
@@ -10,24 +10,14 @@ import { Input } from '@/components/ui/input';
 import { Loader2, Search, Users, Dumbbell, MapPin } from 'lucide-react';
 
 interface BlogPost {
-  _id: string;
+  id: string;
   title: string;
-  slug: { current: string };
+  slug: string;
   excerpt: string | null;
-  featuredImage: unknown | null;
-  publishedAt: string;
+  featured_image_url: string | null;
+  published_at: string;
   category: { name: string } | null;
 }
-
-const QUERY = `*[_type == "post" && status == "published"] | order(publishedAt desc) {
-  _id,
-  title,
-  slug,
-  excerpt,
-  featuredImage,
-  publishedAt,
-  category->{ name }
-}`
 
 export default function BlogContent() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -35,10 +25,21 @@ export default function BlogContent() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    sanityClient.fetch<BlogPost[]>(QUERY)
-      .then(setPosts)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('id, title, slug, excerpt, featured_image_url, published_at, category:blog_categories(name)')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false });
+        if (error) throw error;
+        setPosts(((data ?? []) as unknown) as BlogPost[]);
+      } catch (e) {
+        console.error('Error fetching posts:', e);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   const filteredPosts = posts.filter((post) =>
@@ -78,38 +79,35 @@ export default function BlogContent() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => {
-                const imageUrl = post.featuredImage ? urlFor(post.featuredImage).width(800).height(450).url() : null;
-                return (
-                  <Link
-                    key={post._id}
-                    href={`/blog/${post.slug.current}`}
-                    className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                  >
-                    {imageUrl && (
-                      <div className="aspect-video overflow-hidden">
-                        <img
-                          src={imageUrl}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    <div className="p-6">
-                      {post.category && (
-                        <span className="text-xs font-medium text-primary mb-2 block">{post.category.name}</span>
-                      )}
-                      <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{post.title}</h2>
-                      {post.excerpt && (
-                        <p className="text-muted-foreground text-sm line-clamp-3">{post.excerpt}</p>
-                      )}
-                      <div className="mt-4 text-xs text-muted-foreground">
-                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ''}
-                      </div>
+              {filteredPosts.map((post) => (
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  {post.featured_image_url && (
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={post.featured_image_url}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                  </Link>
-                );
-              })}
+                  )}
+                  <div className="p-6">
+                    {post.category && (
+                      <span className="text-xs font-medium text-primary mb-2 block">{post.category.name}</span>
+                    )}
+                    <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{post.title}</h2>
+                    {post.excerpt && (
+                      <p className="text-muted-foreground text-sm line-clamp-3">{post.excerpt}</p>
+                    )}
+                    <div className="mt-4 text-xs text-muted-foreground">
+                      {post.published_at ? new Date(post.published_at).toLocaleDateString() : ''}
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
 

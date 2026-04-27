@@ -61,7 +61,7 @@ export const defaultFAQs: FAQItem[] = [
   },
   {
     question: "What are your operating hours?",
-    answer: "Fisique Fitness is open Monday to Saturday from 5:30 AM to 10:00 PM. We offer flexible scheduling for personal training sessions to accommodate busy professionals' schedules.",
+    answer: "Fisique Fitness is open Monday to Saturday from 5:30 AM to 10:00 PM with full coaching, and Sunday from 7:00 AM to 12:00 PM for self-training only (no personal trainers on site). We offer flexible scheduling for personal training sessions to accommodate busy professionals' schedules.",
   },
 ];
 

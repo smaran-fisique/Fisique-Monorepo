@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { PortableText } from '@portabletext/react';
-import { sanityClient, urlFor } from '@/lib/sanity';
+import { supabase } from '@/integrations/supabase/client';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { StickyBottomCTA } from '@/components/StickyBottomCTA';
@@ -13,34 +12,12 @@ import { RelatedServicesSection } from '@/components/RelatedServicesSection';
 
 interface BlogPost {
   title: string;
-  body: unknown[];
+  content: string;
   excerpt: string | null;
-  featuredImage: unknown | null;
-  publishedAt: string;
+  featured_image_url: string | null;
+  published_at: string;
   category: { name: string } | null;
 }
-
-const QUERY = `*[_type == "post" && slug.current == $slug && status == "published"][0]{
-  title,
-  body,
-  excerpt,
-  featuredImage,
-  publishedAt,
-  category->{ name }
-}`
-
-const portableTextComponents = {
-  types: {
-    image: ({ value }: { value: unknown }) => {
-      const src = urlFor(value as Parameters<typeof urlFor>[0]).width(1200).url();
-      return (
-        <figure className="my-8">
-          <img src={src} alt="" className="w-full rounded-lg" />
-        </figure>
-      );
-    },
-  },
-};
 
 interface BlogPostContentProps {
   slug: string;
@@ -52,10 +29,22 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
 
   useEffect(() => {
     if (!slug) return;
-    sanityClient.fetch<BlogPost>(QUERY, { slug })
-      .then(setPost)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('blog_posts')
+          .select('title, content, excerpt, featured_image_url, published_at, category:blog_categories(name)')
+          .eq('slug', slug)
+          .eq('status', 'published')
+          .maybeSingle();
+        if (error) throw error;
+        setPost(((data ?? null) as unknown) as BlogPost | null);
+      } catch (e) {
+        console.error('Error fetching post:', e);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, [slug]);
 
   if (loading) {
@@ -83,8 +72,6 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
     );
   }
 
-  const imageUrl = post.featuredImage ? urlFor(post.featuredImage as Parameters<typeof urlFor>[0]).width(1200).height(630).url() : null;
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -97,9 +84,9 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
             </Link>
           </Button>
 
-          {imageUrl && (
+          {post.featured_image_url && (
             <div className="aspect-video rounded-lg overflow-hidden mb-8">
-              <img src={imageUrl} alt={post.title} className="w-full h-full object-cover" />
+              <img src={post.featured_image_url} alt={post.title} className="w-full h-full object-cover" />
             </div>
           )}
 
@@ -112,17 +99,18 @@ export default function BlogPostContent({ slug }: BlogPostContentProps) {
                 <span>•</span>
               </>
             )}
-            {post.publishedAt && (
+            {post.published_at && (
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
-                {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </div>
             )}
           </div>
 
-          <div className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-blockquote:text-muted-foreground">
-            {post.body && <PortableText value={post.body as Parameters<typeof PortableText>[0]['value']} components={portableTextComponents} />}
-          </div>
+          <div
+            className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-blockquote:text-muted-foreground"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </article>
 
         <RelatedServicesSection />

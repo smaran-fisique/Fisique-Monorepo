@@ -2,65 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Quantify';
+  src: url('/fonts/Quantify.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 220 20% 4%;
-    --background-2: 220 18% 7%;
-    --foreground: 220 20% 92%;
+    /* Brand spec — Fisique Fitness Logo Guide.
+       Cyan #24b6c4, charcoal #575a5a, pale mint #e0f2ef. */
+    --background: 168 35% 97%;
+    --background-2: 168 30% 93%;
+    --foreground: 180 2% 22%;
 
-    --card: 220 22% 10%;
-    --card-foreground: 220 20% 92%;
+    --card: 0 0% 100%;
+    --card-foreground: 180 2% 22%;
 
-    --popover: 220 22% 10%;
-    --popover-foreground: 220 20% 92%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 180 2% 22%;
 
-    --primary: 186 68% 45%;
-    --primary-foreground: 186 100% 8%;
+    --primary: 186 70% 47%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 220 20% 92%;
+    --secondary: 168 30% 91%;
+    --secondary-foreground: 180 2% 22%;
 
-    --muted: 220 15% 25%;
-    --muted-foreground: 220 13% 69%;
+    --muted: 168 28% 93%;
+    --muted-foreground: 180 4% 40%;
 
-    --accent: 186 68% 45%;
-    --accent-foreground: 186 100% 8%;
-    --accent-glow: 186 100% 76%;
+    --accent: 186 70% 38%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 186 70% 47%;
 
-    --destructive: 0 68% 50%;
-    --destructive-foreground: 220 20% 92%;
+    --destructive: 0 72% 46%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 16%;
-    --input: 220 20% 16%;
-    --ring: 186 68% 45%;
+    --border: 180 6% 86%;
+    --input: 180 6% 86%;
+    --ring: 186 70% 47%;
 
-    --success: 158 68% 45%;
+    --success: 158 70% 32%;
 
     --radius: 0.875rem;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(180deg, hsl(186 68% 45%), hsl(186 68% 38%));
-    --gradient-radial-hero: radial-gradient(60% 55% at 20% 10%, hsl(186 68% 45% / 0.25), transparent 55%),
-                            radial-gradient(50% 65% at 80% 30%, hsl(186 100% 76% / 0.12), transparent 60%);
-    --gradient-card: linear-gradient(135deg, hsl(220 23% 9% / 0.8), hsl(220 28% 7% / 0.9));
-    --gradient-card-hover: linear-gradient(135deg, hsl(220 23% 11% / 0.9), hsl(220 28% 8% / 0.95));
+    --gradient-primary: linear-gradient(180deg, hsl(186 86% 30%), hsl(186 86% 22%));
+    --gradient-radial-hero: radial-gradient(60% 55% at 18% 8%, hsl(186 86% 26% / 0.10), transparent 55%),
+                            radial-gradient(50% 65% at 82% 28%, hsl(186 78% 50% / 0.08), transparent 60%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(36 18% 96% / 0.95));
+    --gradient-card-hover: linear-gradient(135deg, hsl(0 0% 100%), hsl(36 18% 97%));
 
-    /* Shadows */
-    --shadow-elegant: 0 20px 40px hsl(0 0% 0% / 0.4);
-    --shadow-glow: 0 10px 30px hsl(186 68% 45% / 0.25);
-    --shadow-glow-hover: 0 14px 40px hsl(186 68% 45% / 0.4);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.3);
-    --shadow-card-hover: 0 12px 48px hsl(186 68% 45% / 0.15);
+    /* Shadows — gentle on light */
+    --shadow-elegant: 0 18px 40px hsl(220 22% 11% / 0.08);
+    --shadow-glow: 0 10px 30px hsl(186 86% 26% / 0.18);
+    --shadow-glow-hover: 0 14px 40px hsl(186 86% 26% / 0.28);
+    --shadow-card: 0 8px 24px hsl(220 22% 11% / 0.06);
+    --shadow-card-hover: 0 14px 38px hsl(186 86% 26% / 0.12);
 
     /* Transitions */
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Offer page specific */
-    --fisique-dark: 220 14% 6%;
+    --fisique-dark: 220 22% 11%;
 
     /* Dynamic banner offset */
     --offer-banner-height: 0px;
@@ -74,7 +84,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
@@ -88,7 +98,7 @@ All colors MUST be HSL.
 
 @layer utilities {
   .container-custom {
-    width: min(1200px, 92vw);
+    width: min(1440px, 94vw);
     margin: 0 auto;
   }
 
@@ -119,6 +129,72 @@ All colors MUST be HSL.
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Editorial marquee — feature ticker */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+
+  /* Hairline divider used across editorial sections */
+  .hairline {
+    border-color: hsl(var(--border) / 0.6);
+  }
+
+  /* Brand typography — Quantify display + Poppins body */
+  .font-display {
+    font-family: 'Quantify', 'Poppins', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'liga', 'kern';
+    letter-spacing: -0.02em;
+  }
+  .font-mono-display {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    font-weight: 500;
+    font-feature-settings: 'tnum', 'kern';
+  }
+
+  /* Drop cap — Quantify display, brand-pure */
+  .dropcap::first-letter {
+    font-family: 'Quantify', 'Poppins', system-ui, sans-serif;
+    font-weight: 400;
+    float: left;
+    font-size: 4.6em;
+    line-height: 0.85;
+    padding: 0.08em 0.14em 0 0;
+    color: hsl(var(--accent));
+    letter-spacing: -0.03em;
+  }
+
+  /* Tile — bento cell */
+  .tile {
+    position: relative;
+    border: 1px solid hsl(var(--border) / 0.7);
+    background: hsl(var(--card));
+    overflow: hidden;
+  }
+  .tile-dark {
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+    border-color: hsl(var(--foreground));
+  }
+
+  /* Subtle paper grain — pseudo-printed feel */
+  .paper {
+    background-image:
+      radial-gradient(hsl(var(--foreground) / 0.025) 1px, transparent 1px);
+    background-size: 4px 4px;
   }
 
   .premium-section {
@@ -190,3 +266,4 @@ All colors MUST be HSL.
     padding-bottom: env(safe-area-inset-bottom, 16px);
   }
 }
+

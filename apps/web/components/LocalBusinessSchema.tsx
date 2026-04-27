@@ -15,8 +15,8 @@ interface LocalBusinessSchemaProps {
 
 export const LocalBusinessSchema = ({
   includeRating = true,
-  ratingValue = '4.9',
-  reviewCount = '77',
+  ratingValue = '5.0',
+  reviewCount = '81',
 }: LocalBusinessSchemaProps) => {
   const schema = {
     "@context": "https://schema.org",
@@ -33,7 +33,7 @@ export const LocalBusinessSchema = ({
     ],
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "4th Floor, Above Pulla Reddy Sweets, Avant Cedar",
+      "streetAddress": "4th Floor, Advant Cedar, Osman Sagar Rd, above Pulla Reddy Sweets",
       "addressLocality": "Kokapet",
       "addressRegion": "Hyderabad",
       "postalCode": "500075",
@@ -41,8 +41,8 @@ export const LocalBusinessSchema = ({
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "17.3871",
-      "longitude": "78.3401"
+      "latitude": "17.3871076",
+      "longitude": "78.3400906"
     },
     "priceRange": "₹₹₹",
     "currenciesAccepted": "INR",
