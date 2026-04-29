@@ -19,14 +19,14 @@ export const Hero = () => {
   });
 
   return (
-    <section className="relative flex flex-col overflow-hidden bg-background paper h-[calc(100svh-60px)] md:h-[calc(100dvh-64px)]">
-      <div className="container-custom flex min-h-0 flex-1 flex-col px-3 pt-2 pb-2 md:px-6 md:pt-4 md:pb-4">
+    <section className="relative flex flex-col overflow-hidden bg-background paper min-h-[calc(100svh-60px)] md:min-h-[calc(100dvh-64px)]">
+      <div className="container-custom flex flex-1 flex-col px-3 pt-2 pb-2 md:px-6 md:pt-4 md:pb-4">
         {/* Bento grid */}
-        <div className="grid min-h-0 flex-1 grid-cols-2 gap-1.5 grid-rows-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1.7fr)_auto] md:grid-cols-12 md:grid-rows-[minmax(0,1fr)_minmax(0,1.4fr)_auto] md:gap-2">
+        <div className="grid flex-1 grid-cols-2 gap-1.5 grid-rows-[auto_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] md:grid-cols-12 md:grid-rows-[auto_minmax(180px,1fr)_minmax(230px,1.4fr)] md:gap-2">
           {/* TILE A — Headline over photo, left 50%, spans both rows */}
           <motion.article
             {...tile(0.1)}
-            className="tile relative col-span-2 row-start-1 row-end-2 overflow-hidden p-4 md:col-span-6 md:row-start-1 md:row-end-3 md:p-7"
+            className="tile relative col-span-2 row-start-2 row-end-3 overflow-hidden p-4 md:col-span-6 md:row-start-2 md:row-end-4 md:p-7"
           >
             <img
               src={heroGym}
@@ -73,7 +73,7 @@ export const Hero = () => {
           {/* TILE C — CTA (dark), top-right */}
           <motion.article
             {...tile(0.26)}
-            className="tile tile-dark col-span-2 row-start-3 row-end-4 flex flex-col justify-between gap-3 overflow-hidden p-4 md:col-span-6 md:col-start-7 md:row-start-2 md:row-end-3 md:gap-4 md:p-6"
+            className="tile tile-dark col-span-2 row-start-3 row-end-4 flex flex-col justify-start gap-3 overflow-hidden p-4 md:col-span-6 md:col-start-7 md:justify-between md:row-start-3 md:row-end-4 md:gap-4 md:p-6"
           >
             <div>
               <div className="flex items-baseline justify-between border-b border-background/15 pb-2 md:pb-3">
@@ -84,33 +84,33 @@ export const Hero = () => {
                   No card · No commitment
                 </span>
               </div>
-              <p className="mt-3 font-display text-[clamp(20px,5.6vw,52px)] font-black leading-[1] tracking-[-0.035em] md:mt-4 md:text-[clamp(28px,3vw,44px)]">
+              <p className="mt-3 font-display text-[clamp(18px,3.5svh,44px)] font-black leading-[1] tracking-[-0.035em] md:mt-4 md:text-[clamp(28px,3vw,44px)]">
                 Try one PT session.
                 <span className="block font-thin text-accent-glow">Decide after.</span>
               </p>
 
               <dl className="mt-3 grid grid-cols-3 gap-2 border-t border-background/15 pt-3 md:mt-5 md:gap-4 md:pt-4">
                 <div>
-                  <dt className="font-display text-[clamp(20px,5vw,40px)] font-black leading-[0.9] tracking-[-0.04em] text-accent-glow md:text-[clamp(24px,2.6vw,40px)]">
+                  <dt className="font-display text-[clamp(16px,3svh,36px)] font-black leading-[0.9] tracking-[-0.04em] text-accent-glow md:text-[clamp(24px,2.6vw,40px)]">
                     85<span className="text-[0.5em] align-top font-thin">%+</span>
                   </dt>
-                  <dd className="mt-1 font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/70 md:mt-2 md:text-[10px] md:tracking-[0.22em]">
+                  <dd className="mt-1 font-mono-display text-[clamp(7px,1svh,10px)] uppercase tracking-[0.18em] text-background/70 md:mt-2 md:text-[10px] md:tracking-[0.22em]">
                     Conversion rate
                   </dd>
                 </div>
                 <div className="border-l border-background/15 pl-2 md:pl-4">
-                  <dt className="font-display text-[clamp(20px,5vw,40px)] font-black leading-[0.9] tracking-[-0.04em] text-background md:text-[clamp(24px,2.6vw,40px)]">
+                  <dt className="font-display text-[clamp(16px,3svh,36px)] font-black leading-[0.9] tracking-[-0.04em] text-background md:text-[clamp(24px,2.6vw,40px)]">
                     60
                   </dt>
-                  <dd className="mt-1 font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/70 md:mt-2 md:text-[10px] md:tracking-[0.22em]">
+                  <dd className="mt-1 font-mono-display text-[clamp(7px,1svh,10px)] uppercase tracking-[0.18em] text-background/70 md:mt-2 md:text-[10px] md:tracking-[0.22em]">
                     Minutes
                   </dd>
                 </div>
                 <div className="border-l border-background/15 pl-2 md:pl-4">
-                  <dt className="font-display text-[clamp(20px,5vw,40px)] font-black leading-[0.9] tracking-[-0.04em] text-background md:text-[clamp(24px,2.6vw,40px)]">
+                  <dt className="font-display text-[clamp(16px,3svh,36px)] font-black leading-[0.9] tracking-[-0.04em] text-background md:text-[clamp(24px,2.6vw,40px)]">
                     1:1
                   </dt>
-                  <dd className="mt-1 font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/70 md:mt-2 md:text-[10px] md:tracking-[0.22em]">
+                  <dd className="mt-1 font-mono-display text-[clamp(7px,1svh,10px)] uppercase tracking-[0.18em] text-background/70 md:mt-2 md:text-[10px] md:tracking-[0.22em]">
                     No distractions
                   </dd>
                 </div>
@@ -152,7 +152,7 @@ export const Hero = () => {
           {/* TILE D — Status / hours */}
           <motion.article
             {...tile(0.32)}
-            className="tile col-span-1 row-start-2 row-end-3 overflow-hidden p-3 md:col-span-3 md:col-start-7 md:row-start-1 md:row-end-2 md:p-6"
+            className="tile col-span-1 row-start-4 row-end-5 overflow-hidden p-3 md:col-span-3 md:col-start-7 md:row-start-2 md:row-end-3 md:p-6"
           >
             <div className="flex items-center justify-between border-b hairline pb-2 md:pb-3">
               <span className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-accent md:text-[10px]">
@@ -163,10 +163,10 @@ export const Hero = () => {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
               </span>
             </div>
-            <p className="mt-2 font-display text-[clamp(18px,4.4vw,38px)] font-black leading-[1] tracking-[-0.03em] text-foreground md:mt-3 md:text-[clamp(24px,2.4vw,38px)]">
+            <p className="mt-2 font-display text-[clamp(16px,2.5svh,32px)] font-black leading-[1] tracking-[-0.03em] text-foreground md:mt-3 md:text-[clamp(24px,2.4vw,38px)]">
               Open today
             </p>
-            <dl className="mt-3 space-y-1.5 font-mono-display text-[9px] uppercase tracking-[0.18em] text-foreground/75 md:mt-5 md:space-y-2 md:text-[11px]">
+            <dl className="mt-3 space-y-1.5 font-mono-display text-[clamp(7px,1svh,9px)] uppercase tracking-[0.18em] text-foreground/75 md:mt-5 md:space-y-2 md:text-[11px]">
               <div className="flex justify-between border-b hairline pb-1.5 md:pb-2">
                 <dt>Mon — Sat</dt>
                 <dd>05:30 — 22:00</dd>
@@ -195,11 +195,11 @@ export const Hero = () => {
           {/* TILE E — Quote / pull-quote */}
           <motion.article
             {...tile(0.38)}
-            className="tile col-span-1 row-start-2 row-end-3 flex flex-col justify-between overflow-hidden p-3 md:col-span-3 md:col-start-10 md:row-start-1 md:row-end-2 md:p-6"
+            className="tile col-span-1 row-start-4 row-end-5 flex flex-col justify-between overflow-hidden p-3 md:col-span-3 md:col-start-10 md:row-start-2 md:row-end-3 md:p-6"
           >
             <div>
               <Quote className="h-4 w-4 text-accent md:h-5 md:w-5" aria-hidden />
-              <p className="mt-2 font-display text-[clamp(13px,3.2vw,26px)] font-light leading-[1.3] text-foreground/85 md:mt-4 md:text-[clamp(20px,2.2vw,26px)]">
+              <p className="mt-2 font-display text-[clamp(11px,1.8svh,22px)] font-light leading-[1.3] text-foreground/85 md:mt-4 md:text-[clamp(20px,2.2vw,26px)]">
                 &ldquo;Best gym I&apos;ve been to. Trainers know what they&apos;re doing — equipment is top-class.&rdquo;
               </p>
             </div>
@@ -212,7 +212,7 @@ export const Hero = () => {
           {/* TILE F — Marquee, full width under bento */}
           <motion.div
             {...tile(0.44)}
-            className="tile tile-dark col-span-2 row-start-4 row-end-5 overflow-hidden md:col-span-12 md:row-start-3 md:row-end-4"
+            className="tile tile-dark col-span-2 row-start-1 row-end-2 overflow-hidden md:col-span-12 md:row-start-1 md:row-end-2"
           >
             <div className="marquee-track py-1.5 md:py-5">
               {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
