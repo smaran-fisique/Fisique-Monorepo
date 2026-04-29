@@ -6,43 +6,45 @@ import { FAQSection } from '@/components/FAQSection';
 import { ReviewsSection } from '@/components/ReviewsSection';
 import { NearbyLocationsSection } from '@/components/NearbyLocationsSection';
 import { Button } from '@/components/ui/button';
-import { Phone, Check, Dumbbell, Users, Clock, Thermometer, X } from 'lucide-react';
-import { StickyBottomCTA } from '@/components/StickyBottomCTA';
-import { BlogPreviewSection } from '@/components/BlogPreviewSection';
+import { MessageCircle, ArrowUpRight, Phone, Dumbbell, Users, Clock, Thermometer, Check, X } from 'lucide-react';
 import { membershipFAQs } from '@/components/FAQSchema';
 
-const membershipTiers = [
+const WA_BASE = 'https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20';
+
+const tiers = [
   {
     name: '1 Month',
-    description: 'Try us out',
-    features: ['Full equipment access', 'Flexible hours (5:30 AM - 10 PM)', 'Boutique environment', 'Locker facilities'],
-    cta: 'Get Pricing',
-    popular: false,
+    tag: 'Try us out',
+    features: ['Full equipment access', 'Flexible hours (5:30 AM – 10 PM)', 'Boutique environment', 'Locker facilities'],
   },
   {
     name: '6 Months',
-    description: 'Most popular choice',
-    features: ['Full equipment access', 'Flexible hours (5:30 AM - 10 PM)', 'Boutique environment', 'Locker facilities', 'Better monthly rate', 'Priority booking'],
-    cta: 'Get Pricing',
+    tag: 'Most popular',
     popular: true,
+    features: ['Full equipment access', 'Flexible hours (5:30 AM – 10 PM)', 'Boutique environment', 'Locker facilities', 'Better monthly rate', 'Priority booking'],
   },
   {
     name: '12 Months',
-    description: 'Best value',
-    features: ['Full equipment access', 'Flexible hours (5:30 AM - 10 PM)', 'Boutique environment', 'Locker facilities', 'Best monthly rate', 'Priority booking', 'Guest passes included'],
-    cta: 'Get Pricing',
-    popular: false,
+    tag: 'Best value',
+    features: ['Full equipment access', 'Flexible hours (5:30 AM – 10 PM)', 'Boutique environment', 'Locker facilities', 'Best monthly rate', 'Priority booking', 'Guest passes included'],
   },
 ];
 
-const comparisonFeatures = [
+const comparison = [
   { feature: 'Overcrowded during peak hours', fisique: false, typical: true },
   { feature: 'Premium equipment maintained', fisique: true, typical: false },
   { feature: 'Certified trainers available', fisique: true, typical: false },
   { feature: 'On-site sauna', fisique: true, typical: false },
-  { feature: 'Limited membership for space', fisique: true, typical: false },
-  { feature: 'Personalized attention', fisique: true, typical: false },
+  { feature: 'Capped membership for space', fisique: true, typical: false },
+  { feature: 'Personalised attention', fisique: true, typical: false },
   { feature: 'Nutrition guidance available', fisique: true, typical: false },
+];
+
+const included = [
+  { Icon: Dumbbell, title: 'Premium Equipment', desc: 'Top-tier strength and cardio machines, regularly serviced.' },
+  { Icon: Users, title: 'Capped Membership', desc: 'We limit intake so you never wait for a machine.' },
+  { Icon: Clock, title: 'Flexible Hours', desc: 'Open 5:30 AM to 10 PM Monday through Saturday.' },
+  { Icon: Thermometer, title: 'Sauna Add-on', desc: 'On-site sauna available for post-workout recovery.' },
 ];
 
 export default function GymMembershipKokapetContent() {
@@ -51,184 +53,254 @@ export default function GymMembershipKokapetContent() {
       <Header />
 
       <main>
-        {/* Hero Section */}
-        <section className="pt-24 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden px-4">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
-          <div className="container-custom relative">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
-                <span className="text-sm font-medium text-primary">Flexible Plans • No Lock-in</span>
+
+        {/* ── HERO ── */}
+        <section className="paper border-b hairline">
+          <div className="container-custom px-4 md:px-6 pt-10 pb-10 md:pt-14 md:pb-14">
+
+            <div className="flex items-center justify-between border-b hairline pb-3 mb-8 md:mb-12">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">
+                Gym Membership · Kokapet
+              </span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Fisique · Kokapet
+              </span>
+            </div>
+
+            <div className="grid md:grid-cols-12 gap-6 md:gap-8 items-start">
+              <div className="md:col-span-7">
+                <span className="font-mono-display text-[10px] uppercase tracking-[0.28em] text-accent">
+                  Flexible Plans · No Lock-in
+                </span>
+                <h1 className="mt-4 font-display font-black leading-[0.9] tracking-[-0.04em] text-foreground text-[clamp(36px,7vw,96px)]">
+                  Zero crowds.
+                  <span className="block text-accent font-thin">Pure focus.</span>
+                </h1>
+                <p className="mt-6 text-[15px] leading-[1.65] text-muted-foreground max-w-lg">
+                  Premium equipment, boutique environment, and capped membership — fitness the way it should be at Kokapet's most exclusive training facility.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-2">
+                  <Button size="sm" className="group h-10 bg-foreground px-4 text-background hover:bg-foreground/90" asChild>
+                    <a href={`${WA_BASE}gym%20membership%20at%20Fisique%20Kokapet`} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Request Pricing</span>
+                      <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-10 border hairline px-4 text-foreground hover:bg-foreground/5" asChild>
+                    <a href="tel:+919515469444">
+                      <Phone className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Call</span>
+                    </a>
+                  </Button>
+                </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                Gym Membership <span className="text-primary">Kokapet</span>
-              </h1>
-
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Premium equipment, boutique environment, and zero crowds.
-                Experience fitness the way it should be at Kokapet's most exclusive training facility.
-              </p>
-
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20gym%20membership%20at%20Fisique%20Kokapet">
-                  <Phone className="w-5 h-5 mr-2" />Request Pricing
-                </a>
-              </Button>
+              {/* Stats tile */}
+              <div className="tile tile-dark md:col-span-5 p-5 md:p-6">
+                <div className="flex items-baseline justify-between border-b border-background/15 pb-3 mb-4">
+                  <span className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-accent-glow">Studio · Live</span>
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success/60 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+                  </span>
+                </div>
+                <dl className="grid grid-cols-3 gap-3 mb-5">
+                  <div>
+                    <dt className="font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/55 mb-1">Rating</dt>
+                    <dd className="font-display font-black text-[clamp(20px,3vw,32px)] leading-none tracking-[-0.03em] text-accent-glow">4.9<span className="text-[0.55em] font-thin">★</span></dd>
+                  </div>
+                  <div className="border-l border-background/15 pl-3">
+                    <dt className="font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/55 mb-1">Plans</dt>
+                    <dd className="font-display font-black text-[clamp(20px,3vw,32px)] leading-none tracking-[-0.03em] text-background">3</dd>
+                  </div>
+                  <div className="border-l border-background/15 pl-3">
+                    <dt className="font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/55 mb-1">Opens</dt>
+                    <dd className="font-display font-black text-[clamp(20px,3vw,32px)] leading-none tracking-[-0.03em] text-background">5:30</dd>
+                  </div>
+                </dl>
+                <div className="border-t border-background/15 pt-4 space-y-2 font-mono-display text-[9px] uppercase tracking-[0.18em] text-background/70">
+                  <div className="flex justify-between"><span>Mon — Sat</span><span className="text-background">05:30 — 22:00</span></div>
+                  <div className="flex justify-between"><span>Sun · self-train</span><span className="text-background">07:00 — 12:00</span></div>
+                </div>
+                <Button size="sm" className="mt-5 w-full group h-9 bg-background px-3 text-foreground hover:bg-background/90" asChild>
+                  <a href={`${WA_BASE}gym%20membership%20at%20Fisique%20Kokapet`} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="mr-1.5 h-3 w-3" />
+                    <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Request Pricing</span>
+                    <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Membership Tiers */}
-        <section className="py-16 sm:py-20 border-t border-border px-4">
-          <div className="container-custom">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">Choose Your Plan</h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">Flexible membership options to fit your commitment level</p>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {membershipTiers.map((tier, index) => (
-                <div
-                  key={index}
-                  className={`relative p-8 rounded-2xl border ${tier.popular ? 'bg-primary/5 border-primary shadow-lg' : 'bg-card border-border/50'}`}
-                >
-                  {tier.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-primary text-primary-foreground text-xs font-medium px-3 py-1 rounded-full">Most Popular</span>
-                    </div>
-                  )}
-
-                  <div className="text-center mb-6">
-                    <h3 className="text-2xl font-bold mb-1">{tier.name}</h3>
-                    <p className="text-muted-foreground">{tier.description}</p>
+        {/* ── MEMBERSHIP PLANS ── */}
+        <section className="border-b hairline">
+          <div className="container-custom px-4 md:px-6 py-12 md:py-20">
+            <div className="flex items-baseline gap-4 border-b hairline pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">Membership Plans</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">02</span>
+            </div>
+            <h2 className="font-display font-black leading-[0.95] tracking-[-0.03em] text-[clamp(24px,3.5vw,48px)] mb-10">
+              Choose your commitment.
+            </h2>
+            <div className="grid md:grid-cols-3 gap-1.5">
+              {tiers.map((tier) => (
+                <div key={tier.name} className={`tile p-6 flex flex-col ${tier.popular ? 'border-accent' : ''}`}>
+                  <div className="flex items-baseline justify-between border-b hairline pb-3 mb-4">
+                    <span className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-muted-foreground">
+                      {tier.tag}
+                    </span>
+                    {tier.popular && (
+                      <span className="font-mono-display text-[9px] uppercase tracking-[0.18em] text-accent">Popular</span>
+                    )}
                   </div>
-
-                  <ul className="space-y-3 mb-8">
-                    {tier.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div className="w-5 h-5 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Check className="w-3 h-3 text-accent" />
-                        </div>
-                        <span className="text-muted-foreground">{feature}</span>
+                  <h3 className="font-display font-black text-[clamp(22px,2.5vw,30px)] tracking-[-0.03em] leading-tight mb-4">
+                    {tier.name}
+                  </h3>
+                  <ul className="space-y-2.5 flex-1 mb-6">
+                    {tier.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5">
+                        <Check className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
+                        <span className="font-mono-display text-[10px] uppercase tracking-[0.14em] text-muted-foreground leading-[1.5]">{f}</span>
                       </li>
                     ))}
                   </ul>
-
                   <Button
-                    className={`w-full ${tier.popular ? 'bg-accent hover:bg-accent/90 text-accent-foreground' : ''}`}
-                    variant={tier.popular ? 'default' : 'outline'}
+                    size="sm"
+                    className={`group h-9 w-full ${tier.popular ? 'bg-foreground text-background hover:bg-foreground/90' : 'border hairline bg-transparent text-foreground hover:bg-foreground/5'}`}
                     asChild
                   >
-                    <a href={`https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(tier.name)}%20gym%20membership`}>
-                      {tier.cta}
+                    <a href={`${WA_BASE}the%20${encodeURIComponent(tier.name)}%20gym%20membership`} target="_blank" rel="noopener noreferrer">
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Get Pricing</span>
+                      <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>
                   </Button>
                 </div>
               ))}
             </div>
-
-            <p className="text-center text-muted-foreground mt-8">All memberships can be upgraded to include personal training at any time.</p>
+            <p className="mt-6 font-mono-display text-[10px] uppercase tracking-[0.18em] text-muted-foreground text-center">
+              All memberships can be upgraded to include personal training at any time.
+            </p>
           </div>
         </section>
 
-        {/* What's Included */}
-        <section className="py-16 sm:py-20 bg-muted/30 border-t border-border px-4">
-          <div className="container-custom">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">What's Included</h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">Every membership includes access to our premium facilities</p>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: Dumbbell, title: 'Premium Equipment', desc: 'Top-tier strength training and cardio machines, regularly maintained' },
-                { icon: Users, title: 'Limited Membership', desc: 'We cap membership to ensure you never wait for equipment' },
-                { icon: Clock, title: 'Flexible Hours', desc: 'Open 5:30 AM to 10 PM, Monday through Saturday' },
-                { icon: Thermometer, title: 'Sauna Add-on', desc: 'On-site sauna available as an add-on for recovery' },
-              ].map((item, i) => (
-                <div key={i} className="p-6 bg-card border border-border/50 rounded-xl text-center">
-                  <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <item.icon className="w-7 h-7 text-primary" />
+        {/* ── WHAT'S INCLUDED ── */}
+        <section className="border-b hairline bg-muted/20">
+          <div className="container-custom px-4 md:px-6 py-12 md:py-20">
+            <div className="flex items-baseline gap-4 border-b hairline pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">Facilities</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">03</span>
+            </div>
+            <h2 className="font-display font-black leading-[0.95] tracking-[-0.03em] text-[clamp(24px,3.5vw,48px)] mb-10">
+              Every membership includes.
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-1.5">
+              {included.map(({ Icon, title, desc }) => (
+                <div key={title} className="tile p-5">
+                  <div className="flex items-baseline justify-between border-b hairline pb-2 mb-3">
+                    <Icon className="h-4 w-4 text-accent" />
                   </div>
-                  <h3 className="font-semibold mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  <h3 className="font-display font-black text-[15px] tracking-[-0.02em] leading-tight">{title}</h3>
+                  <p className="mt-1.5 font-mono-display text-[11px] leading-[1.5] text-muted-foreground">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Comparison */}
-        <section className="py-16 sm:py-20 border-t border-border px-4">
-          <div className="container-custom">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">Why Fisique Over Typical Gyms</h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">See the difference a boutique fitness experience makes</p>
-
-            <div className="max-w-3xl mx-auto overflow-x-auto">
-              <div className="bg-card border border-border rounded-2xl overflow-hidden min-w-[320px]">
-                <div className="grid grid-cols-[1fr_80px_80px] sm:grid-cols-3 bg-muted/50 p-3 sm:p-4 border-b border-border gap-2">
-                  <div className="font-medium text-sm sm:text-base">Feature</div>
-                  <div className="font-medium text-center text-primary text-sm sm:text-base">Fisique</div>
-                  <div className="font-medium text-center text-muted-foreground text-xs sm:text-base">Typical</div>
-                </div>
-
-                {comparisonFeatures.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`grid grid-cols-[1fr_80px_80px] sm:grid-cols-3 p-3 sm:p-4 gap-2 ${index !== comparisonFeatures.length - 1 ? 'border-b border-border' : ''}`}
-                  >
-                    <div className="text-muted-foreground text-sm sm:text-base">{item.feature}</div>
-                    <div className="flex justify-center">
-                      {item.fisique ? (
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-accent/20 rounded-full flex items-center justify-center">
-                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-accent" />
-                        </div>
-                      ) : (
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-destructive/20 rounded-full flex items-center justify-center">
-                          <X className="w-3 h-3 sm:w-4 sm:h-4 text-destructive" />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex justify-center">
-                      {item.typical ? (
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-destructive/20 rounded-full flex items-center justify-center">
-                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-destructive" />
-                        </div>
-                      ) : (
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-muted rounded-full flex items-center justify-center">
-                          <X className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
-                        </div>
-                      )}
-                    </div>
+        {/* ── COMPARISON ── */}
+        <section className="border-b hairline">
+          <div className="container-custom px-4 md:px-6 py-12 md:py-20">
+            <div className="flex items-baseline gap-4 border-b hairline pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">Why Fisique</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">04</span>
+            </div>
+            <h2 className="font-display font-black leading-[0.95] tracking-[-0.03em] text-[clamp(24px,3.5vw,48px)] mb-10">
+              Boutique vs. typical gym.
+            </h2>
+            <div className="max-w-2xl">
+              {/* Header row */}
+              <div className="grid grid-cols-[1fr_80px_80px] border hairline">
+                <div className="p-3 font-mono-display text-[9px] uppercase tracking-[0.22em] text-muted-foreground border-r hairline">Feature</div>
+                <div className="p-3 text-center font-mono-display text-[9px] uppercase tracking-[0.22em] text-accent border-r hairline">Fisique</div>
+                <div className="p-3 text-center font-mono-display text-[9px] uppercase tracking-[0.22em] text-muted-foreground">Typical</div>
+              </div>
+              {comparison.map((item, i) => (
+                <div key={i} className="grid grid-cols-[1fr_80px_80px] border-x border-b hairline">
+                  <div className="p-3 font-mono-display text-[10px] uppercase tracking-[0.12em] text-foreground/70 border-r hairline">
+                    {item.feature}
                   </div>
-                ))}
+                  <div className="flex items-center justify-center border-r hairline">
+                    {item.fisique
+                      ? <Check className="h-3.5 w-3.5 text-accent" />
+                      : <X className="h-3.5 w-3.5 text-muted-foreground/40" />}
+                  </div>
+                  <div className="flex items-center justify-center">
+                    {item.typical
+                      ? <Check className="h-3.5 w-3.5 text-destructive/60" />
+                      : <X className="h-3.5 w-3.5 text-muted-foreground/40" />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── REVIEWS ── */}
+        <ReviewsSection />
+
+        {/* ── FAQ ── */}
+        <FAQSection
+          title="Membership FAQs"
+          subtitle="Everything you need to know about joining Fisique"
+          faqs={membershipFAQs}
+          includeSchema={false}
+        />
+
+        {/* ── NEARBY ── */}
+        <NearbyLocationsSection currentPath="/gym-membership-kokapet" />
+
+        {/* ── FINAL CTA ── */}
+        <section className="tile-dark">
+          <div className="container-custom px-4 md:px-6 py-14 md:py-24">
+            <div className="flex items-baseline gap-4 border-b border-background/15 pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent-glow">Join</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-background/40">Pricing on request</span>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 items-end">
+              <h2 className="font-display font-black leading-[0.9] tracking-[-0.04em] text-background text-[clamp(30px,5vw,72px)]">
+                Experience the difference.
+                <span className="block font-thin text-accent-glow">Start today.</span>
+              </h2>
+              <div>
+                <p className="text-[15px] leading-[1.65] text-background/75 mb-7">
+                  Contact us for current membership pricing and any ongoing offers. Start your fitness journey at Kokapet's premier boutique gym.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Button size="sm" className="group h-10 bg-background px-4 text-foreground hover:bg-background/90" asChild>
+                    <a href={`${WA_BASE}gym%20membership%20at%20Fisique%20Kokapet`} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Request Pricing</span>
+                      <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-10 border border-background/20 px-4 text-background hover:bg-background/10" asChild>
+                    <a href="tel:+919515469444">
+                      <Phone className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Call</span>
+                    </a>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <ReviewsSection />
-        <BlogPreviewSection />
-        <FAQSection title="Membership FAQs" subtitle="Everything you need to know about joining Fisique" faqs={membershipFAQs} includeSchema={false} />
-        <NearbyLocationsSection currentPath="/gym-membership-kokapet" />
-
-        {/* Final CTA */}
-        <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
-          <div className="container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Ready to Experience the Difference?</h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">Contact us for current membership pricing and any ongoing offers. Start your fitness journey at Kokapet's premier gym.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20gym%20membership%20at%20Fisique%20Kokapet">
-                  <Phone className="w-5 h-5 mr-2" />Request Pricing on WhatsApp
-                </a>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href="/personal-training-kokapet">Explore Personal Training</a>
-              </Button>
-            </div>
-          </div>
-        </section>
       </main>
 
       <Footer />
-      <StickyBottomCTA />
     </>
   );
 }

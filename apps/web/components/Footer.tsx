@@ -1,174 +1,180 @@
-import { MapPin, Phone, Mail } from "lucide-react";
-const fisiquelogo = '/fisique-logo.webp';
+import { MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+
+const fisiquelogo = '/fisique-logo.webp';
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-border bg-[hsl(218_31%_3%)] py-16">
-      <div className="container-custom px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
+    <footer className="bg-[hsl(218_31%_3%)] border-t border-white/15">
 
-          {/* Main Footer Content */}
-          <div className="text-center space-y-6 mb-12">
+      {/* Main grid */}
+      <div className="container-custom px-4 md:px-6 py-12 md:py-16">
+
+        {/* Dateline */}
+        <div className="flex items-center justify-between border-b border-white/12 pb-3 mb-10">
+          <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent-glow">
+            Fisique Fitness
+          </span>
+          <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-white/30">
+            Kokapet · Hyderabad
+          </span>
+        </div>
+
+        <div className="grid md:grid-cols-12 gap-10 md:gap-8">
+
+          {/* Brand col */}
+          <div className="md:col-span-4">
             <img
               src={fisiquelogo}
-              alt="Fisique Fitness Logo"
-              width={188}
-              height={48}
-              className="h-12 w-auto mx-auto"
+              alt="Fisique Fitness"
+              width={148}
+              height={38}
+              className="h-9 w-auto mb-6 opacity-80"
             />
-
-            <p className="text-lg font-medium text-foreground">
-              Kokapet's Premium Fitness Studio
+            <p className="text-[13px] leading-[1.7] text-white/55 max-w-xs">
+              PT-first training studio in Kokapet. One coach, one client, one floor — strength, sauna, and nutrition under one roof.
             </p>
 
-            <p className="text-muted-foreground leading-relaxed max-w-md mx-auto">
-              Personalized training, customized nutrition plans, and on-site sauna recovery — all under one roof. At Fisique, it's never generic. It's always personal.
-            </p>
-          </div>
-
-          {/* Address */}
-          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
-            4th Floor, Above Pulla reddy Sweets, Avant Cedar, Kokapet
-          </p>
-
-          {/* Contact Info */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-12 text-sm text-muted-foreground">
-            <a
-              href="https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-accent transition-colors"
-            >
-              <MapPin className="w-4 h-4" />
-              Get Directions
-            </a>
-
-            <a
-              href="tel:+919515469444"
-              className="flex items-center gap-2 hover:text-accent transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              +91-9515469444
-            </a>
-
-            <a
-              href="tel:+917671959610"
-              className="flex items-center gap-2 hover:text-accent transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              +91-7671959610
-            </a>
-
-            <a
-              href="mailto:hello@fisique.fitness"
-              className="flex items-center gap-2 hover:text-accent transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              hello@fisique.fitness
-            </a>
-          </div>
-
-          {/* Quick Links - Services */}
-          <div className="pt-8 border-t border-border/50">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
-              {/* Services */}
-              <div className="text-center md:text-left">
-                <h3 className="font-semibold text-foreground mb-3">Services</h3>
-                <div className="flex flex-col gap-2">
-                  <Link href="/personal-training-kokapet" className="text-muted-foreground hover:text-accent transition-colors">
-                    Personal Training
-                  </Link>
-                  <Link href="/gym-membership-kokapet" className="text-muted-foreground hover:text-accent transition-colors">
-                    Gym Membership
-                  </Link>
-                  <Link href="/kokapet-gym" className="text-muted-foreground hover:text-accent transition-colors">
-                    Our Studio
-                  </Link>
-                </div>
-              </div>
-
-              {/* Locations We Serve */}
-              <div className="text-center md:text-left">
-                <h3 className="font-semibold text-foreground mb-3">Locations We Serve</h3>
-                <div className="flex flex-col gap-2">
-                  <Link href="/kokapet-gym" className="text-muted-foreground hover:text-accent transition-colors">Kokapet</Link>
-                  <Link href="/gym-narsingi" className="text-muted-foreground hover:text-accent transition-colors">Narsingi</Link>
-                  <Link href="/gym-financial-district" className="text-muted-foreground hover:text-accent transition-colors">Financial District</Link>
-                  <Link href="/gym-gachibowli" className="text-muted-foreground hover:text-accent transition-colors">Gachibowli</Link>
-                  <Link href="/gym-gandipet" className="text-muted-foreground hover:text-accent transition-colors">Gandipet</Link>
-                  <Link href="/gym-manikonda" className="text-muted-foreground hover:text-accent transition-colors">Manikonda</Link>
-                  <Link href="/gym-puppalaguda" className="text-muted-foreground hover:text-accent transition-colors">Puppalaguda</Link>
-                  <Link href="/gym-tellapur" className="text-muted-foreground hover:text-accent transition-colors">Tellapur</Link>
-                </div>
-              </div>
-
-              {/* Resources */}
-              <div className="text-center md:text-left">
-                <h3 className="font-semibold text-foreground mb-3">Resources</h3>
-                <div className="flex flex-col gap-2">
-                  <Link href="/blog-posts/" className="text-muted-foreground hover:text-accent transition-colors">
-                    Blog
-                  </Link>
-                  <Link href="/embrace-your-strength-at-fisique-fitness-contact-us-to-start-your-journey/" className="text-muted-foreground hover:text-accent transition-colors">
-                    Contact
-                  </Link>
-                  <Link href="/offers" className="text-muted-foreground hover:text-accent transition-colors">
-                    Offers
-                  </Link>
-                  <a
-                    href="https://member.fisique.fitness"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-accent transition-colors"
-                  >
-                    Member Portal
-                  </a>
-                </div>
-              </div>
-
-              {/* Legal */}
-              <div className="text-center md:text-left">
-                <h3 className="font-semibold text-foreground mb-3">Legal</h3>
-                <div className="flex flex-col gap-2">
-                  <Link href="/legal#terms" className="text-muted-foreground hover:text-accent transition-colors">
-                    Terms of Service
-                  </Link>
-                  <Link href="/legal#privacy" className="text-muted-foreground hover:text-accent transition-colors">
-                    Privacy Policy
-                  </Link>
-                  <Link href="/legal#refund" className="text-muted-foreground hover:text-accent transition-colors">
-                    Refund Policy
-                  </Link>
-                  <Link href="/legal#shipping" className="text-muted-foreground hover:text-accent transition-colors">
-                    Shipping
-                  </Link>
-                  <Link href="/legal#emi" className="text-muted-foreground hover:text-accent transition-colors">
-                    EMI Terms
-                  </Link>
-                </div>
-              </div>
+            <div className="mt-6 space-y-2">
+              <a
+                href="https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 font-mono-display text-[10px] uppercase tracking-[0.18em] text-white/45 hover:text-accent-glow transition-colors"
+              >
+                <MapPin className="h-3 w-3" />
+                4th Floor, Avant Cedar, Kokapet
+                <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+              <a
+                href="tel:+919515469444"
+                className="group flex items-center gap-2 font-mono-display text-[10px] uppercase tracking-[0.18em] text-white/45 hover:text-accent-glow transition-colors"
+              >
+                <Phone className="h-3 w-3" />
+                +91 95154 69444
+              </a>
+              <a
+                href="tel:+917671959610"
+                className="group flex items-center gap-2 font-mono-display text-[10px] uppercase tracking-[0.18em] text-white/45 hover:text-accent-glow transition-colors"
+              >
+                <Phone className="h-3 w-3" />
+                +91 76719 59610
+              </a>
+              <a
+                href="mailto:hello@fisique.fitness"
+                className="group flex items-center gap-2 font-mono-display text-[10px] uppercase tracking-[0.18em] text-white/45 hover:text-accent-glow transition-colors"
+              >
+                <Mail className="h-3 w-3" />
+                hello@fisique.fitness
+              </a>
             </div>
           </div>
 
-          {/* Copyright Notice */}
-          <div className="pt-6 text-center text-xs text-muted-foreground/70">
-            <p>© {new Date().getFullYear()} Surya Narayana Enterprises LLP. All rights reserved.</p>
-            <p className="mt-1">
-              Site built by{" "}
-              <a
-                href="https://www.linkedin.com/in/smaranchallapalli/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-accent transition-colors"
-              >
-                Smaran Challapalli
-              </a>
-            </p>
-          </div>
+          {/* Links cols */}
+          <div className="md:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
 
+            <div>
+              <p className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-white/35 border-b border-white/10 pb-2 mb-4">
+                Services
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: 'Personal Training', href: '/personal-training-kokapet' },
+                  { label: 'Gym Membership', href: '/gym-membership-kokapet' },
+                  { label: 'Our Studio', href: '/kokapet-gym' },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href} className="font-mono-display text-[10px] uppercase tracking-[0.16em] text-white/50 hover:text-accent-glow transition-colors">
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-white/35 border-b border-white/10 pb-2 mb-4">
+                Locations
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: 'Kokapet', href: '/kokapet-gym' },
+                  { label: 'Narsingi', href: '/gym-narsingi' },
+                  { label: 'Financial District', href: '/gym-financial-district' },
+                  { label: 'Gachibowli', href: '/gym-gachibowli' },
+                  { label: 'Gandipet', href: '/gym-gandipet' },
+                  { label: 'Manikonda', href: '/gym-manikonda' },
+                  { label: 'Puppalaguda', href: '/gym-puppalaguda' },
+                  { label: 'Tellapur', href: '/gym-tellapur' },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href} className="font-mono-display text-[10px] uppercase tracking-[0.16em] text-white/50 hover:text-accent-glow transition-colors">
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-white/35 border-b border-white/10 pb-2 mb-4">
+                Resources
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: 'Blog', href: '/blog-posts/' },
+                  { label: 'Contact', href: '/contact' },
+                  { label: 'Offers', href: '/offers' },
+                  { label: 'Member Portal', href: 'https://member.fisique.fitness', external: true },
+                ].map(({ label, href, external }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className="font-mono-display text-[10px] uppercase tracking-[0.16em] text-white/50 hover:text-accent-glow transition-colors"
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-white/35 border-b border-white/10 pb-2 mb-4">
+                Legal
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: 'Terms', href: '/legal#terms' },
+                  { label: 'Privacy', href: '/legal#privacy' },
+                  { label: 'Refund', href: '/legal#refund' },
+                  { label: 'Shipping', href: '/legal#shipping' },
+                  { label: 'EMI Terms', href: '/legal#emi' },
+                ].map(({ label, href }) => (
+                  <Link key={href} href={href} className="font-mono-display text-[10px] uppercase tracking-[0.16em] text-white/50 hover:text-accent-glow transition-colors">
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-white/10">
+        <div className="container-custom px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="font-mono-display text-[9px] uppercase tracking-[0.18em] text-white/25">
+            © {new Date().getFullYear()} Surya Narayana Enterprises LLP
+          </p>
+          <a
+            href="https://www.linkedin.com/in/smaranchallapalli/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono-display text-[9px] uppercase tracking-[0.18em] text-white/25 hover:text-accent-glow transition-colors"
+          >
+            Built by Smaran Challapalli
+          </a>
+        </div>
+      </div>
+
     </footer>
   );
 };

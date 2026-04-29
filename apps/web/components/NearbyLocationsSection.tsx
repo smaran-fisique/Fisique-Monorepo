@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Car, Dumbbell, Users, GraduationCap } from "lucide-react";
+import { MapPin, Car, Dumbbell, Users, GraduationCap, ArrowUpRight } from "lucide-react";
 
 const LOCATIONS = [
   { name: "Kokapet", path: "/kokapet-gym", driveTime: "0 min", badge: "Home Base" },
@@ -27,61 +27,75 @@ export const NearbyLocationsSection = ({ currentPath }: NearbyLocationsSectionPr
   const serviceLinks = SERVICES.filter((svc) => svc.path !== currentPath);
 
   return (
-    <section className="py-16 sm:py-20 border-t border-border px-4">
-      <div className="container-custom">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Also Serving Nearby Areas
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Fisique Fitness is conveniently located in Kokapet, easily accessible from neighborhoods across Hyderabad's western corridor.
-          </p>
+    <section className="border-t hairline border-b hairline">
+      <div className="container-custom px-4 md:px-6 py-12 md:py-20">
+
+        <div className="flex items-baseline gap-4 border-b hairline pb-3 mb-10">
+          <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">
+            Nearby
+          </span>
+          <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Hyderabad · Western Corridor
+          </span>
         </div>
 
-        {/* Location Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
+        <h2 className="font-display font-black leading-[0.95] tracking-[-0.03em] text-[clamp(24px,3.5vw,48px)] mb-8">
+          Also serving
+          <span className="block font-thin text-accent"> nearby areas.</span>
+        </h2>
+
+        {/* Location tiles */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 mb-8">
           {nearbyLocations.map((loc) => (
             <Link
               key={loc.path}
               href={loc.path}
-              className="group p-4 bg-card/50 border border-border/50 rounded-xl hover:border-primary/50 hover:shadow-lg transition-all text-center"
+              className="tile group p-4 hover:bg-accent/5 transition-colors"
             >
-              <MapPin className="w-5 h-5 text-primary mx-auto mb-2" />
-              <h3 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors">
+              <div className="flex items-baseline justify-between border-b hairline pb-2 mb-3">
+                <MapPin className="h-3.5 w-3.5 text-accent" />
+                {loc.badge && (
+                  <span className="font-mono-display text-[8px] uppercase tracking-[0.18em] text-accent">
+                    {loc.badge}
+                  </span>
+                )}
+              </div>
+              <h3 className="font-display font-black text-[14px] tracking-[-0.02em] leading-tight group-hover:text-accent transition-colors">
                 Gym Near {loc.name}
               </h3>
-              <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
-                <Car className="w-3 h-3" />
+              <div className="mt-1.5 flex items-center gap-1 font-mono-display text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
+                <Car className="h-3 w-3" />
                 <span>{loc.driveTime} drive</span>
               </div>
-              {loc.badge && (
-                <span className="inline-block mt-2 text-[10px] font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                  {loc.badge}
-                </span>
-              )}
             </Link>
           ))}
         </div>
 
-        {/* Service Hub Links */}
-        <div className="border-t border-border/50 pt-8">
-          <h3 className="text-lg font-semibold text-center mb-6">Explore Our Services</h3>
-          <div className="flex flex-wrap justify-center gap-4">
+        {/* Service links */}
+        <div className="border-t hairline pt-6">
+          <p className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground mb-4">
+            Explore our services
+          </p>
+          <div className="flex flex-wrap gap-1.5">
             {serviceLinks.map((svc) => {
               const Icon = svc.icon;
               return (
                 <Link
                   key={svc.path}
                   href={svc.path}
-                  className="inline-flex items-center gap-2 px-5 py-3 bg-card/50 border border-border/50 rounded-full hover:border-primary/50 hover:text-primary transition-all text-sm font-medium"
+                  className="tile group inline-flex items-center gap-2 px-4 py-2.5 hover:bg-accent/5 transition-colors"
                 >
-                  <Icon className="w-4 h-4" />
-                  {svc.name}
+                  <Icon className="h-3.5 w-3.5 text-accent" />
+                  <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">
+                    {svc.name}
+                  </span>
+                  <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               );
             })}
           </div>
         </div>
+
       </div>
     </section>
   );

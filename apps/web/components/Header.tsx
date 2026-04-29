@@ -104,11 +104,10 @@ export const Header = () => {
                   aria-label="Fisique Fitness — home"
                   className="flex flex-1 items-center justify-center lg:flex-none"
                 >
-                  <motion.img
+                  <img
                     src="/fisique-logo-tagline.png"
                     alt="Fisique Fitness — Personal Plans, Real Results."
-                    animate={{ height: scrolled ? 36 : 48 }}
-                    transition={{ duration: 0.35, ease: enterEase }}
+                    style={{ height: scrolled ? 36 : 48, transition: 'height 0.35s cubic-bezier(0.16,1,0.3,1)' }}
                     className="w-auto"
                   />
                 </Link>

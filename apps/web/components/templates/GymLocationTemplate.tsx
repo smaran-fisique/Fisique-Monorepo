@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { FAQSection } from '@/components/FAQSection';
 import { ReviewsSection } from '@/components/ReviewsSection';
 import { NearbyLocationsSection } from '@/components/NearbyLocationsSection';
-import { StickyBottomCTA } from '@/components/StickyBottomCTA';
 
 export interface GymFeature {
   Icon: LucideIcon;
@@ -382,7 +381,6 @@ export default function GymLocationTemplate({
 
       </main>
       <Footer />
-      <StickyBottomCTA />
     </>
   );
 }

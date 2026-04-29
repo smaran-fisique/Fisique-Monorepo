@@ -6,18 +6,24 @@ import { FAQSection } from '@/components/FAQSection';
 import { ReviewsSection } from '@/components/ReviewsSection';
 import { NearbyLocationsSection } from '@/components/NearbyLocationsSection';
 import { Button } from '@/components/ui/button';
-import { Phone, Check, Target, Apple, Dumbbell, Thermometer, TrendingUp, Calendar } from 'lucide-react';
-import { StickyBottomCTA } from '@/components/StickyBottomCTA';
-import { BlogPreviewSection } from '@/components/BlogPreviewSection';
+import { MessageCircle, ArrowUpRight, Phone, Dumbbell, Target, Apple, Thermometer, TrendingUp, Calendar } from 'lucide-react';
 import { personalTrainingFAQs } from '@/components/FAQSchema';
 
-const whatsIncluded = [
-  { icon: Dumbbell, title: '1:1 Training Sessions', description: 'Personalized workouts with certified trainers' },
-  { icon: Target, title: 'Custom Programs', description: 'Tailored to your goals, fitness level, and schedule' },
-  { icon: Apple, title: 'Nutrition Guidance', description: 'Personalized meal plans and dietary coaching' },
-  { icon: Thermometer, title: 'Sauna Recovery', description: 'Post-workout sauna sessions included' },
-  { icon: TrendingUp, title: 'Progress Tracking', description: 'Regular assessments and adjustments' },
-  { icon: Calendar, title: 'Flexible Scheduling', description: 'Sessions that fit your busy lifestyle' },
+const WA = 'https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet';
+
+const included = [
+  { Icon: Dumbbell, title: '1:1 Sessions', desc: 'Every session with your dedicated certified coach — no sharing, no waiting.' },
+  { Icon: Target, title: 'Custom Programs', desc: 'Built around your goals, fitness level, and schedule. Adjusted weekly.' },
+  { Icon: Apple, title: 'Nutrition Guidance', desc: 'Personalised meal plans and dietary coaching alongside training.' },
+  { Icon: Thermometer, title: 'Sauna Recovery', desc: 'Post-workout sauna sessions included for muscle repair and stress relief.' },
+  { Icon: TrendingUp, title: 'Progress Tracking', desc: 'Regular body composition assessments and program adjustments.' },
+  { Icon: Calendar, title: 'Flexible Scheduling', desc: 'Sessions that fit your week — weekday mornings, evenings, Saturdays.' },
+];
+
+const phases = [
+  { num: '01', phase: 'Days 1–30: Foundation', desc: 'Build proper form, establish habits, and start nutrition changes.' },
+  { num: '02', phase: 'Days 31–60: Progression', desc: 'Increase intensity, refine nutrition, and build momentum.' },
+  { num: '03', phase: 'Days 61–90: Transformation', desc: 'Peak performance, visible results, and sustainable habits.' },
 ];
 
 export default function PersonalTrainingKokapetContent() {
@@ -26,173 +32,203 @@ export default function PersonalTrainingKokapetContent() {
       <Header />
 
       <main>
-        {/* Hero Section */}
-        <section className="pt-24 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden px-4">
-          <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent" />
-          <div className="container-custom relative">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6">
-                <span className="text-sm font-medium text-accent">90-Day Transformation Programs</span>
+
+        {/* ── HERO ── */}
+        <section className="paper border-b hairline">
+          <div className="container-custom px-4 md:px-6 pt-10 pb-10 md:pt-14 md:pb-14">
+
+            <div className="flex items-center justify-between border-b hairline pb-3 mb-8 md:mb-12">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">
+                Personal Training · Kokapet
+              </span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Fisique · Kokapet
+              </span>
+            </div>
+
+            <div className="grid md:grid-cols-12 gap-6 md:gap-8 items-start">
+              <div className="md:col-span-7">
+                <span className="font-mono-display text-[10px] uppercase tracking-[0.28em] text-accent">
+                  90-Day Programs
+                </span>
+                <h1 className="mt-4 font-display font-black leading-[0.9] tracking-[-0.04em] text-foreground text-[clamp(36px,7vw,96px)]">
+                  One coach.
+                  <span className="block text-accent font-thin">Real results.</span>
+                </h1>
+                <p className="mt-6 text-[15px] leading-[1.65] text-muted-foreground max-w-lg">
+                  Transform your body with expert one-on-one coaching. Customised programmes, nutrition guidance, and sauna recovery — designed for busy professionals who want results that last.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-2">
+                  <Button size="sm" className="group h-10 bg-foreground px-4 text-background hover:bg-foreground/90" asChild>
+                    <a href={WA} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Book Free Trial</span>
+                      <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-10 border hairline px-4 text-foreground hover:bg-foreground/5" asChild>
+                    <a href="tel:+919515469444">
+                      <Phone className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Call</span>
+                    </a>
+                  </Button>
+                </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                Personal Training <span className="text-primary">Kokapet</span>
-              </h1>
-
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Transform your body with expert one-on-one coaching. Customized programs,
-                nutrition guidance, and sauna recovery—all designed for busy professionals
-                who want real results.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet">
-                    <Phone className="w-5 h-5 mr-2" />Start Free Trial
+              {/* Stats tile */}
+              <div className="tile tile-dark md:col-span-5 p-5 md:p-6">
+                <div className="flex items-baseline justify-between border-b border-background/15 pb-3 mb-4">
+                  <span className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-accent-glow">PT · Live</span>
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success/60 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+                  </span>
+                </div>
+                <dl className="grid grid-cols-3 gap-3 mb-5">
+                  <div>
+                    <dt className="font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/55 mb-1">Rating</dt>
+                    <dd className="font-display font-black text-[clamp(20px,3vw,32px)] leading-none tracking-[-0.03em] text-accent-glow">5.0<span className="text-[0.55em] font-thin">★</span></dd>
+                  </div>
+                  <div className="border-l border-background/15 pl-3">
+                    <dt className="font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/55 mb-1">Program</dt>
+                    <dd className="font-display font-black text-[clamp(20px,3vw,32px)] leading-none tracking-[-0.03em] text-background">90d</dd>
+                  </div>
+                  <div className="border-l border-background/15 pl-3">
+                    <dt className="font-mono-display text-[8.5px] uppercase tracking-[0.18em] text-background/55 mb-1">Opens</dt>
+                    <dd className="font-display font-black text-[clamp(20px,3vw,32px)] leading-none tracking-[-0.03em] text-background">5:30</dd>
+                  </div>
+                </dl>
+                <div className="border-t border-background/15 pt-4 space-y-2 font-mono-display text-[9px] uppercase tracking-[0.18em] text-background/70">
+                  <div className="flex justify-between"><span>Mon — Sat</span><span className="text-background">05:30 — 22:00</span></div>
+                  <div className="flex justify-between"><span>Sun · self-train</span><span className="text-background">07:00 — 12:00</span></div>
+                </div>
+                <Button size="sm" className="mt-5 w-full group h-9 bg-background px-3 text-foreground hover:bg-background/90" asChild>
+                  <a href={WA} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="mr-1.5 h-3 w-3" />
+                    <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Book Free Trial</span>
+                    <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="tel:+919515469444">Call to Inquire</a>
                 </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* What's Included */}
-        <section className="py-16 sm:py-20 border-t border-border px-4">
-          <div className="container-custom">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">
-              What's Included in Personal Training
+        {/* ── WHAT'S INCLUDED ── */}
+        <section className="border-b hairline">
+          <div className="container-custom px-4 md:px-6 py-12 md:py-20">
+            <div className="flex items-baseline gap-4 border-b hairline pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">What's Included</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">02</span>
+            </div>
+            <h2 className="font-display font-black leading-[0.95] tracking-[-0.03em] text-[clamp(26px,4vw,52px)] mb-10">
+              Everything in one programme.
             </h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
-              Comprehensive training packages designed for transformative results
-            </p>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {whatsIncluded.map((item, index) => (
-                <div key={index} className="p-6 bg-card/50 border border-border/50 rounded-xl hover:border-primary/30 transition-colors">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
-                    <item.icon className="w-6 h-6 text-primary" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1.5">
+              {included.map(({ Icon, title, desc }) => (
+                <div key={title} className="tile p-5">
+                  <div className="flex items-baseline justify-between border-b hairline pb-2 mb-3">
+                    <Icon className="h-4 w-4 text-accent" />
                   </div>
-                  <h3 className="font-semibold mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
+                  <h3 className="font-display font-black text-[15px] tracking-[-0.02em] leading-tight">{title}</h3>
+                  <p className="mt-1.5 font-mono-display text-[11px] leading-[1.5] text-muted-foreground">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Our Approach */}
-        <section className="py-16 sm:py-20 bg-muted/30 border-t border-border px-4">
-          <div className="container-custom">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Our Science-Backed Approach</h2>
-                <div className="prose prose-lg text-muted-foreground space-y-4">
-                  <p>At Fisique, personal training isn't just about counting reps. Our certified coaches combine proven training methodologies with personalized nutrition and recovery protocols to deliver sustainable results.</p>
-                  <p>We start with a comprehensive assessment of your current fitness level, lifestyle, and goals. From there, we build a customized 90-day program that progressively challenges you while respecting your body's need for recovery.</p>
-                </div>
-
-                <div className="mt-8 space-y-4">
-                  {[
-                    'Initial fitness assessment and goal setting',
-                    'Customized strength and mobility programming',
-                    'Weekly nutrition check-ins and meal planning',
-                    'Progress tracking with regular body composition analysis',
-                    'Sauna recovery sessions for muscle repair',
-                    'Ongoing program adjustments based on results',
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-accent" />
-                      </div>
-                      <span className="text-muted-foreground">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* 90-Day Transformation Card */}
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold mb-2">90-Day Transformation</h3>
-                  <p className="text-muted-foreground">Our signature program for visible, lasting results</p>
-                </div>
-
-                <div className="space-y-6">
-                  {[
-                    { num: '1', phase: 'Days 1-30: Foundation', desc: 'Build proper form, establish habits, and start nutrition changes' },
-                    { num: '2', phase: 'Days 31-60: Progression', desc: 'Increase intensity, refine nutrition, and build momentum' },
-                    { num: '3', phase: 'Days 61-90: Transformation', desc: 'Peak performance, visible results, and sustainable habits' },
-                  ].map((phase) => (
-                    <div key={phase.num} className="flex items-start gap-4 p-4 bg-muted/50 rounded-xl">
-                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="font-bold text-primary">{phase.num}</span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">{phase.phase}</h4>
-                        <p className="text-sm text-muted-foreground">{phase.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <Button size="lg" className="w-full mt-8 bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20the%2090-day%20transformation%20program">
-                    <Phone className="w-5 h-5 mr-2" />Start Your Transformation
+        {/* ── 90-DAY PROGRAMME ── */}
+        <section className="border-b hairline bg-muted/20">
+          <div className="container-custom px-4 md:px-6 py-12 md:py-20">
+            <div className="flex items-baseline gap-4 border-b hairline pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">90-Day Transformation</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">03</span>
+            </div>
+            <div className="grid md:grid-cols-12 gap-8">
+              <div className="md:col-span-5">
+                <h2 className="font-display font-black leading-[0.95] tracking-[-0.03em] text-[clamp(24px,3.5vw,48px)]">
+                  Three phases.<br />One outcome.
+                </h2>
+                <p className="mt-6 text-[14px] leading-[1.7] text-muted-foreground">
+                  Our signature 90-day programme builds lasting change in three progressive phases — each one building on the last, calibrated to your pace.
+                </p>
+                <Button size="sm" className="group mt-8 h-10 bg-foreground px-4 text-background hover:bg-foreground/90" asChild>
+                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20the%2090-day%20transformation%20program" target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                    <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Start Programme</span>
+                    <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 </Button>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Before/After Placeholder */}
-        <section className="py-16 sm:py-20 border-t border-border px-4">
-          <div className="container-custom">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-4">Real Transformations</h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">See what our clients have achieved with dedicated personal training</p>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((item) => (
-                <div key={item} className="aspect-square bg-muted/50 border border-border/50 rounded-2xl flex items-center justify-center">
-                  <div className="text-center p-6">
-                    <Target className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
-                    <p className="text-muted-foreground">Client transformation story coming soon</p>
+              <div className="md:col-span-7 space-y-1.5">
+                {phases.map(({ num, phase, desc }) => (
+                  <div key={num} className="tile p-5 flex gap-5 items-start">
+                    <span className="font-display font-black text-[clamp(28px,3vw,40px)] leading-none tracking-[-0.04em] text-accent/30">{num}</span>
+                    <div>
+                      <h3 className="font-display font-black text-[15px] tracking-[-0.02em] leading-tight">{phase}</h3>
+                      <p className="mt-1.5 font-mono-display text-[11px] leading-[1.5] text-muted-foreground">{desc}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-            <p className="text-center text-muted-foreground mt-8">Want to be featured? Start your transformation today!</p>
           </div>
         </section>
 
+        {/* ── REVIEWS ── */}
         <ReviewsSection />
-        <BlogPreviewSection />
-        <FAQSection title="Personal Training FAQs" subtitle="Common questions about our training programs" faqs={personalTrainingFAQs} includeSchema={false} />
+
+        {/* ── FAQ ── */}
+        <FAQSection
+          title="Personal Training FAQs"
+          subtitle="Common questions about our training programmes"
+          faqs={personalTrainingFAQs}
+          includeSchema={false}
+        />
+
+        {/* ── NEARBY ── */}
         <NearbyLocationsSection currentPath="/personal-training-kokapet" />
 
-        {/* Final CTA */}
-        <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
-          <div className="container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Ready to Transform?</h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">Book a free consultation with our trainers and take the first step toward your fitness goals.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                <a href="https://wa.me/919515469444?text=Hi%2C%20I%27m%20interested%20in%20personal%20training%20at%20Fisique%20Kokapet">
-                  <Phone className="w-5 h-5 mr-2" />Book Free Consultation
-                </a>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href="/kokapet-gym">Learn About Our Gym</a>
-              </Button>
+        {/* ── FINAL CTA ── */}
+        <section className="tile-dark">
+          <div className="container-custom px-4 md:px-6 py-14 md:py-24">
+            <div className="flex items-baseline gap-4 border-b border-background/15 pb-3 mb-10">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent-glow">Book</span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-background/40">Free trial · No commitment</span>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 items-end">
+              <h2 className="font-display font-black leading-[0.9] tracking-[-0.04em] text-background text-[clamp(30px,5vw,72px)]">
+                Ready to transform?
+                <span className="block font-thin text-accent-glow">Start today.</span>
+              </h2>
+              <div>
+                <p className="text-[15px] leading-[1.65] text-background/75 mb-7">
+                  Book a free trial session with our trainers. No membership required, no obligation — just show up and train.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Button size="sm" className="group h-10 bg-background px-4 text-foreground hover:bg-background/90" asChild>
+                    <a href={WA} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Book Free Trial</span>
+                      <ArrowUpRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </a>
+                  </Button>
+                  <Button size="sm" variant="ghost" className="h-10 border border-background/20 px-4 text-background hover:bg-background/10" asChild>
+                    <a href="tel:+919515469444">
+                      <Phone className="mr-1.5 h-3.5 w-3.5" />
+                      <span className="font-mono-display text-[10px] uppercase tracking-[0.18em]">Call</span>
+                    </a>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
+
       </main>
 
       <Footer />
-      <StickyBottomCTA />
     </>
   );
 }

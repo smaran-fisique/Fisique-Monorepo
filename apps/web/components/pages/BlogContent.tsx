@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { supabase } from '@/integrations/supabase/client';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { StickyBottomCTA } from '@/components/StickyBottomCTA';
-import { Input } from '@/components/ui/input';
-import { Loader2, Search, Users, Dumbbell, MapPin } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ArrowUpRight } from 'lucide-react';
+import { format } from 'date-fns';
 
 interface BlogPost {
   id: string;
@@ -47,96 +47,115 @@ export default function BlogContent() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
       <Header />
 
-      <main className="flex-1 pt-24 pb-16">
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Fitness Blog</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Tips, guides, and inspiration for your fitness journey</p>
-          </div>
+      <main>
+        <section className="paper border-b hairline">
+          <div className="container-custom px-4 md:px-6 pt-10 pb-10 md:pt-14 md:pb-14">
 
-          <div className="mb-8 max-w-md mx-auto">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <Input
-                placeholder="Search articles..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
-              />
+            {/* Dateline */}
+            <div className="flex items-center justify-between border-b hairline pb-3 mb-10 md:mb-14">
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent">
+                Journal · Fisique
+              </span>
+              <span className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Training · Nutrition · Recovery
+              </span>
             </div>
-          </div>
 
-          {loading ? (
-            <div className="flex items-center justify-center h-64">
-              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            {/* Headline + search */}
+            <div className="mb-10 md:mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <div>
+                <span className="font-mono-display text-[10px] uppercase tracking-[0.28em] text-accent">
+                  Fitness Journal
+                </span>
+                <h1 className="mt-4 font-display font-black text-foreground text-[clamp(40px,7vw,108px)] leading-[0.92] tracking-[-0.045em]">
+                  The
+                  <span className="font-thin text-accent"> journal.</span>
+                </h1>
+              </div>
+              <div className="md:max-w-xs w-full">
+                <input
+                  type="text"
+                  placeholder="Search articles…"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full border hairline bg-background px-4 py-2.5 font-mono-display text-[11px] uppercase tracking-[0.18em] placeholder:text-muted-foreground/50 focus:outline-none focus:border-accent transition-colors"
+                />
+              </div>
             </div>
-          ) : filteredPosts.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">{search ? 'No posts found' : 'No blog posts yet'}</p>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  {post.featured_image_url && (
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={post.featured_image_url}
-                        alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    {post.category && (
-                      <span className="text-xs font-medium text-primary mb-2 block">{post.category.name}</span>
+
+            {/* Loading */}
+            {loading && (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1.5">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Skeleton key={i} className="h-64" />
+                ))}
+              </div>
+            )}
+
+            {/* Posts grid */}
+            {!loading && filteredPosts.length > 0 && (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-1.5">
+                {filteredPosts.map((post, i) => (
+                  <Link
+                    key={post.id}
+                    href={`/blog/${post.slug}`}
+                    className="group tile flex flex-col overflow-hidden"
+                  >
+                    {post.featured_image_url && (
+                      <div className="aspect-video overflow-hidden border-b hairline">
+                        <img
+                          src={post.featured_image_url}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
                     )}
-                    <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{post.title}</h2>
-                    {post.excerpt && (
-                      <p className="text-muted-foreground text-sm line-clamp-3">{post.excerpt}</p>
-                    )}
-                    <div className="mt-4 text-xs text-muted-foreground">
-                      {post.published_at ? new Date(post.published_at).toLocaleDateString() : ''}
+                    <div className="p-5 flex flex-col flex-1">
+                      <div className="flex items-baseline justify-between border-b hairline pb-2 mb-3">
+                        <span className="font-mono-display text-[9px] uppercase tracking-[0.22em] text-muted-foreground">
+                          {post.category?.name ?? 'Journal'} · {String(i + 1).padStart(2, '0')}
+                        </span>
+                        {post.published_at && (
+                          <span className="font-mono-display text-[9px] uppercase tracking-[0.16em] text-muted-foreground/60">
+                            {format(new Date(post.published_at), 'MMM d, yyyy')}
+                          </span>
+                        )}
+                      </div>
+                      <h2 className="font-display font-black text-[clamp(16px,1.8vw,20px)] tracking-[-0.02em] leading-tight group-hover:text-accent transition-colors flex-1">
+                        {post.title}
+                      </h2>
+                      {post.excerpt && (
+                        <p className="mt-2 text-[12px] leading-[1.6] text-muted-foreground line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                      )}
+                      <div className="mt-4 flex items-center gap-1 font-mono-display text-[9px] uppercase tracking-[0.18em] text-accent">
+                        Read
+                        <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                  </Link>
+                ))}
+              </div>
+            )}
 
-          <section className="mt-16 pt-12 border-t border-border">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-center mb-4">Explore Our Services</h2>
-            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">Ready to take the next step? Check out what Fisique Fitness offers</p>
-            <div className="grid md:grid-cols-3 gap-6">
-              <Link href="/personal-training-kokapet" className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group">
-                <Users className="w-8 h-8 text-primary mb-4" />
-                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">Personal Training</h3>
-                <p className="text-sm text-muted-foreground">1:1 coaching with certified trainers for real results</p>
-              </Link>
-              <Link href="/gym-membership-kokapet" className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group">
-                <Dumbbell className="w-8 h-8 text-primary mb-4" />
-                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">Gym Membership</h3>
-                <p className="text-sm text-muted-foreground">Premium equipment in an uncrowded boutique environment</p>
-              </Link>
-              <Link href="/kokapet-gym" className="p-6 bg-card border border-border rounded-xl hover:border-primary/50 hover:shadow-lg transition-all group">
-                <MapPin className="w-8 h-8 text-primary mb-4" />
-                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">Our Kokapet Studio</h3>
-                <p className="text-sm text-muted-foreground">Discover Kokapet's most exclusive fitness facility</p>
-              </Link>
-            </div>
-          </section>
-        </div>
+            {/* Empty state */}
+            {!loading && filteredPosts.length === 0 && (
+              <div className="border-y hairline py-24 text-center">
+                <p className="font-mono-display text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+                  {search ? 'No posts match your search' : 'No posts yet'}
+                </p>
+              </div>
+            )}
+
+          </div>
+        </section>
       </main>
 
       <Footer />
-      <StickyBottomCTA />
-    </div>
+    </>
   );
 }

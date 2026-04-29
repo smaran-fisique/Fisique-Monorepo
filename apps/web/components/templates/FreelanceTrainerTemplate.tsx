@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { FAQSection } from '@/components/FAQSection';
 import { ReviewsSection } from '@/components/ReviewsSection';
 import { NearbyLocationsSection } from '@/components/NearbyLocationsSection';
-import { StickyBottomCTA } from '@/components/StickyBottomCTA';
 
 export interface TrainerFeature {
   Icon: LucideIcon;
@@ -392,7 +391,6 @@ export default function FreelanceTrainerTemplate({
 
       </main>
       <Footer />
-      <StickyBottomCTA />
     </>
   );
 }
