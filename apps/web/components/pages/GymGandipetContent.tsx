@@ -1,13 +1,7 @@
 'use client';
 
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { FAQSection } from '@/components/FAQSection';
-import { ReviewsSection } from '@/components/ReviewsSection';
-import { NearbyLocationsSection } from '@/components/NearbyLocationsSection';
-import { Button } from '@/components/ui/button';
-import { Phone, MapPin, Star, Dumbbell, Users, Thermometer, Clock, Car, Home } from 'lucide-react';
-import { StickyBottomCTA } from '@/components/StickyBottomCTA';
+import GymLocationTemplate from '@/components/templates/GymLocationTemplate';
+import { Car, Users, Home, Thermometer, Dumbbell } from 'lucide-react';
 
 const faqs = [
   { question: 'How far is Fisique Fitness from Gandipet?', answer: 'Fisique Fitness is just 7 minutes from Gandipet and Khajaguda. We\'re located in Kokapet, above Pulla Reddy Sweets in Avant Cedar—a quick drive via Gandipet Road.' },
@@ -19,92 +13,49 @@ const faqs = [
 
 export default function GymGandipetContent() {
   return (
-    <>
-      <Header />
-      <main>
-        <section className="pt-24 sm:pt-32 pb-16 sm:pb-20 relative overflow-hidden px-4">
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
-          <div className="container-custom relative">
-            <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-6">
-                <Car className="w-4 h-4 text-primary" /><span className="text-sm font-medium text-primary">Just 7 mins from Gandipet</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                Premium Gym Near <span className="text-primary">Gandipet</span>
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-                Living near the lake but struggling to find a quality gym? Experience boutique personal training with certified coaches, sauna recovery, and a serene workout environment—just 7 minutes from Gandipet.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                  <a href="https://wa.me/919515469444?text=Hi%2C%20I%20live%20near%20Gandipet%20and%20I%27m%20interested%20in%20a%20free%20trial">
-                    <Phone className="w-5 h-5 mr-2" />Book Free Trial
-                  </a>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <a href="https://maps.app.goo.gl/D1nMv22YD3yVSqUQ9" target="_blank" rel="noopener noreferrer">
-                    <MapPin className="w-5 h-5 mr-2" />Get Directions from Gandipet
-                  </a>
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-4">
-                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2"><Star className="w-4 h-4 fill-accent text-accent" /><span className="text-sm font-medium">4.9★ on Google</span></div>
-                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2"><Home className="w-4 h-4 text-primary" /><span className="text-sm font-medium">Trusted by Gandipet Residents</span></div>
-                <div className="flex items-center gap-2 bg-card/50 border border-border/50 rounded-lg px-4 py-2"><Clock className="w-4 h-4 text-primary" /><span className="text-sm font-medium">Mon-Sat: 5:30 AM - 10 PM</span></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 sm:py-20 border-t border-border px-4">
-          <div className="container-custom">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Why Gandipet Residents Choose Fisique</h2>
-                <div className="prose prose-lg text-muted-foreground space-y-4">
-                  <p>Gandipet and Khajaguda are known for their peaceful lakeside living. But when it comes to fitness, options nearby are limited to basic gyms without expert guidance.</p>
-                  <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness in Kokapet</a> is just 7 minutes from Gandipet, offering <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">certified personal trainers</a>, customised nutrition plans, and an on-site sauna—everything you need for a complete fitness transformation.</p>
-                  <p>Our members from Gandipet appreciate the boutique atmosphere, the short commute, and the fact that their workout time is always productive with a dedicated trainer.</p>
-                </div>
-                <div className="mt-8 p-4 bg-primary/5 border border-primary/20 rounded-xl">
-                  <h3 className="font-semibold mb-3 flex items-center gap-2"><Car className="w-5 h-5 text-primary" />Easy Access from Gandipet</h3>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>• <strong>From Gandipet Lake:</strong> 7 mins via Kokapet Road</li>
-                    <li>• <strong>From Khajaguda:</strong> 5 mins via main road</li>
-                    <li>• <strong>From Narsingi:</strong> 3 mins via Kokapet Junction</li>
-                    <li>• <strong>From Rajendranagar:</strong> 12 mins via ORR</li>
-                  </ul>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-6 bg-card/50 border border-border/50 rounded-xl"><Users className="w-8 h-8 text-primary mb-4" /><h3 className="font-semibold mb-2">Personal Attention</h3><p className="text-sm text-muted-foreground">1:1 training with coaches who track your progress.</p></div>
-                <div className="p-6 bg-card/50 border border-border/50 rounded-xl"><Home className="w-8 h-8 text-primary mb-4" /><h3 className="font-semibold mb-2">Family-Friendly</h3><p className="text-sm text-muted-foreground">Safe, welcoming environment for all fitness levels.</p></div>
-                <div className="p-6 bg-card/50 border border-border/50 rounded-xl"><Thermometer className="w-8 h-8 text-primary mb-4" /><h3 className="font-semibold mb-2">Sauna Recovery</h3><p className="text-sm text-muted-foreground">On-site sauna for muscle recovery and relaxation.</p></div>
-                <div className="p-6 bg-card/50 border border-border/50 rounded-xl"><Dumbbell className="w-8 h-8 text-primary mb-4" /><h3 className="font-semibold mb-2">Premium Equipment</h3><p className="text-sm text-muted-foreground">Top-tier equipment—no waiting, no crowds.</p></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <ReviewsSection />
-        <FAQSection title="Questions from Gandipet Residents" subtitle="Everything you need to know about joining Fisique" faqs={faqs} includeSchema={false} />
-        <NearbyLocationsSection currentPath="/gym-gandipet" />
-
-        <section className="py-16 sm:py-20 bg-primary/5 border-t border-border px-4">
-          <div className="container-custom text-center">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Start Your Fitness Journey Today</h2>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">Join your Gandipet neighbours who've already discovered Fisique Fitness.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" asChild>
-                <a href="https://wa.me/919515469444?text=Hi%2C%20I%20live%20near%20Gandipet%20and%20want%20to%20book%20a%20free%20trial"><Phone className="w-5 h-5 mr-2" />Book Free Trial</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild><a href="tel:+919515469444">Call +91-9515469444</a></Button>
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-      <StickyBottomCTA />
-    </>
+    <GymLocationTemplate
+      sectionLabel="Gym · Gandipet"
+      badge="Just 7 mins from Gandipet"
+      BadgeIcon={Car}
+      h1Line1="Premium Gym Near"
+      h1Highlight="Gandipet"
+      description="Living near the lake but struggling to find a quality gym? Experience boutique personal training with certified coaches, sauna recovery, and a serene workout environment—just 7 minutes from Gandipet."
+      whatsappHref="https://wa.me/919515469444?text=Hi%2C%20I%20live%20near%20Gandipet%20and%20I%27m%20interested%20in%20a%20free%20trial"
+      directionsHref="https://maps.app.goo.gl/D1nMv22YD3yVSqUQ9"
+      directionsLabel="Get Directions from Gandipet"
+      whyTitle="Why Gandipet Residents Choose Fisique"
+      whyBody={
+        <>
+          <p>Gandipet and Khajaguda are known for their peaceful lakeside living. But when it comes to fitness, options nearby are limited to basic gyms without expert guidance.</p>
+          <p><a href="/kokapet-gym" className="text-primary underline underline-offset-2 hover:text-primary/80">Fisique Fitness in Kokapet</a> is just 7 minutes from Gandipet, offering <a href="/personal-training-kokapet" className="text-primary underline underline-offset-2 hover:text-primary/80">certified personal trainers</a>, customised nutrition plans, and an on-site sauna—everything you need for a complete fitness transformation.</p>
+          <p>Our members from Gandipet appreciate the boutique atmosphere, the short commute, and the fact that their workout time is always productive with a dedicated trainer.</p>
+        </>
+      }
+      whyExtra={
+        <div className="tile p-4 mt-2">
+          <h3 className="font-mono-display text-[10px] uppercase tracking-[0.22em] text-accent flex items-center gap-2 border-b hairline pb-2 mb-3"><Car className="h-3.5 w-3.5 text-accent" />Easy Access from Gandipet</h3>
+          <ul className="space-y-1.5 text-[13px] text-muted-foreground">
+            <li>• <strong>From Gandipet Lake:</strong> 7 mins via Kokapet Road</li>
+            <li>• <strong>From Khajaguda:</strong> 5 mins via main road</li>
+            <li>• <strong>From Narsingi:</strong> 3 mins via Kokapet Junction</li>
+            <li>• <strong>From Rajendranagar:</strong> 12 mins via ORR</li>
+          </ul>
+        </div>
+      }
+      features={[
+        { Icon: Users, title: 'Personal Attention', desc: '1:1 training with coaches who track your progress.' },
+        { Icon: Home, title: 'Family-Friendly', desc: 'Safe, welcoming environment for all fitness levels.' },
+        { Icon: Thermometer, title: 'Sauna Recovery', desc: 'On-site sauna for muscle recovery and relaxation.' },
+        { Icon: Dumbbell, title: 'Premium Equipment', desc: 'Top-tier equipment—no waiting, no crowds.' },
+      ]}
+      faqs={faqs}
+      faqTitle="Questions from Gandipet Residents"
+      faqSubtitle="Everything you need to know about joining Fisique"
+      currentPath="/gym-gandipet"
+      finalCtaTitle="Start Your Fitness Journey Today"
+      finalCtaDesc="Join your Gandipet neighbours who've already discovered Fisique Fitness."
+      finalCtaWhatsappHref="https://wa.me/919515469444?text=Hi%2C%20I%20live%20near%20Gandipet%20and%20want%20to%20book%20a%20free%20trial"
+      finalCtaWhatsappLabel="Book Free Trial"
+    />
   );
 }
