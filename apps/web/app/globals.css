@@ -2,12 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Quantify';
-  src: url('/fonts/Quantify.ttf') format('truetype');
-  font-weight: 400 900;
-  font-style: normal;
-  font-display: swap;
+/* Fonts loaded via next/font in app/layout.tsx — exposed as
+   --font-poppins and --font-quantify CSS variables. */
+html {
+  font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
@@ -155,19 +153,19 @@ All colors MUST be HSL.
 
   /* Brand typography — Quantify display + Poppins body */
   .font-display {
-    font-family: 'Quantify', 'Poppins', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-quantify), var(--font-poppins), system-ui, -apple-system, sans-serif;
     font-feature-settings: 'liga', 'kern';
     letter-spacing: -0.02em;
   }
   .font-mono-display {
-    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
     font-weight: 500;
     font-feature-settings: 'tnum', 'kern';
   }
 
   /* Drop cap — Quantify display, brand-pure */
   .dropcap::first-letter {
-    font-family: 'Quantify', 'Poppins', system-ui, sans-serif;
+    font-family: var(--font-quantify), var(--font-poppins), system-ui, sans-serif;
     font-weight: 400;
     float: left;
     font-size: 4.6em;

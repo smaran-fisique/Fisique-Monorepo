@@ -23,9 +23,9 @@ export const Hero = () => {
       <div className="container-custom flex flex-1 flex-col px-3 pt-2 pb-2 md:px-6 md:pt-4 md:pb-4">
         {/* Bento grid */}
         <div className="grid flex-1 grid-cols-2 gap-1.5 grid-rows-[auto_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] md:grid-cols-12 md:grid-rows-[auto_minmax(180px,1fr)_minmax(230px,1.4fr)] md:gap-2">
-          {/* TILE A — Headline over photo, left 50%, spans both rows */}
-          <motion.article
-            {...tile(0.1)}
+          {/* TILE A — Headline over photo. LCP element: rendered without
+              entrance animation so opacity isn't 0 at first paint. */}
+          <article
             className="tile relative col-span-2 row-start-2 row-end-3 overflow-hidden p-4 md:col-span-6 md:row-start-2 md:row-end-4 md:p-7"
           >
             <img
@@ -68,7 +68,7 @@ export const Hero = () => {
                 bring yourself, train your way, on the same premium floor.
               </p>
             </div>
-          </motion.article>
+          </article>
 
           {/* TILE C — CTA (dark), top-right */}
           <motion.article
