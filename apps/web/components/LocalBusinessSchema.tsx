@@ -24,6 +24,13 @@ export const LocalBusinessSchema = ({
     "@id": "https://fisique.fitness/#localbusiness",
     "additionalType": "https://schema.org/ExerciseGym",
     "name": "Fisique Fitness",
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "GooglePlaceId",
+        "value": "ChIJCVGCTtmVyzsRcoYr31T3p2s"
+      }
+    ],
     "description": "Premium personal training gym in Kokapet, Hyderabad offering one-on-one coaching, nutrition guidance, and sauna recovery.",
     "url": "https://fisique.fitness",
     "telephone": ["+91-9515469444", "+91-7671959610"],
@@ -109,7 +116,12 @@ export const LocalBusinessSchema = ({
       }
     }),
     "sameAs": [
-      "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9"
+      "https://www.wikidata.org/wiki/Q139603536",
+      "https://www.google.com/maps/place/?q=place_id:ChIJCVGCTtmVyzsRcoYr31T3p2s",
+      "https://www.instagram.com/fisique.fitness/",
+      "https://www.youtube.com/@fisiquefitness",
+      "https://www.linkedin.com/company/fisique-fitness/",
+      "https://www.facebook.com/fisique.fitness/"
     ],
     "knowsAbout": [
       "Personal Training",

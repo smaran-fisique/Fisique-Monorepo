@@ -1,11 +1,18 @@
 export const OrganizationSchema = () => {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "LocalBusiness", "HealthClub", "SportsActivityLocation"],
     "@id": "https://fisique.fitness/#organization",
     "name": "Fisique Fitness",
     "alternateName": "Fisique",
     "url": "https://fisique.fitness",
+    "identifier": [
+      {
+        "@type": "PropertyValue",
+        "propertyID": "GooglePlaceId",
+        "value": "ChIJCVGCTtmVyzsRcoYr31T3p2s"
+      }
+    ],
     "logo": {
       "@type": "ImageObject",
       "url": "https://fisique.fitness/fisique-logo.webp",
@@ -51,7 +58,8 @@ export const OrganizationSchema = () => {
       }
     ],
     "sameAs": [
-      "https://maps.app.goo.gl/GoiqDpnditiJBRmJ9",
+      "https://www.wikidata.org/wiki/Q139603536",
+      "https://www.google.com/maps/place/?q=place_id:ChIJCVGCTtmVyzsRcoYr31T3p2s",
       "https://www.instagram.com/fisique.fitness/",
       "https://www.youtube.com/@fisiquefitness",
       "https://www.linkedin.com/company/fisique-fitness/",
