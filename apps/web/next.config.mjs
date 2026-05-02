@@ -45,6 +45,16 @@ const nextConfig = {
         destination: '/contact',
         permanent: true,
       },
+      {
+        source: '/fisique-challenge',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/fisique-challenge/:path*',
+        destination: '/',
+        permanent: true,
+      },
     ];
   },
 };
