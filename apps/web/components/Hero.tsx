@@ -22,7 +22,7 @@ export const Hero = () => {
     <section className="relative flex flex-col overflow-hidden bg-background paper min-h-[calc(100svh-60px)] md:min-h-[calc(100dvh-64px)]">
       <div className="container-custom flex flex-1 flex-col px-3 pt-2 pb-2 md:px-6 md:pt-4 md:pb-4">
         {/* Bento grid */}
-        <div className="grid flex-1 grid-cols-2 gap-1.5 grid-rows-[auto_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] md:grid-cols-12 md:grid-rows-[auto_minmax(180px,1fr)_minmax(230px,1.4fr)] md:gap-2">
+        <div className="grid flex-1 grid-cols-2 gap-1.5 grid-rows-[auto_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] md:grid-cols-12 md:grid-rows-[auto_minmax(180px,1fr)_minmax(200px,1fr)] md:gap-2">
           {/* TILE A — Headline over photo. LCP element: rendered without
               entrance animation so opacity isn't 0 at first paint. */}
           <article
@@ -73,7 +73,7 @@ export const Hero = () => {
           {/* TILE C — CTA (dark), top-right */}
           <motion.article
             {...tile(0.26)}
-            className="tile tile-dark col-span-2 row-start-3 row-end-4 flex flex-col justify-start gap-3 overflow-hidden p-4 md:col-span-6 md:col-start-7 md:justify-between md:row-start-3 md:row-end-4 md:gap-4 md:p-6"
+            className="tile tile-dark col-span-2 row-start-3 row-end-4 flex flex-col justify-start gap-3 overflow-hidden p-4 md:col-span-6 md:col-start-7 md:justify-between md:row-start-3 md:row-end-4 md:gap-3 md:p-5"
           >
             <div>
               <div className="flex items-baseline justify-between border-b border-background/15 pb-2 md:pb-3">
@@ -116,7 +116,7 @@ export const Hero = () => {
                 </div>
               </dl>
             </div>
-            <div className="flex flex-wrap gap-2 md:mt-6">
+            <div className="flex flex-wrap gap-2 md:mt-3">
               <Button
                 size="sm"
                 className="group h-9 bg-background px-3 text-foreground hover:bg-background/90 md:h-11 md:px-4"
