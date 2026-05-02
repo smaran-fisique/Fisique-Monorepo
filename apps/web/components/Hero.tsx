@@ -20,9 +20,9 @@ export const Hero = () => {
 
   return (
     <section className="relative flex flex-col overflow-hidden bg-background paper min-h-[calc(100svh-60px)] md:min-h-[calc(100dvh-64px)]">
-      <div className="container-custom flex flex-1 flex-col px-3 pt-2 pb-2 md:px-6 md:pt-4 md:pb-4">
+      <div className="container-custom flex flex-1 flex-col px-3 pt-2 pb-2 md:px-6 md:pt-2 md:pb-2">
         {/* Bento grid */}
-        <div className="grid flex-1 grid-cols-2 gap-1.5 grid-rows-[auto_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] md:grid-cols-12 md:grid-rows-[auto_minmax(180px,1fr)_minmax(200px,1fr)] md:gap-2">
+        <div className="grid flex-1 grid-cols-2 gap-1.5 grid-rows-[auto_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] md:grid-cols-12 md:grid-rows-[auto_minmax(160px,1fr)_minmax(220px,1.4fr)] md:gap-2">
           {/* TILE A — Headline over photo. LCP element: rendered without
               entrance animation so opacity isn't 0 at first paint. */}
           <article
@@ -73,7 +73,7 @@ export const Hero = () => {
           {/* TILE C — CTA (dark), top-right */}
           <motion.article
             {...tile(0.26)}
-            className="tile tile-dark col-span-2 row-start-3 row-end-4 flex flex-col justify-start gap-3 overflow-hidden p-4 md:col-span-6 md:col-start-7 md:justify-between md:row-start-3 md:row-end-4 md:gap-3 md:p-5"
+            className="tile tile-dark col-span-2 row-start-3 row-end-4 flex flex-col justify-start gap-3 overflow-hidden p-4 md:col-span-6 md:col-start-7 md:justify-between md:row-start-3 md:row-end-4 md:gap-4 md:p-6"
           >
             <div>
               <div className="flex items-baseline justify-between border-b border-background/15 pb-2 md:pb-3">
@@ -116,7 +116,7 @@ export const Hero = () => {
                 </div>
               </dl>
             </div>
-            <div className="flex flex-wrap gap-2 md:mt-3">
+            <div className="flex flex-wrap gap-2 md:mt-4">
               <Button
                 size="sm"
                 className="group h-9 bg-background px-3 text-foreground hover:bg-background/90 md:h-11 md:px-4"
@@ -214,14 +214,14 @@ export const Hero = () => {
             {...tile(0.44)}
             className="tile tile-dark col-span-2 row-start-1 row-end-2 overflow-hidden md:col-span-12 md:row-start-1 md:row-end-2"
           >
-            <div className="marquee-track py-1.5 md:py-5">
+            <div className="marquee-track py-1.5 md:py-3">
               {[...tickerWords, ...tickerWords, ...tickerWords].map((w, i) => (
                 <span
                   key={i}
-                  className="flex items-center font-display font-black tracking-[-0.03em] text-background/95 text-[clamp(18px,4vw,52px)] leading-none whitespace-nowrap"
+                  className="flex items-center font-display font-black tracking-[-0.03em] text-background/95 text-[clamp(13px,2.8vw,36px)] leading-none whitespace-nowrap"
                 >
                   <span>{w}</span>
-                  <span className="mx-7 inline-block h-2 w-2 rotate-45 bg-accent md:mx-12" />
+                  <span className="mx-5 inline-block h-1.5 w-1.5 rotate-45 bg-accent md:mx-9" />
                 </span>
               ))}
             </div>
